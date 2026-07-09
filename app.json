@@ -33,7 +33,14 @@
           "imageWidth": 76
         }
       ],
-      "expo-font",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Montserrat-ExtraLight.ttf"
+          ]
+        }
+      ],
       "expo-secure-store",
       "expo-web-browser"
     ],
