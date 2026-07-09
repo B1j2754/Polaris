@@ -5,6 +5,7 @@
 Following steps and thought process:
 - `pnpm create expo-app@latest ../polaris` -- This is for the main expo app setup
 - `pnpm install expo-secure-store` -- This is for secure persistant storage
+- `pnpm install tailwind-variants` -- This is for easy variant management for tailwind styling
 - Deleted the auto generated fluff. Ready to code ig?
 
 ## 2. File Structure

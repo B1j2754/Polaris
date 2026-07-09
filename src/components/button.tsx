@@ -1,0 +1,40 @@
+import { Pressable, Text, type PressableProps } from 'react-native';
+import { tv } from 'tailwind-variants';
+
+export const button = tv({
+  base: 'px-4 py-2 items-center justify-center',
+  variants: {
+    color: {
+      white: 'bg-white active:bg-gray-200',
+      black: 'bg-black active:bg-gray-900 border-gray-900 border-2',
+    },
+    cornerType: {
+        pill: 'rounded-full',
+        rounded: 'rounded-lg',
+    }
+  },
+});
+
+const label = tv({
+  base: 'font-medium text-base',
+  variants: {
+    color: {
+      white: 'text-black',
+      black: 'text-white',
+    },
+  },
+});
+
+type ButtonProps = PressableProps & {
+  color?: 'white' | 'black';
+  title: string;
+  cornerType?: 'pill' | 'rounded';
+};
+
+export function Button({ color = 'white', title, cornerType = 'rounded', ...rest }: ButtonProps) {
+  return (
+    <Pressable className={button({ color, cornerType })} {...rest}>
+      <Text className={label({ color })}>{title}</Text>
+    </Pressable>
+  );
+}
