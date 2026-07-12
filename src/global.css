@@ -5,7 +5,7 @@
 @import 'nativewind/theme';
 
 @theme {
-  --font-montserrat: 'Montserrat';
+  --font-sansation: 'Sansation';
 }
 
 :root {

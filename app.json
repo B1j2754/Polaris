@@ -37,7 +37,7 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Montserrat-ExtraLight.ttf"
+            "./assets/fonts/Sansation-Regular.ttf"
           ]
         }
       ],

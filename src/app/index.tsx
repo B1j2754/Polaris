@@ -9,8 +9,8 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <ConstellationSky />
       <SafeAreaView style={styles.safeArea}>
-        <Text className="font-montserrat text-8xl text-white tracking-[4px]">POLARIS</Text>
-        <Text className="font-montserrat text-xl text-gray-300 tracking-[4px]">Find your next target</Text>
+        <Text className="font-sansation text-8xl text-white tracking-[4px]">POLARIS</Text>
+        <Text className="font-sansation text-xl text-gray-300 tracking-[4px]">Find your next target</Text>
         <Button title="Create Account" color="white" cornerType="pill" onPress={() => console.log('pressed')} />
         <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: '5%'}}>
           <View style={{ flex: 1, height: 1, backgroundColor: '#444' }} />

@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
+  
   SensorType,
   useAnimatedSensor,
   useAnimatedStyle,

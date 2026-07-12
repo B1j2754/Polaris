@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    Montserrat: require('../../assets/fonts/Montserrat-ExtraLight.ttf'),
+    Sansation: require('../../assets/fonts/Sansation-Regular.ttf'),
   });
 
   useEffect(() => {
