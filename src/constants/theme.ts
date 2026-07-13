@@ -61,5 +61,15 @@ export const Spacing = {
   six: 64,
 } as const;
 
+/** Floating white back chevron, top-left, no header bar or title. */
+export const BackHeader = {
+  headerShown: true,
+  headerTransparent: true,
+  headerTitle: '',
+  headerTintColor: '#ffffff',
+  headerShadowVisible: false,
+  headerBackButtonDisplayMode: 'minimal',
+} as const;
+
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
