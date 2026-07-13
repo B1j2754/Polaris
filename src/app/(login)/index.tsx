@@ -15,21 +15,10 @@ export default function SplashScreen() {
           Find your next target
         </Text>
         <Button
-          title="Create Account"
+          title="Get Started"
           color="white"
           cornerType="pill"
           onPress={() => router.push('/signup/info')}
-        />
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: '5%' }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#444' }} />
-          <Text style={{ marginHorizontal: 10, color: '#666' }}>OR</Text>
-          <View style={{ flex: 1, height: 1, backgroundColor: '#444' }} />
-        </View>
-        <Button
-          title="Sign In"
-          color="black"
-          cornerType="pill"
-          onPress={() => router.push('/signin')}
         />
       </SafeAreaView>
     </View>

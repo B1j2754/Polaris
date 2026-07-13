@@ -1,10 +1,12 @@
-import '@/global.css'; // registers NativeWind styles for the whole app — must load at the root
+import '@/global.css';
 
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
+import { SQLiteProvider } from 'expo-sqlite';
 import { useEffect } from 'react';
 
-import { SessionProvider, useSession } from '@/ctx';
+import { DATABASE_NAME, migrate } from '@/db';
+import { ProfileProvider, useProfile } from '@/profile';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,14 +18,16 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <SessionProvider>
-      <RootNavigator />
-    </SessionProvider>
+    <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrate}>
+      <ProfileProvider>
+        <RootNavigator />
+      </ProfileProvider>
+    </SQLiteProvider>
   );
 }
 
 function RootNavigator() {
-  const { session, isLoading } = useSession();
+  const { profile, isLoading } = useProfile();
 
   useEffect(() => {
     if (!isLoading) SplashScreen.hideAsync();
@@ -33,11 +37,11 @@ function RootNavigator() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!!session}>
+      <Stack.Protected guard={!!profile}>
         <Stack.Screen name="(main)" />
       </Stack.Protected>
 
-      <Stack.Protected guard={!session}>
+      <Stack.Protected guard={!profile}>
         <Stack.Screen name="(login)" />
       </Stack.Protected>
     </Stack>
