@@ -1,13 +1,22 @@
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, use, useEffect, useState, type PropsWithChildren } from 'react';
 
+import type { Equipment } from '@/equipment';
+
 export type Profile = {
   name?: string;
   interests: string[];
-  equipment: string[];
+  equipment: Equipment[];
+  /** false while the user is still partway through signup */
+  onboarded: boolean;
 };
 
-type ProfileRow = { name: string | null; interests: string; equipment: string };
+type ProfileRow = {
+  name: string | null;
+  interests: string;
+  equipment: string;
+  onboarded: number;
+};
 
 const ProfileContext = createContext<{
   profile: Profile | null;
@@ -28,13 +37,16 @@ export function ProfileProvider({ children }: PropsWithChildren) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    db.getFirstAsync<ProfileRow>('SELECT name, interests, equipment FROM profile WHERE id = 1')
+    db.getFirstAsync<ProfileRow>(
+      'SELECT name, interests, equipment, onboarded FROM profile WHERE id = 1'
+    )
       .then((row) =>
         setProfile(
           row && {
             name: row.name ?? undefined,
             interests: JSON.parse(row.interests),
             equipment: JSON.parse(row.equipment),
+            onboarded: row.onboarded === 1,
           }
         )
       )
@@ -42,15 +54,18 @@ export function ProfileProvider({ children }: PropsWithChildren) {
   }, [db]);
 
   const save = async (patch: Partial<Profile>) => {
-    const next: Profile = { interests: [], equipment: [], ...profile, ...patch };
+    const base: Profile = profile ?? { interests: [], equipment: [], onboarded: false };
+    const next: Profile = { ...base, ...patch };
     await db.runAsync(
-      `INSERT INTO profile (id, name, interests, equipment) VALUES (1, ?, ?, ?)
+      `INSERT INTO profile (id, name, interests, equipment, onboarded) VALUES (1, ?, ?, ?, ?)
        ON CONFLICT(id) DO UPDATE SET name = excluded.name,
                                      interests = excluded.interests,
-                                     equipment = excluded.equipment`,
+                                     equipment = excluded.equipment,
+                                     onboarded = excluded.onboarded`,
       next.name ?? null,
       JSON.stringify(next.interests),
-      JSON.stringify(next.equipment)
+      JSON.stringify(next.equipment),
+      next.onboarded ? 1 : 0
     );
     setProfile(next);
   };

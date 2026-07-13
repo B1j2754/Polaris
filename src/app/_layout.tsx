@@ -37,11 +37,11 @@ function RootNavigator() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!!profile}>
+      <Stack.Protected guard={!!profile?.onboarded}>
         <Stack.Screen name="(main)" />
       </Stack.Protected>
 
-      <Stack.Protected guard={!profile}>
+      <Stack.Protected guard={!profile?.onboarded}>
         <Stack.Screen name="(login)" />
       </Stack.Protected>
     </Stack>

@@ -1,18 +1,85 @@
 import { router } from 'expo-router';
-import { Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/button';
+import { ConstellationSky } from '@/components/constellation-sky';
+import { Icon, type IconName } from '@/components/icon';
+import { Box } from '@/components/interestBox';
+import { useProfile } from '@/profile';
+
+const INTERESTS: { label: string; icon: IconName }[] = [
+  { label: 'Comets', icon: 'comet' },
+  { label: 'Planets', icon: 'planet' },
+  { label: 'Galaxies', icon: 'orbit' },
+  { label: 'Moon', icon: 'moon' },
+  { label: 'Sun', icon: 'sun' },
+  { label: 'Stars', icon: 'astroid' },
+  { label: 'Satellites', icon: 'satellite' },
+  { label: 'Nebulae', icon: 'nebula' },
+];
 
 export default function SignUpInterests() {
+  const { profile, save } = useProfile();
+  const [selected, setSelected] = useState<string[]>(profile?.interests ?? []);
+
+  const toggle = (label: string) =>
+    setSelected((current) =>
+      current.includes(label) ? current.filter((l) => l !== label) : [...current, label]
+    );
+
+  const next = async () => {
+    await save({ interests: selected });
+    router.push('/signup/equipment');
+  };
+
   return (
-    <View className="flex-1 items-center justify-center gap-4 bg-[#05070f]">
-      <Text className="font-sansation text-2xl text-white">SignUpInterests</Text>
-      <Button
-        title="Next"
-        color="white"
-        cornerType="pill"
-        onPress={() => router.push('/signup/equipment')}
-      />
+    <View style={styles.container}>
+      <ConstellationSky />
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.content}>
+          <Text className="font-sansation text-4xl text-white tracking-[1px]">
+            What interests you?
+          </Text>
+          <Text className="font-sansation text-center text-xl text-gray-300 tracking-[1px]">
+            Select all that apply.{'\n'}(You can always change these later.)
+          </Text>
+
+          <View className="w-full flex-row flex-wrap justify-center gap-2">
+            {INTERESTS.map(({ label, icon }) => (
+              <Box
+                key={label}
+                title={label}
+                selected={selected.includes(label)}
+                onPress={() => toggle(label)}>
+                <Icon name={icon} size={32} />
+              </Box>
+            ))}
+          </View>
+        </View>
+
+        <Button title="Next" color="white" cornerType="pill" onPress={next} />
+      </SafeAreaView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#05070f',
+  },
+  safeArea: {
+    flex: 1,
+    alignItems: 'center',
+    paddingBottom: 24,
+  },
+  content: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+  },
+});

@@ -10,10 +10,12 @@ export default function SplashScreen() {
     <View style={styles.container}>
       <ConstellationSky />
       <SafeAreaView style={styles.safeArea}>
-        <Text className="font-sansation text-8xl text-white tracking-[4px]">POLARIS</Text>
-        <Text className="font-sansation text-xl text-gray-300 tracking-[4px]">
-          Find your next target
-        </Text>
+        <View style={styles.content}>
+          <Text className="font-sansation text-8xl text-white tracking-[4px]">POLARIS</Text>
+          <Text className="font-sansation text-xl text-gray-300 tracking-[4px]">
+            Find your next target
+          </Text>
+        </View>
         <Button
           title="Get Started"
           color="white"
@@ -32,6 +34,13 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
+    alignItems: 'center',
+    paddingBottom: 24,
+  },
+  // takes the leftover height so the content centres and the button sits on the bottom edge
+  content: {
+    flex: 1,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 16,
