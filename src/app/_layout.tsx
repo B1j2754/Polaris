@@ -3,12 +3,16 @@ import '@/global.css';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
+import * as SystemUI from 'expo-system-ui';
 import { useEffect } from 'react';
 
+import { DarkScreen, ScreenBackground } from '@/constants/theme';
 import { DATABASE_NAME, migrate } from '@/db';
 import { ProfileProvider, useProfile } from '@/profile';
 
 SplashScreen.preventAutoHideAsync();
+
+SystemUI.setBackgroundColorAsync(ScreenBackground);
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -36,7 +40,7 @@ function RootNavigator() {
   if (isLoading) return null;
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack screenOptions={{ headerShown: false, ...DarkScreen }}>
       <Stack.Protected guard={!!profile?.onboarded}>
         <Stack.Screen name="(main)" />
       </Stack.Protected>

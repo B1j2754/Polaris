@@ -61,8 +61,15 @@ export const Spacing = {
   six: 64,
 } as const;
 
+export const ScreenBackground = '#05070f';
+
+export const DarkScreen = {
+  contentStyle: { backgroundColor: ScreenBackground },
+} as const;
+
 /** Floating white back chevron, top-left, no header bar or title. */
 export const BackHeader = {
+  ...DarkScreen,
   headerShown: true,
   headerTransparent: true,
   headerTitle: '',

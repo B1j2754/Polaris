@@ -6,7 +6,8 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "polaris",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#05070f",
     "platforms": ["ios", "android"],
     "ios": {
       "icon": "./assets/expo.icon"
