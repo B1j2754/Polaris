@@ -40,7 +40,13 @@
         }
       ],
       "expo-web-browser",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Polaris uses your location to work out which stars, planets and galaxies are above you right now."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

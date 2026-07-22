@@ -78,5 +78,9 @@ export const BackHeader = {
   headerBackButtonDisplayMode: 'minimal',
 } as const;
 
-export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
+/** Height of the floating pill tab bar. */
+export const TabPillHeight = 64;
+
+/** Bottom padding scrollable screens need so content clears the floating pill. */
+export const BottomTabInset = TabPillHeight + 32;
 export const MaxContentWidth = 800;
