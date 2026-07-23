@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "polaris",
     "userInterfaceStyle": "dark",
-    "backgroundColor": "#05070f",
+    "backgroundColor": "#000000",
     "platforms": ["ios", "android"],
     "ios": {
       "icon": "./assets/expo.icon"

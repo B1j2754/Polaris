@@ -6,6 +6,7 @@
 
 @theme {
   --font-sansation: 'Sansation';
+  --color-neutral-850: #1f1f1f;
 }
 
 :root {

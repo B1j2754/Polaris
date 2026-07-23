@@ -61,7 +61,7 @@ export const Spacing = {
   six: 64,
 } as const;
 
-export const ScreenBackground = '#05070f';
+export const ScreenBackground = '#000000';
 
 export const DarkScreen = {
   contentStyle: { backgroundColor: ScreenBackground },

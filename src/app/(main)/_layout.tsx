@@ -55,7 +55,7 @@ export default function MainLayout() {
           ...(glass
             ? { backgroundColor: 'transparent' }
             : {
-                backgroundColor: '#11162a',
+                backgroundColor: '#0a0a0a',
                 elevation: 8,
                 shadowColor: '#000',
                 shadowOpacity: 0.4,

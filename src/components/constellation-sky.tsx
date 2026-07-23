@@ -87,7 +87,7 @@ export function ConstellationSky({ seed = 1337, count = 140 }: { seed?: number; 
         <Animated.View style={[styles.sky, skyStyle]} pointerEvents="none">
             <Svg width={W} height={H}>
                 {lines.map(([a, b], i) => (
-                    <Line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="#9db4ff" strokeWidth={0.5} strokeOpacity={0.25} />
+                    <Line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="#a1a1aa" strokeWidth={0.5} strokeOpacity={0.25} />
                 ))}
                 {stars.map((s, i) => (
                     <Circle key={i} cx={s.x} cy={s.y} r={s.r} fill="#ffffff" fillOpacity={s.o} />

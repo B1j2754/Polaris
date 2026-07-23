@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -9,12 +9,12 @@ import {
   Text,
   TextInput,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button } from '@/components/button';
-import { ConstellationSky } from '@/components/constellation-sky';
-import { Icon } from '@/components/icon';
+import { Button } from "@/components/button";
+import { ConstellationSky } from "@/components/constellation-sky";
+import { Icon } from "@/components/icon";
 import {
   CAMERA_PRESETS,
   FIELDS,
@@ -27,194 +27,198 @@ import {
   type Equipment,
   type Kind,
   type Telescope,
-} from '@/equipment';
-import { useProfile } from '@/profile';
+} from "@/equipment";
+import { useProfile } from "@/profile";
 
 export default function SignUpEquipment() {
-  const { profile, save } = useProfile();
-  const [items, setItems] = useState<Equipment[]>(profile?.equipment ?? []);
-  const [picking, setPicking] = useState<Kind | null>(null);
-  const [form, setForm] = useState<Record<string, string>>({});
+    const { profile, save } = useProfile();
+    const [items, setItems] = useState<Equipment[]>(profile?.equipment ?? []);
+    const [picking, setPicking] = useState<Kind | null>(null);
+    const [form, setForm] = useState<Record<string, string>>({});
 
-  const close = () => {
-    setPicking(null);
-    setForm({});
-  };
+    const close = () => {
+        setPicking(null);
+        setForm({});
+    };
 
-  const add = (item: Equipment) => {
-    setItems((current) => [...current, item]);
-    close();
-  };
+    const add = (item: Equipment) => {
+        setItems(current => [...current, item]);
+        close();
+    };
 
-  const scope = items.find((i) => i.kind === 'telescope') as Telescope | undefined;
-  const camera = items.find((i) => i.kind === 'camera') as Camera | undefined;
-  const presets = picking === 'camera' ? CAMERA_PRESETS : TELESCOPE_PRESETS;
-  const custom = picking && customEquipment(picking, form);
+    const scope = items.find(i => i.kind === "telescope") as Telescope | undefined;
+    const camera = items.find(i => i.kind === "camera") as Camera | undefined;
+    const presets = picking === "camera" ? CAMERA_PRESETS : TELESCOPE_PRESETS;
+    const custom = picking && customEquipment(picking, form);
 
-  return (
-    <View style={styles.container}>
-      <ConstellationSky />
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.content}>
-          <Text className="font-sansation text-4xl text-white tracking-[1px]">Your kit</Text>
-          <Text className="font-sansation text-center text-xl text-gray-300 tracking-[1px]">
-            What are you observing with?
-          </Text>
+    return (
+        <View style={styles.container}>
+            <ConstellationSky />
+            <SafeAreaView style={styles.safeArea}>
+                <View style={styles.content}>
+                    <Text className="font-sansation text-4xl text-white tracking-[1px]">Your kit</Text>
+                    <Text className="font-sansation text-center text-xl text-neutral-300 tracking-[1px]">
+                        What are you observing with?
+                    </Text>
 
-          <ScrollView
-            style={styles.list}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}>
-            {items.length === 0 && (
-              <Text className="font-sansation py-6 text-center text-base text-gray-500">
-                Nothing added yet // you can always do this later.
-              </Text>
-            )}
+                    <ScrollView
+                        style={styles.list}
+                        contentContainerStyle={styles.listContent}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {items.length === 0 && (
+                            <Text className="font-sansation py-6 text-center text-base text-neutral-500">
+                                Nothing added yet // you can always do this later.
+                            </Text>
+                        )}
 
-            {items.map((item, index) => (
-              <View
-                key={`${item.label}-${index}`}
-                className="w-full flex-row items-center rounded-3xl border border-gray-800 bg-gray-950 px-5 py-4">
-                <View className="flex-1 pr-3">
-                  <Text numberOfLines={1} className="font-sansation text-lg text-white">
-                    {item.label}
-                  </Text>
-                  <Text className="font-sansation text-sm text-gray-400">{specLine(item)}</Text>
+                        {items.map((item, index) => (
+                            <View
+                                key={`${item.label}-${index}`}
+                                className="w-full flex-row items-center rounded-3xl border border-neutral-800 bg-neutral-950 px-5 py-4"
+                            >
+                                <View className="flex-1 pr-3">
+                                    <Text numberOfLines={1} className="font-sansation text-lg text-white">
+                                        {item.label}
+                                    </Text>
+                                    <Text className="font-sansation text-sm text-neutral-400">{specLine(item)}</Text>
+                                </View>
+                                <Pressable
+                                    hitSlop={12}
+                                    onPress={() => setItems(current => current.filter((_, i) => i !== index))}
+                                >
+                                    <Icon name="x" size={20} color="#9ca3af" />
+                                </Pressable>
+                            </View>
+                        ))}
+
+                        {scope && camera && (
+                            <Text className="font-sansation px-2 pt-1 text-center text-sm text-neutral-500">
+                                {fieldOfView(scope, camera)}
+                            </Text>
+                        )}
+                    </ScrollView>
+
+                    <View className="w-[90%] flex-row justify-center gap-3">
+                        {(["telescope", "camera"] as Kind[]).map(kind => (
+                            <Pressable
+                                key={kind}
+                                onPress={() => setPicking(kind)}
+                                className="flex-1 flex-row items-center justify-center gap-2 rounded-full border border-neutral-700 py-4 active:bg-neutral-900"
+                            >
+                                <Icon name="plus" size={18} />
+                                <Text className="font-sansation text-lg text-white">
+                                    {kind === "telescope" ? "Telescope" : "Camera"}
+                                </Text>
+                            </Pressable>
+                        ))}
+                    </View>
                 </View>
-                <Pressable
-                  hitSlop={12}
-                  onPress={() => setItems((current) => current.filter((_, i) => i !== index))}>
-                  <Icon name="x" size={20} color="#9ca3af" />
-                </Pressable>
-              </View>
-            ))}
 
-            {scope && camera && (
-              <Text className="font-sansation px-2 pt-1 text-center text-sm text-gray-500">
-                {fieldOfView(scope, camera)}
-              </Text>
-            )}
-          </ScrollView>
+                <Button
+                    title="Finish"
+                    color="white"
+                    cornerType="pill"
+                    onPress={() => save({ equipment: items, onboarded: true })}
+                />
+            </SafeAreaView>
 
-          <View className="w-[90%] flex-row justify-center gap-3">
-            {(['telescope', 'camera'] as Kind[]).map((kind) => (
-              <Pressable
-                key={kind}
-                onPress={() => setPicking(kind)}
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-full border border-gray-700 py-4 active:bg-gray-900">
-                <Icon name="plus" size={18} />
-                <Text className="font-sansation text-lg text-white">
-                  {kind === 'telescope' ? 'Telescope' : 'Camera'}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
+            <Modal visible={picking !== null} transparent animationType="slide" onRequestClose={close}>
+                <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+                    <Pressable style={styles.backdrop} onPress={close} />
+                    <View className="rounded-t-3xl border-t border-neutral-800 bg-[#0a0a0a] pb-12 pt-5">
+                        <Text className="font-sansation px-6 pb-3 text-2xl text-white tracking-[1px]">
+                            {picking === "camera" ? "Cameras" : "Telescopes"}
+                        </Text>
+                        <ScrollView style={styles.sheet} keyboardShouldPersistTaps="handled">
+                            {presets.map(preset => (
+                                <Pressable
+                                    key={preset.id}
+                                    onPress={() => add(stripPreset(preset))}
+                                    className="px-6 py-4 active:bg-neutral-900"
+                                >
+                                    <Text className="font-sansation text-lg text-white">{preset.label}</Text>
+                                    <Text className="font-sansation text-sm text-neutral-400">{preset.blurb}</Text>
+                                </Pressable>
+                            ))}
+
+                            {picking && (
+                                <View className="mt-2 gap-3 border-t border-neutral-800 px-6 pt-5">
+                                    <Text className="font-sansation text-base text-neutral-400">Or enter your own</Text>
+
+                                    <TextInput
+                                        value={form.label ?? ""}
+                                        onChangeText={label => setForm(f => ({ ...f, label }))}
+                                        placeholder="Name (optional)"
+                                        placeholderTextColor="#666"
+                                        className="font-sansation h-14 rounded-full border border-neutral-800 px-5 text-lg text-white"
+                                    />
+
+                                    <View className="flex-row gap-3">
+                                        {FIELDS[picking].map(field => (
+                                            <TextInput
+                                                key={field.key}
+                                                value={form[field.key] ?? ""}
+                                                onChangeText={v => setForm(f => ({ ...f, [field.key]: v }))}
+                                                placeholder={`${field.label} (${field.unit})`}
+                                                placeholderTextColor="#666"
+                                                keyboardType="decimal-pad"
+                                                className="font-sansation h-14 flex-1 rounded-full border border-neutral-800 px-4 text-base text-white"
+                                            />
+                                        ))}
+                                    </View>
+
+                                    <Pressable
+                                        disabled={!custom}
+                                        style={{ opacity: custom ? 1 : 0.4 }}
+                                        onPress={() => custom && add(custom)}
+                                        className="mt-1 items-center rounded-full bg-white py-4 active:bg-neutral-200"
+                                    >
+                                        <Text className="font-sansation text-lg font-bold text-black">Add</Text>
+                                    </Pressable>
+                                </View>
+                            )}
+                        </ScrollView>
+                    </View>
+                </KeyboardAvoidingView>
+            </Modal>
         </View>
-
-        <Button
-          title="Finish"
-          color="white"
-          cornerType="pill"
-          onPress={() => save({ equipment: items, onboarded: true })}
-        />
-      </SafeAreaView>
-
-      <Modal visible={picking !== null} transparent animationType="slide" onRequestClose={close}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <Pressable style={styles.backdrop} onPress={close} />
-          <View className="rounded-t-3xl border-t border-gray-800 bg-[#0b0f1a] pb-12 pt-5">
-            <Text className="font-sansation px-6 pb-3 text-2xl text-white tracking-[1px]">
-              {picking === 'camera' ? 'Cameras' : 'Telescopes'}
-            </Text>
-            <ScrollView style={styles.sheet} keyboardShouldPersistTaps="handled">
-              {presets.map((preset) => (
-                <Pressable
-                  key={preset.id}
-                  onPress={() => add(stripPreset(preset))}
-                  className="px-6 py-4 active:bg-gray-900">
-                  <Text className="font-sansation text-lg text-white">{preset.label}</Text>
-                  <Text className="font-sansation text-sm text-gray-400">{preset.blurb}</Text>
-                </Pressable>
-              ))}
-
-              {picking && (
-                <View className="mt-2 gap-3 border-t border-gray-800 px-6 pt-5">
-                  <Text className="font-sansation text-base text-gray-400">Or enter your own</Text>
-
-                  <TextInput
-                    value={form.label ?? ''}
-                    onChangeText={(label) => setForm((f) => ({ ...f, label }))}
-                    placeholder="Name (optional)"
-                    placeholderTextColor="#666"
-                    className="font-sansation h-14 rounded-full border border-gray-800 px-5 text-lg text-white"
-                  />
-
-                  <View className="flex-row gap-3">
-                    {FIELDS[picking].map((field) => (
-                      <TextInput
-                        key={field.key}
-                        value={form[field.key] ?? ''}
-                        onChangeText={(v) => setForm((f) => ({ ...f, [field.key]: v }))}
-                        placeholder={`${field.label} (${field.unit})`}
-                        placeholderTextColor="#666"
-                        keyboardType="decimal-pad"
-                        className="font-sansation h-14 flex-1 rounded-full border border-gray-800 px-4 text-base text-white"
-                      />
-                    ))}
-                  </View>
-
-                  <Pressable
-                    disabled={!custom}
-                    style={{ opacity: custom ? 1 : 0.4 }}
-                    onPress={() => custom && add(custom)}
-                    className="mt-1 items-center rounded-full bg-white py-4 active:bg-gray-200">
-                    <Text className="font-sansation text-lg font-bold text-black">Add</Text>
-                  </Pressable>
-                </View>
-              )}
-            </ScrollView>
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
-    </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#05070f',
-  },
-  flex: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-    alignItems: 'center',
-    paddingBottom: 24,
-  },
-  content: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 16,
-  },
-  list: {
-    width: '90%',
-    flexGrow: 0,
-    maxHeight: '45%',
-  },
-  listContent: {
-    gap: 12,
-  },
-  backdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-  },
-  sheet: {
-    maxHeight: 380,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#000000",
+    },
+    flex: {
+        flex: 1,
+    },
+    safeArea: {
+        flex: 1,
+        alignItems: "center",
+        paddingBottom: 24,
+    },
+    content: {
+        flex: 1,
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 16,
+    },
+    list: {
+        width: "90%",
+        flexGrow: 0,
+        maxHeight: "45%",
+    },
+    listContent: {
+        gap: 12,
+    },
+    backdrop: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.7)",
+    },
+    sheet: {
+        maxHeight: 380,
+    },
 });

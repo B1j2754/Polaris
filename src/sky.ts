@@ -74,21 +74,22 @@ export const sunAltitude = (where: Coords, date: Date) =>
 
 // --- Weather ---
 
-export type Weather = { cloudCover: number; humidity: number };
+export type Weather = { cloudCover: number; humidity: number; temperatureC: number };
 
 /** Free Open-Mateo query for weather rating. */
 export async function fetchWeather({ lat, lon }: Coords): Promise<Weather | null> {
   try {
     const response = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}` +
-        `&current=cloud_cover,relative_humidity_2m`
+        `&current=cloud_cover,relative_humidity_2m,temperature_2m`
     );
     if (!response.ok) return null;
     const { current } = await response.json();
     const cloudCover = Number(current?.cloud_cover);
     const humidity = Number(current?.relative_humidity_2m);
-    if (!Number.isFinite(cloudCover) || !Number.isFinite(humidity)) return null;
-    return { cloudCover, humidity };
+    const temperatureC = Number(current?.temperature_2m);
+    if (![cloudCover, humidity, temperatureC].every(Number.isFinite)) return null;
+    return { cloudCover, humidity, temperatureC };
   } catch {
     return null;
   }
