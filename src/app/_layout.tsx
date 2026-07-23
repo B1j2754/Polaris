@@ -6,7 +6,7 @@ import { SQLiteProvider } from 'expo-sqlite';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect } from 'react';
 
-import { DarkScreen, ScreenBackground } from '@/constants/theme';
+import { BackHeader, DarkScreen, ScreenBackground } from '@/constants/theme';
 import { DATABASE_NAME, migrate } from '@/db';
 import { ProfileProvider, useProfile } from '@/profile';
 
@@ -43,6 +43,7 @@ function RootNavigator() {
     <Stack screenOptions={{ headerShown: false, ...DarkScreen }}>
       <Stack.Protected guard={!!profile?.onboarded}>
         <Stack.Screen name="(main)" />
+        <Stack.Screen name="objects/[object]" options={BackHeader} />
       </Stack.Protected>
 
       <Stack.Protected guard={!profile?.onboarded}>

@@ -16,7 +16,7 @@ import { bodyPosition, compassPoint, equatorialToHorizontal, evaluate, moonIllum
 import { TARGETS } from './targets.ts';
 
 const utc = (iso: string) => new Date(iso);
-const target = (id: string) => TARGETS.find((t) => t.id === id)!;
+const target = (id: string) => TARGETS[id];
 const near = (actual: number, expected: number, tolerance: number, what: string) =>
   assert.ok(
     Math.abs(actual - expected) <= tolerance,
@@ -61,7 +61,7 @@ assert.ok(moonIllumination(utc('2000-01-06T18:14:00Z')) < 0.01, 'new moon should
 assert.ok(moonIllumination(utc('2000-01-21T04:40:00Z')) > 0.99, 'full moon should read lit');
 
 // --- every planet in the catalog resolves to a real position ---
-for (const t of TARGETS.filter((t) => t.body)) {
+for (const t of Object.values(TARGETS).filter((t) => t.body)) {
   const { ra, dec } = bodyPosition(t.body!, utc('2026-07-22T00:00:00Z'));
   assert.ok(Number.isFinite(ra) && ra >= 0 && ra < 360, `${t.id} produced a bad ra: ${ra}`);
   assert.ok(Number.isFinite(dec) && Math.abs(dec) <= 90, `${t.id} produced a bad dec: ${dec}`);
@@ -90,11 +90,11 @@ for (const t of TARGETS.filter((t) => t.body)) {
 }
 
 // --- every catalog entry is well formed ---
-for (const t of TARGETS) {
+for (const [key, t] of Object.entries(TARGETS)) {
+  assert.equal(t.id, key, `${key} keyed under a mismatched id (${t.id})`);
   assert.ok(t.body || (t.ra !== undefined && t.dec !== undefined), `${t.id} has neither body nor ra/dec`);
   assert.ok(t.ra === undefined || (t.ra >= 0 && t.ra < 360), `${t.id} has an out-of-range ra`);
   assert.ok(t.dec === undefined || Math.abs(t.dec) <= 90, `${t.id} has an out-of-range dec`);
 }
-assert.equal(new Set(TARGETS.map((t) => t.id)).size, TARGETS.length, 'duplicate target id');
 
-console.log(`ok — sky wiring and ${TARGETS.length} targets check out`);
+console.log(`ok — sky wiring and ${Object.keys(TARGETS).length} targets check out`);

@@ -1,7 +1,7 @@
 import * as Location from "expo-location";
-import { useFocusEffect } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Icon } from "@/components/icon";
@@ -15,7 +15,7 @@ import { ICONS, TARGETS, type Target } from "@/targets";
 /** TODO: used until the Sites tab can store a real site. Roughly New York. */
 const DEFAULT_SITE: Coords = { lat: 40.71, lon: -74.01 };
 
-const WEATHER_MAX_AGE_MS = 30 * 60 * 1000;
+const WEATHER_MAX_AGE_MS = 5 * 60 * 1000;
 
 export default function Home() {
     const { profile } = useProfile();
@@ -70,7 +70,7 @@ export default function Home() {
     }
 
     const interests = profile?.interests ?? [];
-    const ranked = TARGETS.map(target => ({ target, verdict: evaluate(target, site, now, weather) }))
+    const ranked = Object.values(TARGETS).map(target => ({ target, verdict: evaluate(target, site, now, weather) }))
         // a matched interest breaks ties; it doesn't outrank something that is actually up
         .sort((a, b) => rank(b, interests) - rank(a, interests));
 
@@ -89,12 +89,12 @@ export default function Home() {
                 ListHeaderComponent={
                     <View className="gap-3 pb-4">
                         <Text className="font-sansation text-4xl text-white tracking-[1px] pt-2">{greeting}</Text>
-                        <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
-                            {upNow} worth looking at
-                        </Text>
                         <WeatherOverviewBox site={site} now={now} weather={weather} />
                         <Text className="font-sansation text-2xl text-white tracking-[1px] pt-2">
                             Current Sky Diagnosis
+                        </Text>
+                        <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
+                            {upNow} worth looking at
                         </Text>
                         {denied && (
                             <Text className="font-sansation text-base text-neutral-500 tracking-[1px]">
@@ -103,7 +103,13 @@ export default function Home() {
                         )}
                     </View>
                 }
-                renderItem={({ item }) => <Card target={item.target} verdict={item.verdict} />}
+                renderItem={({ item }) => (
+                    <Link href={`/objects/${item.target.id}`} asChild>
+                        <Pressable>
+                            <Card target={item.target} verdict={item.verdict} />
+                        </Pressable>
+                    </Link>
+                )}
             />
         </SafeAreaView>
     );

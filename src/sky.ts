@@ -83,14 +83,18 @@ export async function fetchWeather({ lat, lon }: Coords): Promise<Weather | null
       `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(3)}&longitude=${lon.toFixed(3)}` +
         `&current=cloud_cover,relative_humidity_2m,temperature_2m`
     );
-    if (!response.ok) return null;
+    if (!response.ok) { console.warn("[weather] HTTP", response.status); return null; }
     const { current } = await response.json();
     const cloudCover = Number(current?.cloud_cover);
     const humidity = Number(current?.relative_humidity_2m);
     const temperatureC = Number(current?.temperature_2m);
-    if (![cloudCover, humidity, temperatureC].every(Number.isFinite)) return null;
+    if (![cloudCover, humidity, temperatureC].every(Number.isFinite)) {
+      console.warn("[weather] bad payload", current);
+      return null;
+    }
     return { cloudCover, humidity, temperatureC };
-  } catch {
+  } catch (e) {
+    console.warn("[weather] fetch threw", e);
     return null;
   }
 }

@@ -57,7 +57,7 @@ export default function SignUpEquipment() {
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.content}>
                     <Text className="font-sansation text-4xl text-white tracking-[1px]">Your kit</Text>
-                    <Text className="font-sansation text-center text-xl text-neutral-300 tracking-[1px]">
+                    <Text className="font-sansation text-center text-xl text-neutral-400 tracking-[1px]">
                         What are you observing with?
                     </Text>
 
