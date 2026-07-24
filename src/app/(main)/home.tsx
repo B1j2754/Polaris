@@ -103,6 +103,7 @@ const rank = ({ target, verdict }: { target: Target; verdict: Verdict }, interes
 
 function Card({ target, verdict }: { target: Target; verdict: Verdict }) {
     const { visible, altitude, azimuth, reasons } = verdict;
+    const formatSign = (num: string): string => +num > 0 ? `+${num}` : `${num}`;
     return (
         <View
             className={`flex-row items-center gap-4 rounded-2xl border bg-neutral-900 p-4 ${
@@ -116,7 +117,7 @@ function Card({ target, verdict }: { target: Target; verdict: Verdict }) {
                     {target.blurb}
                 </Text>
                 <Text className="font-sansation text-base text-neutral-300 tracking-[1px]">
-                    {visible ? `${altitude.toFixed(0)}° up, looking ${compassPoint(azimuth)}` : reasons.join(" · ")}
+                    {visible ? `Az/Alt ${azimuth.toFixed(0)}° (facing) ${compassPoint(azimuth)}, ${formatSign(altitude.toFixed(0))}° (above horizon)` : reasons.join(" · ")}
                 </Text>
             </View>
         </View>

@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 
 import { SegmentedPill } from "@/components/segmented-pill";
 
-const SEGMENTS = ["Tonight, later", "Coming weeks"] as const;
+const SEGMENTS = ["Tonight, until sunrise", "Coming weeks"] as const;
 
 /** Toggles between the two look-ahead views. Panels are placeholders atm. */
 export function LookaheadSection() {
