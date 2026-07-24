@@ -104,6 +104,7 @@ export async function fetchWeather({ lat, lon }: Coords): Promise<Weather | null
 export type Verdict = Horizontal & {
   score: number;
   visible: boolean;
+  sun: number;
   reasons: string[];
 };
 
@@ -147,11 +148,12 @@ export function evaluate(
   const quality = Math.max(0, Math.min(1, headroom)) * moonRoom * Math.max(0, air);
 
   return {
-    altitude,
-    azimuth,
-    visible: reasons.length === 0,
-    // failing targets keep their relative order but never outrank a visible one
-    score: reasons.length === 0 ? 0.5 + quality / 2 : (quality / 2) * 0.5,
-    reasons,
+      altitude,
+      azimuth,
+      visible: reasons.length === 0,
+      sun,
+      // failing targets keep their relative order but never outrank a visible one
+      score: reasons.length === 0 ? 0.5 + quality / 2 : (quality / 2) * 0.5,
+      reasons,
   };
 }

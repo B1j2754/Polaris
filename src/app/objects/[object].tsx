@@ -1,11 +1,15 @@
-import { StyleSheet, Image, Text, View } from "react-native";
+import { StyleSheet, Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect, useLocalSearchParams } from 'expo-router';
 
+import { LookaheadGraph } from "@/components/lookahead-graph";
+import { BottomTabInset } from "@/constants/theme";
+import { useSite } from "@/hooks/use-site";
 import { TARGETS } from "@/targets"
 
 export default function ObjectOverview() {
     const { object } = useLocalSearchParams<{ object: string }>();
+    const { site } = useSite();
     const objectData = object ? TARGETS[object] : undefined;
     if (!objectData) return <Redirect href="/" />;
 
@@ -34,19 +38,30 @@ export default function ObjectOverview() {
     return (
         <View style={styles.container}>
             <SafeAreaView style={styles.safeArea}>
-                <View style={styles.content}>
-                    <Text style={styles.title} className="font-sansation text-4xl text-white tracking-[1px]">{objectData.name}</Text>
-                    <Text className="font-sansation text-xl text-neutral-400 tracking-[1px]">{objectData.blurb}</Text>
+                <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
+                    <Text className="font-sansation text-4xl text-white tracking-[1px] text-center">{objectData.name}</Text>
+                    <Text className="font-sansation text-xl text-neutral-400 tracking-[1px] text-center">{objectData.blurb}</Text>
                     <Image source={require('@/assets/images/starSplash.jpg')} style={styles.preview} />
                     <View style={styles.grid}>
-                        {stats.map(({ label, value }) => (
-                            <View key={label} style={styles.cell}>
+                        {stats.map(({ label, value }, i) => (
+                            <View
+                                key={label}
+                                style={[styles.cell, stats.length % 2 === 1 && i === stats.length - 1 && styles.cellWide]}
+                            >
                                 <Text className="font-sansation text-sm text-neutral-500 tracking-[1px]">{label}</Text>
-                                <Text className="font-sansation text-2xl text-white tracking-[1px]">{value}</Text>
+                                <Text
+                                    numberOfLines={1}
+                                    adjustsFontSizeToFit
+                                    minimumFontScale={0.6}
+                                    className="font-sansation text-2xl text-white tracking-[1px]"
+                                >
+                                    {value}
+                                </Text>
                             </View>
                         ))}
                     </View>
-                </View>
+                    {site && <LookaheadGraph target={objectData} site={site} />}
+                </ScrollView>
             </SafeAreaView>
         </View>
     );
@@ -80,17 +95,17 @@ const styles = StyleSheet.create({
         padding: 12,
         gap: 4,
     },
-    title: {
-        marginLeft: 60, // start the title to the right of the back arrow
+    cellWide: {
+        width: '100%', // odd count: last cell spans both columns
+    },
+    scroll: {
+        width: "100%",
     },
     content: {
-        flex: 1,
-        // must be definite: children size themselves with % widths, which resolve to 0 against a
-        // shrink-to-fit parent (SafeAreaView centres its children, so this View won't stretch on its own)
-        width: "100%",
         justifyContent: "flex-start",
         gap: 16,
-        paddingTop: 8, // sit alongside the transparent back-arrow header, not below it
+        paddingTop: 52, // clear the transparent back-arrow header sitting above
         paddingHorizontal: 20,
+        paddingBottom: BottomTabInset,
     },
 });

@@ -1,43 +1,25 @@
-import * as Location from "expo-location";
 import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Icon } from "@/components/icon";
+import { LookaheadSection } from "@/components/lookahead-section";
 import { WeatherOverviewBox } from "@/components/weather-overview-box";
 import { BottomTabInset } from "@/constants/theme";
 import { Greetings } from "@/greetings";
+import { useSite } from "@/hooks/use-site";
 import { useProfile } from "@/profile";
-import { compassPoint, evaluate, fetchWeather, type Coords, type Verdict, type Weather } from "@/sky";
+import { compassPoint, evaluate, fetchWeather, type Verdict, type Weather } from "@/sky";
 import { ICONS, TARGETS, type Target } from "@/targets";
-
-/** TODO: used until the Sites tab can store a real site. Roughly New York. */
-const DEFAULT_SITE: Coords = { lat: 40.71, lon: -74.01 };
 
 const WEATHER_MAX_AGE_MS = 5 * 60 * 1000;
 
 export default function Home() {
     const { profile } = useProfile();
-    const [site, setSite] = useState<Coords | null>(null);
-    const [denied, setDenied] = useState(false);
+    const { site, denied } = useSite();
     const [weather, setWeather] = useState<Weather | null>(null);
     const [now, setNow] = useState(() => new Date());
-
-    useEffect(() => {
-        (async () => {
-            const { granted } = await Location.requestForegroundPermissionsAsync();
-            if (!granted) {
-                setDenied(true);
-                setSite(DEFAULT_SITE);
-                return;
-            }
-            const position =
-                (await Location.getLastKnownPositionAsync()) ??
-                (await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Low }));
-            setSite({ lat: position.coords.latitude, lon: position.coords.longitude });
-        })();
-    }, []);
 
     // lazy load weather
     useEffect(() => {
@@ -96,6 +78,7 @@ export default function Home() {
                         <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
                             {upNow} worth looking at
                         </Text>
+                        <LookaheadSection />
                         {denied && (
                             <Text className="font-sansation text-base text-neutral-500 tracking-[1px]">
                                 Location off. Showing the sky from a default site.
