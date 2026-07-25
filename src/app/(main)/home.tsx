@@ -78,7 +78,7 @@ export default function Home() {
                         <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
                             {upNow} worth looking at
                         </Text>
-                        <LookaheadSection />
+                        <LookaheadSection site={site} weather={weather} now={now} />
                         {denied && (
                             <Text className="font-sansation text-base text-neutral-500 tracking-[1px]">
                                 Location off. Showing the sky from a default site.

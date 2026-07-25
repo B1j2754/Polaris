@@ -9,7 +9,8 @@
  */
 import assert from 'node:assert/strict';
 
-import { nightlyPeaks, tonightCurve } from './lookAhead.ts';
+import { nightlyPeaks, tonightCurve, upAhead, upTonight } from './lookAhead.ts';
+import { evaluate } from './sky.ts';
 import { TARGETS } from './targets.ts';
 
 const NEW_YORK = { lat: 40.7, lon: -74 };
@@ -74,6 +75,71 @@ const m31 = TARGETS['m31'];
   assert.ok(
     peaks.filter((p) => !p.dark).every((p) => p.score === 0),
     'a night with no darkness cannot score'
+  );
+}
+
+// --- upTonight: every row is really up, null means up right now, order is chronological ---
+{
+  const now = new Date('2026-11-15T22:00:00');
+  const rows = upTonight(NEW_YORK, null, now);
+  assert.ok(rows.length > 0, 'a clear November night in New York should have something up');
+
+  for (const { target, when } of rows) {
+    if (when === null) {
+      assert.ok(evaluate(target, NEW_YORK, now, null).visible, `${target.id} claims to be up now but is not`);
+    } else {
+      assert.ok(when > now, `${target.id} was listed for a moment that has already passed`);
+      assert.ok(evaluate(target, NEW_YORK, when, null).visible, `${target.id} is not actually up at ${when}`);
+    }
+  }
+
+  const times = rows.map((r) => r.when?.getTime() ?? 0);
+  assert.deepEqual(times, [...times].sort((a, b) => a - b), 'rows must run already-up first, then in time order');
+
+  // anything up right now has to be in the list — that is the whole point of the tonight tab
+  const upNow = Object.values(TARGETS).filter((t) => evaluate(t, NEW_YORK, now, null).visible);
+  assert.equal(
+    rows.filter((r) => r.when === null).length,
+    upNow.length,
+    'every currently-visible target must appear'
+  );
+}
+
+// --- upAhead: only reports nights it can actually justify ---
+{
+  const rows = upAhead(NEW_YORK, new Date('2026-11-16T00:00:00'), 14);
+  assert.ok(rows.length > 0, 'two weeks of November nights should turn something up');
+  for (const { target, when } of rows) {
+    assert.ok(when !== null, 'a future night is always a real date');
+    assert.ok(evaluate(target, NEW_YORK, when!, null).visible, `${target.id} is not up at its reported night`);
+  }
+}
+
+// --- upAhead caches per site per day, and lets go when either moves ---
+{
+  const morning = new Date('2026-11-16T09:00:00');
+  const evening = new Date('2026-11-16T21:00:00');
+
+  const first = upAhead(NEW_YORK, morning, 14);
+  assert.equal(upAhead(NEW_YORK, evening, 14), first, 'the same day must reuse the cached sweep');
+  assert.notEqual(
+    upAhead(NEW_YORK, new Date('2026-11-17T09:00:00'), 14),
+    first,
+    'a new day must re-scan'
+  );
+  assert.notEqual(upAhead(TROMSO, morning, 14), first, 'a new site must re-scan');
+}
+
+// --- a sunlit fortnight offers only what does not need the dark ---
+{
+  const rows = upAhead(TROMSO, new Date('2026-06-15T00:00:00'), 14);
+  assert.ok(
+    rows.every(({ target }) => target.maxSunAltitudeDeg >= 0),
+    'Tromsø in June cannot recommend anything that needs a dark sky'
+  );
+  assert.ok(
+    rows.some(({ target }) => target.id === 'sun'),
+    'the midnight sun is still a target, and it is up'
   );
 }
 

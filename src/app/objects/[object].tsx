@@ -49,12 +49,7 @@ export default function ObjectOverview() {
                                 style={[styles.cell, stats.length % 2 === 1 && i === stats.length - 1 && styles.cellWide]}
                             >
                                 <Text className="font-sansation text-sm text-neutral-500 tracking-[1px]">{label}</Text>
-                                <Text
-                                    numberOfLines={1}
-                                    adjustsFontSizeToFit
-                                    minimumFontScale={0.6}
-                                    className="font-sansation text-2xl text-white tracking-[1px]"
-                                >
+                                <Text className="font-sansation text-2xl text-white tracking-[1px]">
                                     {value}
                                 </Text>
                             </View>

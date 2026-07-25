@@ -67,6 +67,13 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
             <SegmentedPill segments={RANGES} value={range} onChange={setRange} />
 
             <View className="rounded-2xl bg-neutral-900 p-3">
+                <View className="flex-row justify-between pb-1">
+                    <Text className="font-sansation text-[11px] text-neutral-500 tracking-[1px]">
+                        Altitude above horizon
+                    </Text>
+                    <Text className="font-sansation text-[11px] text-neutral-500">90°</Text>
+                </View>
+
                 <View className="flex-row items-end gap-[2px]" style={{ height: GRAPH_HEIGHT }}>
                     {bars.map(({ key, altitude, good }) => (
                         <View

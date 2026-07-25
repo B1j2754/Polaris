@@ -65,12 +65,24 @@ function precess({ ra, dec }: Equatorial, date: Date): Equatorial {
 export const targetPosition = (target: Target, date: Date): Equatorial =>
   target.body ? bodyPosition(target.body, date) : precess({ ra: target.ra!, dec: target.dec! }, date);
 
+const cache = new Map<string, number>();
+function cached(key: string, compute: () => number) {
+  let hit = cache.get(key);
+  if (hit === undefined) {
+    if (cache.size > 20_000) cache.clear();
+    cache.set(key, (hit = compute()));
+  }
+  return hit;
+}
+
 /** 0 -> new, 1 -> full */
 export const moonIllumination = (date: Date) =>
-  Astronomy.Illumination(Astronomy.Body.Moon, date).phase_fraction;
+  cached(`m${date.getTime()}`, () => Astronomy.Illumination(Astronomy.Body.Moon, date).phase_fraction);
 
 export const sunAltitude = (where: Coords, date: Date) =>
-  equatorialToHorizontal(bodyPosition('Sun', date), where, date).altitude;
+  cached(`s${where.lat},${where.lon},${date.getTime()}`, () =>
+    equatorialToHorizontal(bodyPosition('Sun', date), where, date).altitude
+  );
 
 // --- Weather ---
 
