@@ -2,6 +2,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, use, useEffect, useState, type PropsWithChildren } from 'react';
 
 import type { Equipment } from '@/equipment';
+import type { Site } from '@/sites';
 
 export type Profile = {
   name?: string;
@@ -9,6 +10,9 @@ export type Profile = {
   equipment: Equipment[];
   /** false while the user is still partway through signup */
   onboarded: boolean;
+  sites: Site[];
+  /** site id to run calculations from; null -> phone location */
+  activeSite: string | null;
 };
 
 type ProfileRow = {
@@ -16,6 +20,8 @@ type ProfileRow = {
   interests: string;
   equipment: string;
   onboarded: number;
+  sites: string;
+  active_site: string | null;
 };
 
 const ProfileContext = createContext<{
@@ -38,7 +44,7 @@ export function ProfileProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     db.getFirstAsync<ProfileRow>(
-      'SELECT name, interests, equipment, onboarded FROM profile WHERE id = 1'
+      'SELECT name, interests, equipment, onboarded, sites, active_site FROM profile WHERE id = 1'
     )
       .then((row) =>
         setProfile(
@@ -47,6 +53,8 @@ export function ProfileProvider({ children }: PropsWithChildren) {
             interests: JSON.parse(row.interests),
             equipment: JSON.parse(row.equipment),
             onboarded: row.onboarded === 1,
+            sites: JSON.parse(row.sites),
+            activeSite: row.active_site,
           }
         )
       )
@@ -54,18 +62,29 @@ export function ProfileProvider({ children }: PropsWithChildren) {
   }, [db]);
 
   const save = async (patch: Partial<Profile>) => {
-    const base: Profile = profile ?? { interests: [], equipment: [], onboarded: false };
+    const base: Profile = profile ?? {
+      interests: [],
+      equipment: [],
+      onboarded: false,
+      sites: [],
+      activeSite: null,
+    };
     const next: Profile = { ...base, ...patch };
     await db.runAsync(
-      `INSERT INTO profile (id, name, interests, equipment, onboarded) VALUES (1, ?, ?, ?, ?)
+      `INSERT INTO profile (id, name, interests, equipment, onboarded, sites, active_site)
+       VALUES (1, ?, ?, ?, ?, ?, ?)
        ON CONFLICT(id) DO UPDATE SET name = excluded.name,
                                      interests = excluded.interests,
                                      equipment = excluded.equipment,
-                                     onboarded = excluded.onboarded`,
+                                     onboarded = excluded.onboarded,
+                                     sites = excluded.sites,
+                                     active_site = excluded.active_site`,
       next.name ?? null,
       JSON.stringify(next.interests),
       JSON.stringify(next.equipment),
-      next.onboarded ? 1 : 0
+      next.onboarded ? 1 : 0,
+      JSON.stringify(next.sites),
+      next.activeSite
     );
     setProfile(next);
   };

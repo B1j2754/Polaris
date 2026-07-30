@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 
 import { SegmentedPill } from "@/components/segmented-pill";
 import { nightlyPeaks, tonightCurve } from "@/lookAhead";
-import type { Coords } from "@/sky";
+import { altitudeFloor, type Coords } from "@/sky";
 import type { Target } from "@/targets";
 
 const RANGES = ["Tonight", "Week", "3 Weeks"] as const;
@@ -24,6 +24,7 @@ const pick = <T,>(items: T[], count: number): T[] =>
 /** Altitude over time: tonight hour by hour, or the best moment of each night ahead. */
 export function LookaheadGraph({ target, site }: { target: Target; site: Coords }) {
     const [range, setRange] = useState(0);
+    const floor = altitudeFloor(target, site);
 
     const bars = useMemo<Bar[]>(() => {
         if (range === 0) {
@@ -38,16 +39,16 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
             key: p.date.toISOString(),
             date: p.date,
             altitude: p.altitude,
-            good: p.dark && p.altitude >= target.minAltitudeDeg,
+            good: p.dark && p.altitude >= floor,
         }));
-    }, [target, site, range]);
+    }, [target, site, range, floor]);
 
     const peak = Math.max(0, ...bars.map(b => b.altitude));
     const format = range === 0 ? hourLabel : range === 1 ? dayLabel : dateLabel;
     const ticks = pick(bars, range === 1 ? 7 : TICKS);
-    const thresholdY = (target.minAltitudeDeg / 90) * GRAPH_HEIGHT;
+    const thresholdY = (floor / 90) * GRAPH_HEIGHT;
 
-    if (peak < target.minAltitudeDeg) {
+    if (peak < floor) {
         return (
             <View className="gap-3">
                 <SegmentedPill segments={RANGES} value={range} onChange={setRange} />
@@ -55,7 +56,7 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
                     <Text className="text-center font-sansation text-base text-neutral-400 tracking-[1px]">
                         {bars.length === 0
                             ? "The sky never gets dark enough here right now."
-                            : `Never clears ${target.minAltitudeDeg}° from your location.`}
+                            : `Never clears ${floor}° from here.`}
                     </Text>
                 </View>
             </View>
@@ -91,7 +92,7 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
                         className="absolute font-sansation text-[10px] text-black bg-white"
                         style={{ right: 0, bottom: thresholdY + 2 }}
                     >
-                        {target.minAltitudeDeg}°
+                        {floor}°
                     </Text>
                 </View>
 

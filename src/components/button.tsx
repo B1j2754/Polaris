@@ -16,7 +16,8 @@ export const button = tv({
 });
 
 const label = tv({
-    base: "font-bold text-base text-xl",
+    // leading-tight: RN hangs tailwind's paired line-height above the glyphs, dropping them low
+    base: "font-bold text-base text-xl leading-tight",
     variants: {
         color: {
             white: "text-black",

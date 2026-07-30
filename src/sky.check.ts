@@ -76,17 +76,40 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
   assert.equal(daylight.visible, false, 'M31 must not be visible at noon');
   assert.ok(daylight.reasons.includes('Daylight'), `expected a daylight reason, got ${daylight.reasons}`);
 
-  const night = evaluate(target('m31'), where, utc('2026-11-16T02:00:00Z'), { cloudCover: 5, humidity: 40 });
+  const night = evaluate(target('m31'), where, utc('2026-11-16T02:00:00Z'), { cloudCover: 5, humidity: 40, temperatureC: 8 });
   assert.equal(night.visible, true, `M31 should be up on a clear November night: ${night.reasons}`);
   assert.ok(night.score > daylight.score, 'a visible target must outrank a blocked one');
 
-  const clouded = evaluate(target('m31'), where, utc('2026-11-16T02:00:00Z'), { cloudCover: 90, humidity: 90 });
+  const clouded = evaluate(target('m31'), where, utc('2026-11-16T02:00:00Z'), { cloudCover: 90, humidity: 90, temperatureC: 8 });
   assert.equal(clouded.visible, false, 'M31 must fail under 90% cloud');
   assert.ok(clouded.reasons.some((r) => r.includes('cloud')), 'cloud should be the stated reason');
 
   // a target below the horizon reports so rather than scoring on altitude alone
   const under = evaluate(target('m7'), { lat: 75, lon: 0 }, utc('2026-07-22T00:00:00Z'));
   assert.equal(under.visible, false, 'M7 is not visible from 75°N');
+}
+
+// --- a site's blocked horizon raises the bar, and says so ---
+{
+  const when = utc('2026-11-16T02:00:00Z');
+  const m31 = target('m31');
+  const open = { lat: 40.7, lon: -74 };
+  const clear = evaluate(m31, open, when, { cloudCover: 5, humidity: 40, temperatureC: 8 });
+  assert.equal(clear.visible, true, `M31 should clear an open horizon: ${clear.reasons}`);
+
+  // same spot, same moment, but trees up to just above where it sits
+  const blocked = { ...open, horizonDeg: Math.ceil(clear.altitude) + 5 };
+  const hemmed = evaluate(m31, blocked, when, { cloudCover: 5, humidity: 40, temperatureC: 8 });
+  assert.equal(hemmed.visible, false, 'trees taller than the target must block it');
+  assert.ok(
+    hemmed.reasons.some((r) => r.includes(`${blocked.horizonDeg}°`)),
+    `the reason should quote the site's horizon, got ${hemmed.reasons}`
+  );
+  assert.ok(hemmed.score < clear.score, 'a blocked view must score below an open one');
+
+  // a horizon below the target's own minimum changes nothing
+  const trivial = evaluate(m31, { ...open, horizonDeg: 1 }, when, { cloudCover: 5, humidity: 40, temperatureC: 8 });
+  assert.equal(trivial.score, clear.score, 'a horizon under the target minimum must not move the score');
 }
 
 // --- every catalog entry is well formed ---

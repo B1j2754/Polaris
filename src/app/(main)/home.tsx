@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Icon } from "@/components/icon";
 import { LookaheadSection } from "@/components/lookahead-section";
+import { SegmentedPill } from "@/components/segmented-pill";
 import { WeatherOverviewBox } from "@/components/weather-overview-box";
 import { BottomTabInset } from "@/constants/theme";
 import { Greetings } from "@/greetings";
@@ -14,12 +15,15 @@ import { compassPoint, evaluate, fetchWeather, type Verdict, type Weather } from
 import { ICONS, TARGETS, type Target } from "@/targets";
 
 const WEATHER_MAX_AGE_MS = 5 * 60 * 1000;
+const SEGMENTS = ["Now", "Tonight", "Weeks ahead"] as const;
 
 export default function Home() {
     const { profile } = useProfile();
     const { site, denied } = useSite();
     const [weather, setWeather] = useState<Weather | null>(null);
     const [now, setNow] = useState(() => new Date());
+    const [tab, setTab] = useState(0);
+    const [byName, setByName] = useState(false);
 
     // lazy load weather
     useEffect(() => {
@@ -54,7 +58,9 @@ export default function Home() {
     const interests = profile?.interests ?? [];
     const ranked = Object.values(TARGETS).map(target => ({ target, verdict: evaluate(target, site, now, weather) }))
         // a matched interest breaks ties; it doesn't outrank something that is actually up
-        .sort((a, b) => rank(b, interests) - rank(a, interests));
+        .sort((a, b) =>
+            byName ? a.target.name.localeCompare(b.target.name) : rank(b, interests) - rank(a, interests) // British spelling :(
+        );
 
     const upNow = ranked.filter(r => r.verdict.visible).length;
 
@@ -65,23 +71,31 @@ export default function Home() {
     return (
         <SafeAreaView className="flex-1 bg-[#000000]" edges={["top"]}>
             <FlatList
-                data={ranked}
+                data={tab === 0 ? ranked : []}
                 keyExtractor={({ target }) => target.id}
                 contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: BottomTabInset + 24, gap: 8 }}
                 ListHeaderComponent={
                     <View className="gap-3 pb-4">
                         <Text className="font-sansation text-4xl text-white tracking-[1px] pt-2">{greeting}</Text>
                         <WeatherOverviewBox site={site} now={now} weather={weather} />
-                        <Text className="font-sansation text-2xl text-white tracking-[1px] pt-2">
-                            Current Sky Diagnosis
-                        </Text>
-                        <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
-                            {upNow} worth looking at
-                        </Text>
-                        <LookaheadSection site={site} weather={weather} now={now} />
+                        <SegmentedPill segments={SEGMENTS} value={tab} onChange={setTab} />
+                        {tab === 0 ? (
+                            <View className="flex-row items-center justify-between">
+                                <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
+                                    {upNow} of {ranked.length} worth looking at
+                                </Text>
+                                <Pressable onPress={() => setByName(v => !v)} hitSlop={12}>
+                                    <Text className="font-sansation text-lg text-white tracking-[1px]">
+                                        {byName ? "Best first" : "A–Z"}
+                                    </Text>
+                                </Pressable>
+                            </View>
+                        ) : (
+                            <LookaheadSection site={site} weather={weather} now={now} tab={tab as 1 | 2} />
+                        )}
                         {denied && (
                             <Text className="font-sansation text-base text-neutral-500 tracking-[1px]">
-                                Location off. Showing the sky from a default site.
+                                Location off. Showing the sky from Polaris' default site.
                             </Text>
                         )}
                     </View>

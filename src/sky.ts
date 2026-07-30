@@ -8,7 +8,14 @@ import type { Target } from '@/targets';
  * See node_modules/astronomy-engine/LICENSE.
  */
 
-export type Coords = { lat: number; lon: number };
+export type Coords = {
+  lat: number;
+  lon: number;
+  /** Meters above sea level. */
+  elevation?: number;
+  /** Degrees of sky blocked by trees/buildings/hills at this spot. */
+  horizonDeg?: number;
+};
 /** Right ascension / declination in the units this app stores them: both degrees, J2000. */
 export type Equatorial = { ra: number; dec: number };
 export type Horizontal = { altitude: number; azimuth: number };
@@ -25,7 +32,8 @@ export type Body =
   | 'Uranus'
   | 'Neptune';
 
-const observer = ({ lat, lon }: Coords) => new Astronomy.Observer(lat, lon, 0);
+const observer = ({ lat, lon, elevation }: Coords) =>
+  new Astronomy.Observer(lat, lon, elevation ?? 0);
 
 const HOURS_PER_DEGREE = 1 / 15; // astronomy-engine -> sidereal hours; catalog -> deg
 
@@ -120,10 +128,14 @@ export type Verdict = Horizontal & {
   reasons: string[];
 };
 
+/** How high a target has to get before it counts as up: its own minimum, or whatever the site's horizon is blocked to, whichever is higher. */
+export const altitudeFloor = (target: Target, where: Coords) =>
+  Math.max(target.minAltitudeDeg, where.horizonDeg ?? 0);
+
 /**
  * Can this be seen from here, right now, and how good would it be?
  *
- * TODO: no light pollution, seeing, or transparency term, because nothing in the app records a site's Bortle class yet. 
+ * TODO: no light pollution, seeing, or transparency term, because nothing in the app records a site's Bortle class yet.
  * Add a `bortle` factor here once the Sites tab stores one; the shape of the function does not need to change.
  */
 export function evaluate(
@@ -136,12 +148,13 @@ export function evaluate(
   const sun = sunAltitude(where, date);
   const moon = moonIllumination(date);
   const reasons: string[] = [];
+  const floor = altitudeFloor(target, where);
 
-  if (altitude < target.minAltitudeDeg) {
+  if (altitude < floor) {
     reasons.push(
       altitude < 0
         ? 'Below the horizon'
-        : `Only ${altitude.toFixed(0)}° up // too low, needs ${target.minAltitudeDeg}°`
+        : `Only ${altitude.toFixed(0)}° up // too low, needs ${floor}°`
     );
   }
   if (sun > target.maxSunAltitudeDeg) {
@@ -154,7 +167,7 @@ export function evaluate(
     reasons.push(`Moon is ${(moon * 100).toFixed(0)}% lit // washes it out`);
   }
 
-  const headroom = Math.min(1, (altitude - target.minAltitudeDeg) / (90 - target.minAltitudeDeg));
+  const headroom = Math.min(1, (altitude - floor) / (90 - floor));
   const moonRoom = target.maxMoonIllum >= 1 ? 1 : 1 - moon * (1 - target.maxMoonIllum);
   const air = weather ? 1 - (weather.cloudCover / 100) * 0.8 - (weather.humidity / 100) * 0.2 : 0.8;
   const quality = Math.max(0, Math.min(1, headroom)) * moonRoom * Math.max(0, air);

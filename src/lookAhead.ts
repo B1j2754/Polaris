@@ -100,7 +100,8 @@ export function upTonight(site: Coords, weather: Weather | null, now: Date = new
 let aheadCache: { key: string; rows: Upcoming[] } | null = null; // Fortnite fr
 
 export function upAhead(site: Coords, from: Date, nights: number): Upcoming[] {
-    const key = `${site.lat},${site.lon},${from.toDateString()},${nights}`;
+    // Keep out of cache
+    const key = `${site.lat},${site.lon},${site.elevation},${site.horizonDeg},${from.toDateString()},${nights}`;
 
     if (aheadCache?.key !== key) {
         const rows = Object.values(TARGETS)
@@ -110,7 +111,7 @@ export function upAhead(site: Coords, from: Date, nights: number): Upcoming[] {
             })
             .filter(entry => entry !== null)
             .sort(byWhen);
-            
+
         aheadCache = { key, rows };
     }
     return aheadCache.rows;

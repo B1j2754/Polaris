@@ -1,44 +1,36 @@
 import { Link } from "expo-router";
-import { useDeferredValue, useMemo, useState, type ReactNode } from "react";
+import { useDeferredValue, useMemo, type ReactNode } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
 import { Icon } from "@/components/icon";
-import { SegmentedPill } from "@/components/segmented-pill";
 import { upAhead, upTonight, type Upcoming } from "@/lookAhead";
 import type { Coords, Weather } from "@/sky";
 import { ICONS } from "@/targets";
 
-const SEGMENTS = ["Tonight, until sunrise", "Coming weeks"] as const;
 const NIGHTS_AHEAD = 14;
 const SLOT_MS = 15 * 60_000;
 
-type Props = { site: Coords; weather: Weather | null; now: Date };
+/** 1 = tonight until sunrise, 2 = the next couple of weeks. 0 (now) is the card list on Home. */
+type Props = { site: Coords; weather: Weather | null; now: Date; tab: 1 | 2 };
 
 const timeLabel = (d: Date) => d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
 const dateLabel = (d: Date) => d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
 
-export function LookaheadSection({ site, weather, now }: Props) {
-    const [tab, setTab] = useState(0);
+export function LookaheadSection({ site, weather, now, tab }: Props) {
     const shown = useDeferredValue(tab);
     const slot = Math.floor(now.getTime() / SLOT_MS) * SLOT_MS;
 
-    return (
-        <View className="gap-3">
-            <SegmentedPill segments={SEGMENTS} value={tab} onChange={setTab} />
-            {tab !== shown ? (
-                <Loading />
-            ) : shown === 0 ? (
-                <TonightPanel site={site} weather={weather} slot={slot} />
-            ) : (
-                <AheadPanel site={site} day={new Date(slot).toDateString()} slot={slot} />
-            )}
-        </View>
+    if (tab !== shown) return <Loading />;
+    return shown === 1 ? (
+        <TonightPanel site={site} weather={weather} slot={slot} />
+    ) : (
+        <AheadPanel site={site} day={new Date(slot).toDateString()} slot={slot} />
     );
 }
 
 function TonightPanel({ site, weather, slot }: { site: Coords; weather: Weather | null; slot: number }) {
     const rows = useMemo(() => upTonight(site, weather, new Date(slot)), [site, weather, slot]);
-    return <Panel rows={rows} format={timeLabel} empty="Nothing clears the horizon before sunrise." />;
+    return <Panel rows={rows} format={timeLabel} empty="Nothing clears the horizon or is visible (due to weather or other conditions) before sunrise." />;
 }
 
 function AheadPanel({ site, day, slot }: { site: Coords; day: string; slot: number }) {

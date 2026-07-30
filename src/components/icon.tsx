@@ -152,6 +152,27 @@ export const icons = {
     ['path', { d: 'M18 6 6 18' }],
     ['path', { d: 'm6 6 12 12' }],
   ],
+  check: [['path', { d: 'M20 6 9 17l-5-5' }]],
+  trash: [
+    ['path', { d: 'M3 6h18' }],
+    ['path', { d: 'M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6' }],
+    ['path', { d: 'M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2' }],
+  ],
+  chevronRight: [['path', { d: 'm9 18 6-6-6-6' }]],
+  info: [
+    ['circle', { cx: '12', cy: '12', r: '10' }],
+    ['path', { d: 'M12 16v-4' }],
+    ['path', { d: 'M12 8h.01' }],
+  ],
+  mapPin: [
+    [
+      'path',
+      {
+        d: 'M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0',
+      },
+    ],
+    ['circle', { cx: '12', cy: '10', r: '3' }],
+  ],
   // hand-drawn on lucide's grid: gas cloud (adapted from lucide's `cloud`) + a sparkle
   nebula: [
     ['path', { d: 'M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z' }],
