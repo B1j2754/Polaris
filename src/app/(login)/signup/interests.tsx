@@ -5,27 +5,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
-import { Icon, type IconName } from "@/components/icon";
+import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
+import { INTERESTS, toggleInterest } from "@/interests";
 import { useProfile } from "@/profile";
-
-const INTERESTS: { label: string; icon: IconName }[] = [
-    { label: "Comets", icon: "comet" },
-    { label: "Planets", icon: "planet" },
-    { label: "Galaxies", icon: "orbit" },
-    { label: "Moon", icon: "moon" },
-    { label: "Sun", icon: "sun" },
-    { label: "Stars", icon: "astroid" },
-    { label: "Satellites", icon: "satellite" },
-    { label: "Nebulae", icon: "nebula" },
-];
 
 export default function SignUpInterests() {
     const { profile, save } = useProfile();
     const [selected, setSelected] = useState<string[]>(profile?.interests ?? []);
 
-    const toggle = (label: string) =>
-        setSelected(current => (current.includes(label) ? current.filter(l => l !== label) : [...current, label]));
+    const toggle = (label: string) => setSelected(current => toggleInterest(current, label));
 
     const next = async () => {
         await save({ interests: selected });

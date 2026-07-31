@@ -1,15 +1,132 @@
-import { Text, View } from 'react-native';
+import Constants from "expo-constants";
+import { Link } from "expo-router";
+import { useState } from "react";
+import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button } from '@/components/button';
-import { useProfile } from '@/profile';
+import { EquipmentEditor } from "@/components/equipment-editor";
+import { Icon } from "@/components/icon";
+import { Box } from "@/components/interestBox";
+import { BottomTabInset } from "@/constants/theme";
+import { INTERESTS, toggleInterest } from "@/interests";
+import { useProfile } from "@/profile";
 
 export default function Settings() {
-  const { reset } = useProfile();
+    const { profile, save, reset } = useProfile();
+    const [name, setName] = useState(profile?.name ?? "");
 
-  return (
-    <View className="flex-1 items-center justify-center gap-4 bg-[#000000]">
-      <Text className="font-sansation text-2xl text-white">Settings</Text>
-      <Button title="Reset Profile" color="black" cornerType="pill" onPress={reset} />
-    </View>
-  );
+    const interests = profile?.interests ?? [];
+    const activeSite = profile?.sites.find(s => s.id === profile.activeSite);
+
+    const commitName = () => {
+        const trimmed = name.trim();
+        if (!trimmed || trimmed === profile?.name) {
+            setName(profile?.name ?? "");
+            return;
+        }
+        save({ name: trimmed });
+    };
+
+    const confirmReset = () =>
+        Alert.alert(
+            "Reset everything?",
+            "Your name, interests, kit and saved sites are deleted, and you start signup again. This cannot be undone.",
+            [
+                { text: "Cancel", style: "cancel" },
+                { text: "Reset", style: "destructive", onPress: reset },
+            ]
+        );
+
+    return (
+        <SafeAreaView className="flex-1 bg-[#000000]" edges={["top"]}>
+            <ScrollView
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={{
+                    paddingHorizontal: 16,
+                    paddingBottom: BottomTabInset + 24,
+                    gap: 28,
+                }}
+            >
+                <Text className="font-sansation pt-2 text-4xl text-white tracking-[1px]">Settings</Text>
+
+                <Section title="Name" hint="What the app calls you.">
+                    <TextInput
+                        value={name}
+                        onChangeText={setName}
+                        onBlur={commitName}
+                        onSubmitEditing={commitName}
+                        placeholder="Your name"
+                        placeholderTextColor="#666"
+                        autoCapitalize="words"
+                        autoCorrect={false}
+                        returnKeyType="done"
+                        textAlignVertical="center"
+                        className="font-sansation h-14 rounded-full border border-neutral-800 px-5 text-lg leading-tight text-white"
+                    />
+                </Section>
+
+                <Section title="Interests" hint="Tonight's suggestions lean towards what you pick here.">
+                    <View className="flex-row flex-wrap justify-center gap-2">
+                        {INTERESTS.map(({ label, icon }) => (
+                            <Box
+                                key={label}
+                                title={label}
+                                selected={interests.includes(label)}
+                                onPress={() => save({ interests: toggleInterest(interests, label) })}
+                            >
+                                <Icon name={icon} size={32} />
+                            </Box>
+                        ))}
+                    </View>
+                </Section>
+
+                <Section title="Your kit" hint="What you observe with, and what it frames.">
+                    <EquipmentEditor
+                        value={profile?.equipment ?? []}
+                        onChange={equipment => save({ equipment })}
+                        emptyText="Nothing added yet // add a scope or camera."
+                    />
+                </Section>
+
+                <Section title="Observing site" hint="Everything is calculated from here.">
+                    <Link href="/sites" asChild>
+                        <Pressable className="h-14 flex-row items-center gap-3 rounded-full border border-neutral-800 px-5 active:bg-neutral-900">
+                            <Icon name="mapPin" size={20} color="#9ca3af" />
+                            <Text numberOfLines={1} className="font-sansation flex-1 text-lg text-white">
+                                {activeSite?.name ?? "Current location"}
+                            </Text>
+                            <Icon name="chevronRight" size={20} color="#6b7280" />
+                        </Pressable>
+                    </Link>
+                </Section>
+                
+                <View className="items-center gap-3 pt-2">
+                    <Pressable
+                        onPress={confirmReset}
+                        className="h-14 w-[90%] flex-row items-center justify-center gap-2 rounded-full border-2 border-red-900 active:bg-red-950"
+                    >
+                        <Icon name="trash" size={18} color="#f87171" />
+                        <Text className="font-sansation text-lg leading-tight text-red-400 tracking-[1px]">
+                            Reset profile
+                        </Text>
+                    </Pressable>
+                    <Text className="font-sansation text-sm text-neutral-600 tracking-[1px]">
+                        Polaris {Constants.expoConfig?.version ?? "-.-.-"}
+                    </Text>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    );
+}
+
+function Section({ title, hint, children }: { title: string; hint: string; children: React.ReactNode }) {
+    return (
+        <View className="gap-3">
+            <View>
+                <Text className="font-sansation text-2xl text-white tracking-[1px]">{title}</Text>
+                <Text className="font-sansation text-base text-neutral-500 tracking-[1px]">{hint}</Text>
+            </View>
+            {children}
+        </View>
+    );
 }

@@ -30,6 +30,7 @@ export default function MainLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        freezeOnBlur: true,
         sceneStyle: { backgroundColor: ScreenBackground },
         tabBarActiveTintColor: '#ffffff',
         tabBarInactiveTintColor: '#7c8496',
