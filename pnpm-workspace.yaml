@@ -1,2 +1,6 @@
+# Metro can't resolve pnpm's symlinks reliably on Windows (SHA-1 lookup misses
+# when the symlink target's path casing differs from the watched root).
+nodeLinker: hoisted
+
 overrides:
   lightningcss: 1.30.1
