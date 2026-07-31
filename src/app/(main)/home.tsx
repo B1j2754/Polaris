@@ -76,7 +76,7 @@ export default function Home() {
                 contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: BottomTabInset + 24, gap: 8 }}
                 ListHeaderComponent={
                     <View className="gap-3 pb-4">
-                        <Text className="font-sansation text-4xl text-white tracking-[1px] pt-2">{greeting}</Text>
+                        <Text className="font-sansation text-3xl text-white text-center tracking-[1px] pt-2 px-3">{greeting}</Text>
                         <WeatherOverviewBox site={site} now={now} weather={weather} />
                         <SegmentedPill segments={SEGMENTS} value={tab} onChange={setTab} />
                         {tab === 0 ? (
@@ -84,7 +84,12 @@ export default function Home() {
                                 <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
                                     {upNow} of {ranked.length} worth looking at
                                 </Text>
-                                <Pressable onPress={() => setByName(v => !v)} hitSlop={12}>
+                                <Pressable
+                                    onPress={() => setByName(v => !v)}
+                                    hitSlop={12}
+                                    className="flex-row items-center gap-2 rounded-full border border-white/20 bg-neutral-900 px-3 py-1.5 active:opacity-60"
+                                >
+                                    <Icon name="arrowUpDown" size={16} />
                                     <Text className="font-sansation text-lg text-white tracking-[1px]">
                                         {byName ? "Best first" : "A–Z"}
                                     </Text>

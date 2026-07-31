@@ -1,7 +1,8 @@
 import { Text, View } from "react-native";
 
 import { Icon, type IconName } from "@/components/icon";
-import { sunAltitude, type Coords, type Weather } from "@/sky";
+import type { Site } from "@/sites";
+import { sunAltitude, type Weather } from "@/sky";
 
 function sunPhase(altitude: number): { icon: IconName; label: string } {
     if (altitude > 0) return { icon: "sun", label: "Daytime" };
@@ -28,7 +29,7 @@ function Stat({ icon, label }: { icon: IconName; label: string }) {
     );
 }
 
-export function WeatherOverviewBox({ site, now, weather }: { site: Coords; now: Date; weather: Weather | null }) {
+export function WeatherOverviewBox({ site, now, weather }: { site: Site; now: Date; weather: Weather | null }) {
     const phase = sunPhase(sunAltitude(site, now));
     const tempF = weather ? Math.round((weather.temperatureC * 9) / 5 + 32) : null;
     const seeing = weather ? seeingQuality(weather) : null;
@@ -37,8 +38,14 @@ export function WeatherOverviewBox({ site, now, weather }: { site: Coords; now: 
         <View className="gap-3 rounded-2xl bg-neutral-900 p-4">
             <View className="flex-row items-start justify-between">
                 {weather ? (
-                    <View>
-                        <Text className="font-sansation text-3xl text-white tracking-[1px]">{tempF}°F</Text>
+                    <View className="flex-1">
+                        <View className="flex-row items-center">
+                            <Text className="font-sansation text-3xl text-white tracking-[1px]">{tempF}°F</Text>
+                            <Text className="shrink font-sansation text-lg text-neutral-400 tracking-[1px]" numberOfLines={1}>
+                                {` · ${site.name}`}
+                            </Text>
+                        </View>
+
                         <Text className="font-sansation text-base text-neutral-400 tracking-[1px]">
                             {Math.round(weather.temperatureC)}°C
                         </Text>

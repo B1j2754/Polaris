@@ -8,6 +8,7 @@ import { Button } from "@/components/button";
 import { Icon } from "@/components/icon";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { BottomTabInset } from "@/constants/theme";
+import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/profile";
 import { HORIZON_PRESETS, searchPlaces, type Site } from "@/sites";
 
@@ -25,6 +26,7 @@ const GUIDE: { image: number; caption: string }[] = [];
 export default function SiteInfo() {
     const { id } = useLocalSearchParams<{ id?: string }>();
     const insets = useSafeAreaInsets();
+    const entryFocus = useEntryFocus();
     const { profile, save } = useProfile();
     const sites = profile?.sites ?? [];
 
@@ -88,7 +90,7 @@ export default function SiteInfo() {
                             onChangeText={setQuery}
                             placeholder="Search a town, park or landmark"
                             placeholderTextColor="#666"
-                            autoFocus
+                            {...entryFocus}
                             autoCorrect={false}
                             returnKeyType="search"
                             textAlignVertical="center"

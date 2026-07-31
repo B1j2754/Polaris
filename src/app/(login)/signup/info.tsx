@@ -5,10 +5,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
+import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/profile";
 
 export default function SignUpInfo() {
     const { profile, save } = useProfile();
+    const entryFocus = useEntryFocus();
     const [name, setName] = useState(profile?.name ?? "");
     const trimmed = name.trim();
 
@@ -32,7 +34,7 @@ export default function SignUpInfo() {
                             onChangeText={setName}
                             placeholder="Your name"
                             placeholderTextColor="#666"
-                            autoFocus
+                            {...entryFocus}
                             autoCapitalize="words"
                             autoCorrect={false}
                             returnKeyType="next"

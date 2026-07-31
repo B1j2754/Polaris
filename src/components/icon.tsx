@@ -159,6 +159,12 @@ export const icons = {
     ['path', { d: 'M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2' }],
   ],
   chevronRight: [['path', { d: 'm9 18 6-6-6-6' }]],
+  arrowUpDown: [
+    ['path', { d: 'm21 16-4 4-4-4' }],
+    ['path', { d: 'M17 20V4' }],
+    ['path', { d: 'm3 8 4-4 4 4' }],
+    ['path', { d: 'M7 4v16' }],
+  ],
   info: [
     ['circle', { cx: '12', cy: '12', r: '10' }],
     ['path', { d: 'M12 16v-4' }],
