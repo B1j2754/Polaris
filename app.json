@@ -56,6 +56,13 @@
         {
           "locationWhenInUsePermission": "Polaris uses your location to work out which stars, planets and galaxies are above you right now."
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Polaris adds photos you pick to your portfolio, pinned to the object and site you shot them from.",
+          "cameraPermission": "Polaris uses the camera so you can shoot straight into your portfolio."
+        }
       ]
     ],
     "experiments": {

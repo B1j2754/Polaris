@@ -4,17 +4,20 @@ export const DATABASE_NAME = 'polaris.db';
 
 /**
  * Schema migrations, keyed off SQLite's built-in `user_version`.
- * To change the schema: bump DATABASE_VERSION, add an `if (version === n)` block.
+ * To change the schema: bump DATABASE_VERSION, add an `if (version < n + 1)` block.
  */
 export async function migrate(db: SQLiteDatabase) {
-  const DATABASE_VERSION = 1;
+  const DATABASE_VERSION = 2;
 
   const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   const version = row?.user_version ?? 0;
 
   if (version >= DATABASE_VERSION) return;
 
-  if (version === 0) {
+  // 0 -> profile, sites, interests, equipment
+  // 1 -> captures
+
+  if (version < 1) {
     // interests/equipment/sites are JSON arrays.
     await db.execAsync(`
       PRAGMA journal_mode = 'wal';
@@ -26,6 +29,19 @@ export async function migrate(db: SQLiteDatabase) {
         onboarded INTEGER NOT NULL DEFAULT 0,
         sites TEXT NOT NULL DEFAULT '[]',
         active_site TEXT
+      );
+    `);
+  }
+
+  if (version < 2) {
+    await db.execAsync(`
+      CREATE TABLE captures (
+        id TEXT PRIMARY KEY,
+        file TEXT NOT NULL,
+        target_id TEXT,
+        site_id TEXT,
+        taken_at INTEGER NOT NULL,
+        note TEXT
       );
     `);
   }

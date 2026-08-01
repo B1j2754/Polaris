@@ -44,6 +44,7 @@ function RootNavigator() {
       <Stack.Protected guard={!!profile?.onboarded}>
         <Stack.Screen name="(main)" />
         <Stack.Screen name="objects/[object]" options={BackHeader} />
+        <Stack.Screen name="captures/[id]" options={BackHeader} />
       </Stack.Protected>
 
       <Stack.Protected guard={!profile?.onboarded}>
