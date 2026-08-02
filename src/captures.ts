@@ -19,7 +19,7 @@ const dir = new Directory(Paths.document, 'captures');
 
 export const captureUri = (file: string) => new File(dir, file).uri;
 
-const SQL_COLUMNS = 'id, file, target_id AS targetId, site_id AS siteId, taken_at AS takenAt, note';
+const SQL_COLUMNS = 'id, file, target_id AS targetID, site_id AS siteId, taken_at AS takenAt, note';
 
 export function useCaptures() {
   const db = useSQLiteContext();
@@ -45,19 +45,18 @@ export function useCaptures() {
     let result;
 
     if (from === 'camera') {
-      permission = await ImagePicker.getCameraPermissionsAsync();
+      permission = await ImagePicker.requestCameraPermissionsAsync();
 
       if (!permission.granted) return;
       result = await ImagePicker.launchCameraAsync(options);
     } else {
-      permission = await ImagePicker.getMediaLibraryPermissionsAsync();
+      permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
       if (!permission.granted) return;
       result = await ImagePicker.launchImageLibraryAsync(options);
     }
 
     if (result.canceled) return;
-    if (!permission.granted) return;
 
     const asset = result.assets[0];
     const id = String(Date.now());

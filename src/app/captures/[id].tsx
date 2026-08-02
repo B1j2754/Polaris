@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
-import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { captureUri, useCaptures } from "@/captures";
@@ -14,11 +15,17 @@ const OPTIONS: { id: string | null; name: string }[] = [
     ...Object.values(TARGETS).map(({ id, name }) => ({ id, name })),
 ];
 
+// TODO: substring is slow with a larger object count. Fuzzy/alias is better here. 
+const matches = (query: string) =>
+    OPTIONS.filter(o => o.name.toLowerCase().includes(query.trim().toLowerCase()));
+
 export default function CaptureDetail() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const insets = useSafeAreaInsets();
     const { captures, remove, update } = useCaptures();
     const { profile } = useProfile();
+    const [picking, setPicking] = useState(false);
+    const [query, setQuery] = useState("");
 
     const capture = captures.find(c => c.id === id);
     if (!capture) return <View className="flex-1 bg-[#000000]" />;
@@ -42,6 +49,7 @@ export default function CaptureDetail() {
         <ScrollView
             className="flex-1 bg-[#000000]"
             keyboardShouldPersistTaps="handled"
+            automaticallyAdjustKeyboardInsets
             contentContainerStyle={{
                 paddingHorizontal: 16,
                 paddingTop: insets.top + 56,
@@ -64,28 +72,49 @@ export default function CaptureDetail() {
             </Text>
 
             <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">What is it?</Text>
-            <View className="flex-row flex-wrap gap-2">
-                {OPTIONS.map(option => {
-                    const picked = capture.targetID === option.id;
-                    return (
-                        <Pressable
-                            key={option.id ?? "none"}
-                            onPress={() => update(capture.id, "target_id", option.id)}
-                            className={`rounded-full border px-3 py-1.5 ${
-                                picked ? "border-white bg-neutral-800" : "border-neutral-800"
-                            }`}
-                        >
-                            <Text
-                                className={`font-sansation text-base tracking-[1px] ${
-                                    picked ? "text-white" : "text-neutral-400"
-                                }`}
+            <Pressable
+                onPress={() => {
+                    setQuery("");
+                    setPicking(true);
+                }}
+                className="h-14 flex-row items-center justify-between rounded-full border border-neutral-800 px-5 active:bg-neutral-900"
+            >
+                <Text className="font-sansation text-lg text-white tracking-[1px]">
+                    {OPTIONS.find(o => o.id === capture.targetID)?.name ?? "Unlinked"}
+                </Text>
+                <Icon name="chevronRight" size={20} color="#9ca3af" />
+            </Pressable>
+
+            <Modal visible={picking} transparent animationType="slide" onRequestClose={() => setPicking(false)}>
+                <Pressable style={styles.backdrop} onPress={() => setPicking(false)} />
+                <View className="rounded-t-3xl border-t border-neutral-800 bg-[#0a0a0a] pb-12 pt-5">
+                    <TextInput
+                        value={query}
+                        onChangeText={setQuery}
+                        autoFocus
+                        placeholder="Search objects"
+                        placeholderTextColor="#666"
+                        className="font-sansation mx-6 mb-3 h-14 rounded-full border border-neutral-800 px-5 text-lg text-white"
+                    />
+                    <ScrollView style={styles.sheet} keyboardShouldPersistTaps="handled">
+                        {matches(query).map(option => (
+                            <Pressable
+                                key={option.id ?? "none"}
+                                onPress={() => {
+                                    update(capture.id, "target_id", option.id);
+                                    setPicking(false);
+                                }}
+                                className="flex-row items-center justify-between px-6 py-4 active:bg-neutral-900"
                             >
-                                {option.name}
-                            </Text>
-                        </Pressable>
-                    );
-                })}
-            </View>
+                                <Text className="font-sansation text-lg text-white tracking-[1px]">
+                                    {option.name}
+                                </Text>
+                                {capture.targetID === option.id && <Icon name="check" size={18} />}
+                            </Pressable>
+                        ))}
+                    </ScrollView>
+                </View>
+            </Modal>
 
             <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">Notes</Text>
             <TextInput
@@ -109,3 +138,13 @@ export default function CaptureDetail() {
         </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    backdrop: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.7)",
+    },
+    sheet: {
+        maxHeight: 560,
+    },
+});
