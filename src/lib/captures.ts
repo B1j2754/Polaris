@@ -4,7 +4,7 @@ import { useFocusEffect } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
 
-import { shotAt } from '@/exif';
+import { shotAt } from '@/lib/exif';
 
 export type Capture = {
   id: string;

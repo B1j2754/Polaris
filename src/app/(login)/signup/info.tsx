@@ -7,8 +7,8 @@ import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { ScreenBackground } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
-import { useProfile } from "@/profile";
-import { usePalette } from "@/theming";
+import { useProfile } from "@/lib/profile";
+import { usePalette } from "@/lib/theming";
 
 export default function SignUpInfo() {
     const { profile, save } = useProfile();

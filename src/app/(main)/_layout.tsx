@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ScreenBackground, TabPillHeight } from '@/constants/theme';
-import { usePalette } from '@/theming';
+import { usePalette } from '@/lib/theming';
 
 const glass = isLiquidGlassAvailable();
 

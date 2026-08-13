@@ -8,12 +8,12 @@ import { LookaheadSection } from "@/components/lookahead-section";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { WeatherOverviewBox } from "@/components/weather-overview-box";
 import { BottomTabInset} from "@/constants/theme";
-import { Greetings } from "@/greetings";
+import { Greetings } from "@/lib/greetings";
 import { useSite } from "@/hooks/use-site";
-import { useProfile } from "@/profile";
-import { compassPoint, evaluate, fetchWeather, type Verdict, type Weather } from "@/sky";
-import { ICONS, TARGETS, type Target } from "@/targets";
-import { usePalette } from "@/theming";
+import { useProfile } from "@/lib/profile";
+import { compassPoint, evaluate, fetchWeather, type Verdict, type Weather } from "@/lib/sky";
+import { ICONS, TARGETS, type Target } from "@/lib/targets";
+import { usePalette } from "@/lib/theming";
 
 const WEATHER_MAX_AGE_MS = 5 * 60 * 1000;
 const SEGMENTS = ["Now", "Tonight", "Weeks ahead"] as const;

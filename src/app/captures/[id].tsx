@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { captureUri, useCaptures } from "@/captures";
+import { captureUri, useCaptures } from "@/lib/captures";
 import { Icon } from "@/components/icon";
 import { BottomTabInset } from "@/constants/theme";
-import { useProfile } from "@/profile";
-import { TARGETS } from "@/targets";
-import { usePalette } from "@/theming";
+import { useProfile } from "@/lib/profile";
+import { TARGETS } from "@/lib/targets";
+import { usePalette } from "@/lib/theming";
 
 const OPTIONS: { id: string | null; name: string }[] = [
     { id: null, name: "Unlinked" },

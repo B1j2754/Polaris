@@ -1,5 +1,5 @@
 import type { IconName } from '@/components/icon';
-import type { Body } from '@/sky';
+import type { Body } from '@/lib/sky';
 
 export type Target = {
   id: string;

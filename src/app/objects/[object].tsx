@@ -5,8 +5,8 @@ import { Redirect, useLocalSearchParams } from 'expo-router';
 import { LookaheadGraph } from "@/components/lookahead-graph";
 import { BottomTabInset } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
-import { TARGETS } from "@/targets"
-import { usePalette } from "@/theming";
+import { TARGETS } from "@/lib/targets"
+import { usePalette } from "@/lib/theming";
 
 export default function ObjectOverview() {
     const Palette = usePalette();

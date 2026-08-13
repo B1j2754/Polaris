@@ -1,8 +1,8 @@
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, use, useEffect, useState, type PropsWithChildren } from 'react';
 
-import type { Equipment } from '@/equipment';
-import type { Site } from '@/sites';
+import type { Equipment } from '@/lib/equipment';
+import type { Site } from '@/lib/sites';
 
 export type Profile = {
   name?: string;

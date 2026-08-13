@@ -4,9 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Icon } from "@/components/icon";
 import { BottomTabInset } from "@/constants/theme";
-import { useProfile } from "@/profile";
-import { siteLine, type Site } from "@/sites";
-import { usePalette } from "@/theming";
+import { useProfile } from "@/lib/profile";
+import { siteLine, type Site } from "@/lib/sites";
+import { usePalette } from "@/lib/theming";
 
 export default function Sites() {
     const { profile, save } = useProfile();

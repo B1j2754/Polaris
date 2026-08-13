@@ -6,8 +6,8 @@ import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { EquipmentEditor } from "@/components/equipment-editor";
 import { ScreenBackground } from "@/constants/theme";
-import type { Equipment } from "@/equipment";
-import { useProfile } from "@/profile";
+import type { Equipment } from "@/lib/equipment";
+import { useProfile } from "@/lib/profile";
 
 export default function SignUpEquipment() {
     const { profile, save } = useProfile();

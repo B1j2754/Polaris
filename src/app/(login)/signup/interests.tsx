@@ -8,8 +8,8 @@ import { ConstellationSky } from "@/components/constellation-sky";
 import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
 import { ScreenBackground } from "@/constants/theme";
-import { INTERESTS, toggleInterest } from "@/interests";
-import { useProfile } from "@/profile";
+import { INTERESTS, toggleInterest } from "@/lib/interests";
+import { useProfile } from "@/lib/profile";
 
 export default function SignUpInterests() {
     const { profile, save } = useProfile();

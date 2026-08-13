@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
 import { Icon, type IconName } from "@/components/icon";
-import type { Site } from "@/sites";
-import { sunAltitude, type Weather } from "@/sky";
-import { usePalette } from "@/theming";
+import type { Site } from "@/lib/sites";
+import { sunAltitude, type Weather } from "@/lib/sky";
+import { usePalette } from "@/lib/theming";
 
 function sunPhase(altitude: number): { icon: IconName; label: string } {
     if (altitude > 0) return { icon: "sun", label: "Daytime" };

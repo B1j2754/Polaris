@@ -8,9 +8,9 @@ import { EquipmentEditor } from "@/components/equipment-editor";
 import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
 import { BottomTabInset} from "@/constants/theme";
-import { INTERESTS, toggleInterest } from "@/interests";
-import { useProfile } from "@/profile";
-import { usePalette, useTheme } from "@/theming";
+import { INTERESTS, toggleInterest } from "@/lib/interests";
+import { useProfile } from "@/lib/profile";
+import { usePalette, useTheme } from "@/lib/theming";
 
 export default function Settings() {
     const { profile, save, reset } = useProfile();

@@ -3,10 +3,10 @@ import { Link } from "expo-router";
 import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { captureUri, useCaptures } from "@/captures";
+import { captureUri, useCaptures } from "@/lib/captures";
 import { Icon } from "@/components/icon";
 import { BottomTabInset } from "@/constants/theme";
-import { useProfile } from "@/profile";
+import { useProfile } from "@/lib/profile";
 
 export default function Portfolio() {
     const { captures, add } = useCaptures();

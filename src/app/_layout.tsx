@@ -8,9 +8,9 @@ import * as SystemUI from 'expo-system-ui';
 import { useEffect } from 'react';
 
 import { BackHeader, DarkScreen, ScreenBackground } from '@/constants/theme';
-import { DATABASE_NAME, migrate } from '@/db';
-import { ProfileProvider, useProfile } from '@/profile';
-import { ColorVarProvider, PaletteProvider, ThemeProvider } from '@/theming';
+import { DATABASE_NAME, migrate } from '@/lib/db';
+import { ProfileProvider, useProfile } from '@/lib/profile';
+import { ColorVarProvider, PaletteProvider, ThemeProvider } from '@/lib/theming';
 
 // Expo go doesn't register a view controller
 const IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;

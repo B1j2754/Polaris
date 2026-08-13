@@ -24,8 +24,8 @@ import {
     type Equipment,
     type Kind,
     type Telescope,
-} from "@/equipment";
-import { usePalette } from "@/theming";
+} from "@/lib/equipment";
+import { usePalette } from "@/lib/theming";
 
 type Props = {
     value: Equipment[];

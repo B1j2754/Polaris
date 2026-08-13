@@ -9,9 +9,9 @@ import { Icon } from "@/components/icon";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { BottomTabInset } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
-import { useProfile } from "@/profile";
-import { HORIZON_PRESETS, searchPlaces, type Site } from "@/sites";
-import { usePalette } from "@/theming";
+import { useProfile } from "@/lib/profile";
+import { HORIZON_PRESETS, searchPlaces, type Site } from "@/lib/sites";
+import { usePalette } from "@/lib/theming";
 
 const DEBOUNCE_MS = 400;
 
