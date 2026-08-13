@@ -1,0 +1,15 @@
+- [ ] Add more objects, remove temp descriptions
+- [ ] Change horizion degrees input
+- [ ] Add app splash + icon (general app polish)
+- [ ] Create app info/overview for publishing
+- [ ] Better equipment section
+  - [ ] More equipment
+  - [ ] Change UI selection
+- [ ] Add more greetings
+- [ ] Use image API to show object preview
+- [ ] Add designer/programmer credits on settings page
+- [ ] Switch hand images to proper png transparent ones
+- [ ] Sort suggestions by apparent magnitude / important stars
+- [ ] Code review: unspaghetify code, and align naming schemes
+- [x] Reorganize
+- [x] Add red filter toggle

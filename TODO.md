@@ -1,2 +1,0 @@
-- [ ] Better equipment selection
-- [ ] Sort suggestions by apparent magnitude / important stars
