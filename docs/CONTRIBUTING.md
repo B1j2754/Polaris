@@ -1,4 +1,5 @@
 # Code base structure
+
 ```
 src
   |- app // Expo react native app.
@@ -7,7 +8,6 @@ src
   |- hooks // Pure typescript hooks.
   |- lib // Standalone typescript logic.
 ```
-
 
 # Git commits
 

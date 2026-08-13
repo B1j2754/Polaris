@@ -1,6 +1,6 @@
-import type { SQLiteDatabase } from 'expo-sqlite';
+import type { SQLiteDatabase } from "expo-sqlite";
 
-export const DATABASE_NAME = 'polaris.db';
+export const DATABASE_NAME = "polaris.db";
 
 /**
  * Removed versioning to avoid the need for a migration path.

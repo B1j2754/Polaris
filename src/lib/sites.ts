@@ -13,7 +13,7 @@ export type Site = {
 /**
  * Open-Meteo's geocoder rather than expo-location's. Much more reliable.
  */
-const GEOCODE_URL = 'https://geocoding-api.open-meteo.com/v1/search';
+const GEOCODE_URL = "https://geocoding-api.open-meteo.com/v1/search";
 
 type GeocodeResult = {
   id: number;
@@ -33,14 +33,14 @@ export async function searchPlaces(query: string): Promise<Site[]> {
   try {
     const response = await fetch(`${GEOCODE_URL}?name=${encodeURIComponent(name)}&count=6`);
     if (!response.ok) {
-      console.warn('[geocode] HTTP', response.status);
+      console.warn("[geocode] HTTP", response.status);
       return [];
     }
     const { results } = await response.json();
     if (!Array.isArray(results)) return []; // the API omits `results` entirely when nothing matches
     return results.map(toSite);
   } catch (e) {
-    console.warn('[geocode] fetch threw', e);
+    console.warn("[geocode] fetch threw", e);
     return [];
   }
 }
@@ -48,7 +48,7 @@ export async function searchPlaces(query: string): Promise<Site[]> {
 const toSite = (r: GeocodeResult): Site => ({
   // the geocoder's own id is stable and unique per place, so re-adding a place overwrites it
   id: String(r.id),
-  name: [r.name, r.admin1, r.country_code].filter(Boolean).join(', '),
+  name: [r.name, r.admin1, r.country_code].filter(Boolean).join(", "),
   lat: r.latitude,
   lon: r.longitude,
   elevation: Number.isFinite(r.elevation) ? r.elevation! : 0, // Must check input
@@ -61,8 +61,8 @@ export const siteLine = (s: Site) =>
 
 /** Horizon is estimated by eye, never measured, so course steps are offered. */
 export const HORIZON_PRESETS = [
-  { label: 'Open', deg: 0 },
-  { label: 'Some', deg: 10 },
-  { label: 'Trees', deg: 20 },
-  { label: 'Hemmed in', deg: 30 },
+  { label: "Open", deg: 0 },
+  { label: "Some", deg: 10 },
+  { label: "Trees", deg: 20 },
+  { label: "Hemmed in", deg: 30 },
 ] as const;

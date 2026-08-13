@@ -1,27 +1,22 @@
-import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
-import { Tabs } from 'expo-router';
-import { SymbolView, type SFSymbol } from 'expo-symbols';
-import { StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
+import { Tabs } from "expo-router";
+import { SymbolView, type SFSymbol } from "expo-symbols";
+import { StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { ScreenBackground, TabPillHeight } from '@/constants/theme';
-import { usePalette } from '@/lib/theming';
+import { ScreenBackground, TabPillHeight } from "@/constants/theme";
+import { usePalette } from "@/lib/theming";
 
 const glass = isLiquidGlassAvailable();
 
 const icon =
   (outline: SFSymbol, filled = `${outline}.fill` as SFSymbol) =>
   ({ color, size, focused }: { color: string; size: number; focused: boolean }) => (
-    <SymbolView
-      name={focused ? filled : outline}
-      size={size}
-      tintColor={color}
-      resizeMode="scaleAspectFit"
-    />
+    <SymbolView name={focused ? filled : outline} size={size} tintColor={color} resizeMode="scaleAspectFit" />
   );
 
 const styles = StyleSheet.create({
-  pillClip: { borderRadius: TabPillHeight / 2, overflow: 'hidden' },
+  pillClip: { borderRadius: TabPillHeight / 2, overflow: "hidden" },
 });
 
 export default function MainLayout() {
@@ -48,7 +43,7 @@ export default function MainLayout() {
             )
           : undefined,
         tabBarStyle: {
-          position: 'absolute',
+          position: "absolute",
           marginHorizontal: 20,
           bottom: Math.max(insets.bottom, 16),
           height: TabPillHeight,
@@ -56,7 +51,7 @@ export default function MainLayout() {
           borderTopWidth: 0,
           paddingBottom: 0,
           ...(glass
-            ? { backgroundColor: 'transparent' }
+            ? { backgroundColor: "transparent" }
             : {
                 backgroundColor: Palette.sheet,
                 elevation: 8,
@@ -66,17 +61,18 @@ export default function MainLayout() {
                 shadowOffset: { width: 0, height: 4 },
               }),
         },
-      }}>
-      <Tabs.Screen name="home" options={{ title: 'Home', tabBarIcon: icon('house') }} />
-      <Tabs.Screen
-        name="portfolio"
-        options={{ title: 'Portfolio', tabBarIcon: icon('photo.stack') }}
-      />
+      }}
+    >
+      <Tabs.Screen name="home" options={{ title: "Home", tabBarIcon: icon("house") }} />
+      <Tabs.Screen name="portfolio" options={{ title: "Portfolio", tabBarIcon: icon("photo.stack") }} />
       <Tabs.Screen
         name="sites"
-        options={{ title: 'Sites', tabBarIcon: icon('mappin.and.ellipse', 'mappin.circle.fill') }}
+        options={{
+          title: "Sites",
+          tabBarIcon: icon("mappin.and.ellipse", "mappin.circle.fill"),
+        }}
       />
-      <Tabs.Screen name="settings" options={{ title: 'Settings', tabBarIcon: icon('gearshape') }} />
+      <Tabs.Screen name="settings" options={{ title: "Settings", tabBarIcon: icon("gearshape") }} />
     </Tabs>
   );
 }

@@ -1,8 +1,8 @@
-import { useSQLiteContext } from 'expo-sqlite';
-import { createContext, use, useEffect, useState, type PropsWithChildren } from 'react';
+import { useSQLiteContext } from "expo-sqlite";
+import { createContext, use, useEffect, useState, type PropsWithChildren } from "react";
 
-import type { Equipment } from '@/lib/equipment';
-import type { Site } from '@/lib/sites';
+import type { Equipment } from "@/lib/equipment";
+import type { Site } from "@/lib/sites";
 
 export type Profile = {
   name?: string;
@@ -33,7 +33,7 @@ const ProfileContext = createContext<{
 
 export function useProfile() {
   const value = use(ProfileContext);
-  if (!value) throw new Error('useProfile must be used inside <ProfileProvider>');
+  if (!value) throw new Error("useProfile must be used inside <ProfileProvider>");
   return value;
 }
 
@@ -44,7 +44,7 @@ export function ProfileProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     db.getFirstAsync<ProfileRow>(
-      'SELECT name, interests, equipment, onboarded, sites, active_site FROM profile WHERE id = 1'
+      "SELECT name, interests, equipment, onboarded, sites, active_site FROM profile WHERE id = 1",
     )
       .then((row) =>
         setProfile(
@@ -55,8 +55,8 @@ export function ProfileProvider({ children }: PropsWithChildren) {
             onboarded: row.onboarded === 1,
             sites: JSON.parse(row.sites),
             activeSite: row.active_site,
-          }
-        )
+          },
+        ),
       )
       .finally(() => setIsLoading(false));
   }, [db]);
@@ -84,17 +84,15 @@ export function ProfileProvider({ children }: PropsWithChildren) {
       JSON.stringify(next.equipment),
       next.onboarded ? 1 : 0,
       JSON.stringify(next.sites),
-      next.activeSite
+      next.activeSite,
     );
     setProfile(next);
   };
 
   const reset = async () => {
-    await db.runAsync('DELETE FROM profile WHERE id = 1');
+    await db.runAsync("DELETE FROM profile WHERE id = 1");
     setProfile(null);
   };
 
-  return (
-    <ProfileContext value={{ profile, isLoading, save, reset }}>{children}</ProfileContext>
-  );
+  return <ProfileContext value={{ profile, isLoading, save, reset }}>{children}</ProfileContext>;
 }
