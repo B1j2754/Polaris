@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { EquipmentEditor } from "@/components/equipment-editor";
 import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
-import { BottomTabInset } from "@/constants/theme";
+import { BottomTabInset, Palette } from "@/constants/theme";
 import { INTERESTS, toggleInterest } from "@/interests";
 import { useProfile } from "@/profile";
 
@@ -38,7 +38,7 @@ export default function Settings() {
         );
 
     return (
-        <SafeAreaView className="flex-1 bg-[#000000]" edges={["top"]}>
+        <SafeAreaView className="flex-1 bg-black" edges={["top"]}>
             <ScrollView
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{
@@ -47,7 +47,7 @@ export default function Settings() {
                     gap: 28,
                 }}
             >
-                <Text className="font-sansation pt-2 text-4xl text-white tracking-[1px]">Settings</Text>
+                <Text className="font-sansation pt-2 text-4xl text-fg tracking-[1px]">Settings</Text>
 
                 <Section title="Name" hint="What the app calls you.">
                     <TextInput
@@ -56,12 +56,12 @@ export default function Settings() {
                         onBlur={commitName}
                         onSubmitEditing={commitName}
                         placeholder="Your name"
-                        placeholderTextColor="#666"
+                        placeholderTextColor={Palette.placeholder}
                         autoCapitalize="words"
                         autoCorrect={false}
                         returnKeyType="done"
                         textAlignVertical="center"
-                        className="font-sansation h-14 rounded-full border border-neutral-800 px-5 text-lg leading-tight text-white"
+                        className="font-sansation h-14 rounded-full border border-line px-5 text-lg leading-tight text-fg"
                     />
                 </Section>
 
@@ -90,12 +90,12 @@ export default function Settings() {
 
                 <Section title="Observing site" hint="Everything is calculated from here.">
                     <Link href="/sites" asChild>
-                        <Pressable className="h-14 flex-row items-center gap-3 rounded-full border border-neutral-800 px-5 active:bg-neutral-900">
-                            <Icon name="mapPin" size={20} color="#9ca3af" />
-                            <Text numberOfLines={1} className="font-sansation flex-1 text-lg text-white">
+                        <Pressable className="h-14 flex-row items-center gap-3 rounded-full border border-line px-5 active:bg-surface">
+                            <Icon name="mapPin" size={20} color={Palette.iconMuted} />
+                            <Text numberOfLines={1} className="font-sansation flex-1 text-lg text-fg">
                                 {activeSite?.name ?? "Current location"}
                             </Text>
-                            <Icon name="chevronRight" size={20} color="#6b7280" />
+                            <Icon name="chevronRight" size={20} color={Palette.iconSubtle} />
                         </Pressable>
                     </Link>
                 </Section>
@@ -103,14 +103,14 @@ export default function Settings() {
                 <View className="items-center gap-3 pt-2">
                     <Pressable
                         onPress={confirmReset}
-                        className="h-14 w-[90%] flex-row items-center justify-center gap-2 rounded-full border-2 border-red-900 active:bg-red-950"
+                        className="h-14 w-[90%] flex-row items-center justify-center gap-2 rounded-full border-2 border-danger-border active:bg-danger-bg"
                     >
-                        <Icon name="trash" size={18} color="#f87171" />
-                        <Text className="font-sansation text-lg leading-tight text-red-400 tracking-[1px]">
+                        <Icon name="trash" size={18} color={Palette.destructive} />
+                        <Text className="font-sansation text-lg leading-tight text-danger tracking-[1px]">
                             Reset profile
                         </Text>
                     </Pressable>
-                    <Text className="font-sansation text-sm text-neutral-600 tracking-[1px]">
+                    <Text className="font-sansation text-sm text-fg-faint tracking-[1px]">
                         Polaris {Constants.expoConfig?.version ?? "-.-.-"}
                     </Text>
                 </View>
@@ -123,8 +123,8 @@ function Section({ title, hint, children }: { title: string; hint: string; child
     return (
         <View className="gap-3">
             <View>
-                <Text className="font-sansation text-2xl text-white tracking-[1px]">{title}</Text>
-                <Text className="font-sansation text-base text-neutral-500 tracking-[1px]">{hint}</Text>
+                <Text className="font-sansation text-2xl text-fg tracking-[1px]">{title}</Text>
+                <Text className="font-sansation text-base text-fg-dim tracking-[1px]">{hint}</Text>
             </View>
             {children}
         </View>

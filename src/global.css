@@ -7,6 +7,19 @@
 @theme {
   --font-sansation: 'Sansation';
   --color-neutral-850: #1f1f1f;
+
+  --color-fg: #ffffff; /* was text-white */
+  --color-fg-subtle: #d4d4d4; /* was text-neutral-300 */
+  --color-fg-muted: #a3a3a3; /* was text-neutral-400 */
+  --color-fg-dim: #737373; /* was text-neutral-500 */
+  --color-fg-faint: #525252; /* was text-neutral-600 */
+  --color-surface: #171717; /* was bg/border-neutral-900 */
+  --color-sheet: #0a0a0a; /* was bg-neutral-950 */
+  --color-line: #262626; /* was border-neutral-800 */
+  --color-line-2: #404040; /* was border/bg-neutral-700 */
+  --color-danger: #f87171; /* was text-red-400 */
+  --color-danger-border: #7f1d1d; /* was border-red-900 */
+  --color-danger-bg: #450a0a; /* was bg-red-950 */
 }
 
 :root {

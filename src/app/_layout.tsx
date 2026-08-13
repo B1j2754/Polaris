@@ -1,5 +1,6 @@
 import '@/global.css';
 
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
@@ -10,7 +11,10 @@ import { BackHeader, DarkScreen, ScreenBackground } from '@/constants/theme';
 import { DATABASE_NAME, migrate } from '@/db';
 import { ProfileProvider, useProfile } from '@/profile';
 
-SplashScreen.preventAutoHideAsync();
+// Expo go doesn't register a view controller
+const IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+if (!IN_EXPO_GO) SplashScreen.preventAutoHideAsync();
 
 SystemUI.setBackgroundColorAsync(ScreenBackground);
 
@@ -34,7 +38,7 @@ function RootNavigator() {
   const { profile, isLoading } = useProfile();
 
   useEffect(() => {
-    if (!isLoading) SplashScreen.hideAsync();
+    if (!isLoading && !IN_EXPO_GO) SplashScreen.hideAsync().catch(() => {});
   }, [isLoading]);
 
   if (isLoading) return null;

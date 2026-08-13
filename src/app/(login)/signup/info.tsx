@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
+import { Palette, ScreenBackground } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/profile";
 
@@ -25,22 +26,22 @@ export default function SignUpInfo() {
             <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <SafeAreaView style={styles.safeArea}>
                     <View style={styles.content}>
-                        <Text className="font-sansation text-4xl text-white tracking-[1px]">Welcome</Text>
-                        <Text className="font-sansation text-center text-xl text-neutral-400 tracking-[1px]">
+                        <Text className="font-sansation text-4xl text-fg tracking-[1px]">Welcome</Text>
+                        <Text className="font-sansation text-center text-xl text-fg-muted tracking-[1px]">
                             What should we call you?
                         </Text>
                         <TextInput
                             value={name}
                             onChangeText={setName}
                             placeholder="Your name"
-                            placeholderTextColor="#666"
+                            placeholderTextColor={Palette.placeholder}
                             {...entryFocus}
                             autoCapitalize="words"
                             autoCorrect={false}
                             returnKeyType="next"
                             onSubmitEditing={() => trimmed && next()}
                             textAlign="center"
-                            className="font-sansation h-16 w-[90%] rounded-full border-2 border-neutral-800 px-6 text-xl text-white"
+                            className="font-sansation h-16 w-[90%] rounded-full border-2 border-line px-6 text-xl text-fg"
                         />
                     </View>
                     <Button
@@ -60,7 +61,7 @@ export default function SignUpInfo() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000000",
+        backgroundColor: ScreenBackground,
     },
     flex: {
         flex: 1,

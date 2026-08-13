@@ -3,10 +3,10 @@ import { Pressable, Text, type PressableProps } from "react-native";
 import { tv } from "tailwind-variants";
 
 export const box = tv({
-    base: "size-32 items-center justify-center gap-2 rounded-3xl border bg-neutral-950 px-1",
+    base: "size-32 items-center justify-center gap-2 rounded-3xl border bg-sheet px-1",
     variants: {
         selected: {
-            true: "border-white",
+            true: "border-fg",
             false: "border-transparent",
         },
     },
@@ -30,7 +30,7 @@ export function Box({ selected = false, title, children, ...rest }: BoxProps) {
             {...rest}
         >
             {children}
-            <Text numberOfLines={1} className="font-sansation text-center text-lg text-white tracking-[1px]">
+            <Text numberOfLines={1} className="font-sansation text-center text-lg text-fg tracking-[1px]">
                 {title}
             </Text>
         </Pressable>

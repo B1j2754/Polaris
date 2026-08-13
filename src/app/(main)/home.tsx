@@ -7,7 +7,7 @@ import { Icon } from "@/components/icon";
 import { LookaheadSection } from "@/components/lookahead-section";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { WeatherOverviewBox } from "@/components/weather-overview-box";
-import { BottomTabInset } from "@/constants/theme";
+import { BottomTabInset, Palette } from "@/constants/theme";
 import { Greetings } from "@/greetings";
 import { useSite } from "@/hooks/use-site";
 import { useProfile } from "@/profile";
@@ -49,8 +49,8 @@ export default function Home() {
 
     if (!site) {
         return (
-            <View className="flex-1 items-center justify-center bg-[#000000]">
-                <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">Finding you…</Text>
+            <View className="flex-1 items-center justify-center bg-black">
+                <Text className="font-sansation text-lg text-fg-muted tracking-[1px]">Finding you...</Text>
             </View>
         );
     }
@@ -69,28 +69,28 @@ export default function Home() {
     const greeting = greetingGen.getGreeting();
 
     return (
-        <SafeAreaView className="flex-1 bg-[#000000]" edges={["top"]}>
+        <SafeAreaView className="flex-1 bg-black" edges={["top"]}>
             <FlatList
                 data={tab === 0 ? ranked : []}
                 keyExtractor={({ target }) => target.id}
                 contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: BottomTabInset + 24, gap: 8 }}
                 ListHeaderComponent={
                     <View className="gap-3 pb-4">
-                        <Text className="font-sansation text-3xl text-white text-center tracking-[1px] pt-2 px-3">{greeting}</Text>
+                        <Text className="font-sansation text-3xl text-fg text-center tracking-[1px] pt-2 px-3">{greeting}</Text>
                         <WeatherOverviewBox site={site} now={now} weather={weather} />
                         <SegmentedPill segments={SEGMENTS} value={tab} onChange={setTab} />
                         {tab === 0 ? (
                             <View className="flex-row items-center justify-between">
-                                <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">
+                                <Text className="font-sansation text-lg text-fg-muted tracking-[1px]">
                                     {upNow} of {ranked.length} worth looking at
                                 </Text>
                                 <Pressable
                                     onPress={() => setByName(v => !v)}
                                     hitSlop={12}
-                                    className="flex-row items-center gap-2 rounded-full border border-white/20 bg-neutral-900 px-3 py-1.5 active:opacity-60"
+                                    className="flex-row items-center gap-2 rounded-full border border-fg/20 bg-surface px-3 py-1.5 active:opacity-60"
                                 >
                                     <Icon name="arrowUpDown" size={16} />
-                                    <Text className="font-sansation text-lg text-white tracking-[1px]">
+                                    <Text className="font-sansation text-lg text-fg tracking-[1px]">
                                         {byName ? "Best first" : "A–Z"}
                                     </Text>
                                 </Pressable>
@@ -99,7 +99,7 @@ export default function Home() {
                             <LookaheadSection site={site} weather={weather} now={now} tab={tab as 1 | 2} />
                         )}
                         {denied && (
-                            <Text className="font-sansation text-base text-neutral-500 tracking-[1px]">
+                            <Text className="font-sansation text-base text-fg-dim tracking-[1px]">
                                 Location off. Showing the sky from Polaris' default site.
                             </Text>
                         )}
@@ -125,17 +125,17 @@ function Card({ target, verdict }: { target: Target; verdict: Verdict }) {
     const formatSign = (num: string): string => +num > 0 ? `+${num}` : `${num}`;
     return (
         <View
-            className={`flex-row items-center gap-4 rounded-2xl border bg-neutral-900 p-4 ${
-                visible ? "border-white/20" : "border-transparent opacity-50"
+            className={`flex-row items-center gap-4 rounded-2xl border bg-surface p-4 ${
+                visible ? "border-fg/20" : "border-transparent opacity-50"
             }`}
         >
-            <Icon name={ICONS[target.kind]} size={32} color={visible ? "#ffffff" : "#6b7280"} />
+            <Icon name={ICONS[target.kind]} size={32} color={visible ? Palette.white : Palette.iconSubtle} />
             <View className="flex-1 gap-1">
-                <Text className="font-sansation text-xl text-white tracking-[1px]">{target.name}</Text>
-                <Text numberOfLines={2} className="font-sansation text-base text-neutral-400 tracking-[1px]">
+                <Text className="font-sansation text-xl text-fg tracking-[1px]">{target.name}</Text>
+                <Text numberOfLines={2} className="font-sansation text-base text-fg-muted tracking-[1px]">
                     {target.blurb}
                 </Text>
-                <Text className="font-sansation text-base text-neutral-300 tracking-[1px]">
+                <Text className="font-sansation text-base text-fg-subtle tracking-[1px]">
                     {visible ? `Az/Alt ${azimuth.toFixed(0)}° (facing) ${compassPoint(azimuth)}, ${formatSign(altitude.toFixed(0))}° (above horizon)` : reasons.join(" · ")}
                 </Text>
             </View>

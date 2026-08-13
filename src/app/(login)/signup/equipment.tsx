@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { EquipmentEditor } from "@/components/equipment-editor";
+import { ScreenBackground } from "@/constants/theme";
 import type { Equipment } from "@/equipment";
 import { useProfile } from "@/profile";
 
@@ -17,8 +18,8 @@ export default function SignUpEquipment() {
             <ConstellationSky />
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.content}>
-                    <Text className="font-sansation text-4xl text-white tracking-[1px]">Your kit</Text>
-                    <Text className="font-sansation text-center text-xl text-neutral-400 tracking-[1px]">
+                    <Text className="font-sansation text-4xl text-fg tracking-[1px]">Your kit</Text>
+                    <Text className="font-sansation text-center text-xl text-fg-muted tracking-[1px]">
                         What are you observing with?
                     </Text>
 
@@ -46,7 +47,7 @@ export default function SignUpEquipment() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000000",
+        backgroundColor: ScreenBackground,
     },
     safeArea: {
         flex: 1,

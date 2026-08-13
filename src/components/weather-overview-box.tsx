@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 
 import { Icon, type IconName } from "@/components/icon";
+import { Palette } from "@/constants/theme";
 import type { Site } from "@/sites";
 import { sunAltitude, type Weather } from "@/sky";
 
@@ -23,8 +24,8 @@ function seeingQuality(w: Weather): { icon: IconName; label: string } {
 function Stat({ icon, label }: { icon: IconName; label: string }) {
     return (
         <View className="flex-row items-center gap-1.5">
-            <Icon name={icon} size={18} color="#9ca3af" />
-            <Text className="font-sansation text-base text-neutral-400 tracking-[1px]">{label}</Text>
+            <Icon name={icon} size={18} color={Palette.iconMuted} />
+            <Text className="font-sansation text-base text-fg-muted tracking-[1px]">{label}</Text>
         </View>
     );
 }
@@ -35,28 +36,28 @@ export function WeatherOverviewBox({ site, now, weather }: { site: Site; now: Da
     const seeing = weather ? seeingQuality(weather) : null;
 
     return (
-        <View className="gap-3 rounded-2xl bg-neutral-900 p-4">
+        <View className="gap-3 rounded-2xl bg-surface p-4">
             <View className="flex-row items-start justify-between">
                 {weather ? (
                     <View className="flex-1">
                         <View className="flex-row items-center">
-                            <Text className="font-sansation text-3xl text-white tracking-[1px]">{tempF}°F</Text>
-                            <Text className="shrink font-sansation text-lg text-neutral-400 tracking-[1px]" numberOfLines={1}>
+                            <Text className="font-sansation text-3xl text-fg tracking-[1px]">{tempF}°F</Text>
+                            <Text className="shrink font-sansation text-lg text-fg-muted tracking-[1px]" numberOfLines={1}>
                                 {` · ${site.name}`}
                             </Text>
                         </View>
 
-                        <Text className="font-sansation text-base text-neutral-400 tracking-[1px]">
+                        <Text className="font-sansation text-base text-fg-muted tracking-[1px]">
                             {Math.round(weather.temperatureC)}°C
                         </Text>
                     </View>
                 ) : (
-                    <Text className="font-sansation text-base text-neutral-400 tracking-[1px]">No weather data</Text>
+                    <Text className="font-sansation text-base text-fg-muted tracking-[1px]">No weather data</Text>
                 )}
-                <Icon name={phase.icon} size={40} color="#ffffff" />
+                <Icon name={phase.icon} size={40} />
             </View>
 
-            <Text className="font-sansation text-xl text-white tracking-[1px]">
+            <Text className="font-sansation text-xl text-fg tracking-[1px]">
                 {phase.label}
                 {weather ? ` · ${cloudLabel(weather.cloudCover)}` : ""}
             </Text>

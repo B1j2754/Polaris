@@ -5,8 +5,8 @@ export const button = tv({
     base: "px-4 py-2 items-center justify-center w-[90%] h-16",
     variants: {
         color: {
-            white: "bg-white active:bg-neutral-200",
-            black: "bg-black active:bg-neutral-900 border-neutral-900 border-2",
+            white: "bg-fg active:bg-fg-subtle",
+            black: "bg-black active:bg-surface border-surface border-2",
         },
         cornerType: {
             pill: "rounded-full",
@@ -21,7 +21,7 @@ const label = tv({
     variants: {
         color: {
             white: "text-black",
-            black: "text-white",
+            black: "text-fg",
         },
     },
 });

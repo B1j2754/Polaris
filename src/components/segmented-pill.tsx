@@ -9,18 +9,18 @@ type Props = {
 /** Giant full-width pill split into segments; the selected one is a filled inner pill. */
 export function SegmentedPill({ segments, value, onChange }: Props) {
     return (
-        <View className="flex-row rounded-full bg-neutral-900 p-1">
+        <View className="flex-row rounded-full bg-surface p-1">
             {segments.map((label, i) => {
                 const selected = i === value;
                 return (
                     <Pressable
                         key={label}
                         onPress={() => onChange(i)}
-                        className={`flex-1 items-center justify-center rounded-full py-3 ${selected ? "bg-white" : ""}`}
+                        className={`flex-1 items-center justify-center rounded-full py-3 ${selected ? "bg-fg" : ""}`}
                     >
                         <Text
                             className={`font-sansation text-base leading-tight tracking-[1px] ${
-                                selected ? "text-black" : "text-neutral-400"
+                                selected ? "text-black" : "text-fg-muted"
                             }`}
                         >
                             {label}

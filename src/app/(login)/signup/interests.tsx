@@ -7,6 +7,7 @@ import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
+import { ScreenBackground } from "@/constants/theme";
 import { INTERESTS, toggleInterest } from "@/interests";
 import { useProfile } from "@/profile";
 
@@ -26,8 +27,8 @@ export default function SignUpInterests() {
             <ConstellationSky />
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.content}>
-                    <Text className="font-sansation text-4xl text-white tracking-[1px]">What interests you?</Text>
-                    <Text className="font-sansation text-center text-xl text-neutral-400 tracking-[1px]">
+                    <Text className="font-sansation text-4xl text-fg tracking-[1px]">What interests you?</Text>
+                    <Text className="font-sansation text-center text-xl text-fg-muted tracking-[1px]">
                         Select all that apply.{"\n"}(You can always change these later.)
                     </Text>
 
@@ -54,7 +55,7 @@ export default function SignUpInterests() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000000",
+        backgroundColor: ScreenBackground,
     },
     safeArea: {
         flex: 1,

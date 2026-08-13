@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { captureUri, useCaptures } from "@/captures";
 import { Icon } from "@/components/icon";
-import { BottomTabInset } from "@/constants/theme";
+import { BottomTabInset, Palette } from "@/constants/theme";
 import { useProfile } from "@/profile";
 import { TARGETS } from "@/targets";
 
@@ -28,7 +28,7 @@ export default function CaptureDetail() {
     const [query, setQuery] = useState("");
 
     const capture = captures.find(c => c.id === id);
-    if (!capture) return <View className="flex-1 bg-[#000000]" />;
+    if (!capture) return <View className="flex-1 bg-black" />;
 
     const site = profile?.sites.find(s => s.id === capture.siteId);
 
@@ -47,7 +47,7 @@ export default function CaptureDetail() {
 
     return (
         <ScrollView
-            className="flex-1 bg-[#000000]"
+            className="flex-1 bg-black"
             keyboardShouldPersistTaps="handled"
             automaticallyAdjustKeyboardInsets
             contentContainerStyle={{
@@ -62,7 +62,7 @@ export default function CaptureDetail() {
                 style={{ width: "100%", aspectRatio: 1, borderRadius: 16 }}
                 contentFit="contain"
             />
-            <Text className="font-sansation text-base text-neutral-400 tracking-[1px]">
+            <Text className="font-sansation text-base text-fg-muted tracking-[1px]">
                 {new Date(capture.takenAt).toLocaleString(undefined, {
                     dateStyle: "medium",
                     timeStyle: "short",
@@ -71,30 +71,30 @@ export default function CaptureDetail() {
                 {site?.name ?? "Current location"}
             </Text>
 
-            <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">What is it?</Text>
+            <Text className="font-sansation text-lg text-fg-muted tracking-[1px]">What is it?</Text>
             <Pressable
                 onPress={() => {
                     setQuery("");
                     setPicking(true);
                 }}
-                className="h-14 flex-row items-center justify-between rounded-full border border-neutral-800 px-5 active:bg-neutral-900"
+                className="h-14 flex-row items-center justify-between rounded-full border border-line px-5 active:bg-surface"
             >
-                <Text className="font-sansation text-lg text-white tracking-[1px]">
+                <Text className="font-sansation text-lg text-fg tracking-[1px]">
                     {OPTIONS.find(o => o.id === capture.targetID)?.name ?? "Unlinked"}
                 </Text>
-                <Icon name="chevronRight" size={20} color="#9ca3af" />
+                <Icon name="chevronRight" size={20} color={Palette.iconMuted} />
             </Pressable>
 
             <Modal visible={picking} transparent animationType="slide" onRequestClose={() => setPicking(false)}>
                 <Pressable style={styles.backdrop} onPress={() => setPicking(false)} />
-                <View className="rounded-t-3xl border-t border-neutral-800 bg-[#0a0a0a] pb-12 pt-5">
+                <View className="rounded-t-3xl border-t border-line bg-sheet pb-12 pt-5">
                     <TextInput
                         value={query}
                         onChangeText={setQuery}
                         autoFocus
                         placeholder="Search objects"
-                        placeholderTextColor="#666"
-                        className="font-sansation mx-6 mb-3 h-14 rounded-full border border-neutral-800 px-5 text-lg text-white"
+                        placeholderTextColor={Palette.placeholder}
+                        className="font-sansation mx-6 mb-3 h-14 rounded-full border border-line px-5 text-lg text-fg"
                     />
                     <ScrollView style={styles.sheet} keyboardShouldPersistTaps="handled">
                         {matches(query).map(option => (
@@ -104,9 +104,9 @@ export default function CaptureDetail() {
                                     update(capture.id, "target_id", option.id);
                                     setPicking(false);
                                 }}
-                                className="flex-row items-center justify-between px-6 py-4 active:bg-neutral-900"
+                                className="flex-row items-center justify-between px-6 py-4 active:bg-surface"
                             >
-                                <Text className="font-sansation text-lg text-white tracking-[1px]">
+                                <Text className="font-sansation text-lg text-fg tracking-[1px]">
                                     {option.name}
                                 </Text>
                                 {capture.targetID === option.id && <Icon name="check" size={18} />}
@@ -116,22 +116,22 @@ export default function CaptureDetail() {
                 </View>
             </Modal>
 
-            <Text className="font-sansation text-lg text-neutral-400 tracking-[1px]">Notes</Text>
+            <Text className="font-sansation text-lg text-fg-muted tracking-[1px]">Notes</Text>
             <TextInput
                 defaultValue={capture.note ?? ""}
                 onEndEditing={e => update(capture.id, "note", e.nativeEvent.text.trim() || null)}
                 placeholder="Seeing, exposure, what you'd do differently"
-                placeholderTextColor="#666"
+                placeholderTextColor={Palette.placeholder}
                 multiline
-                className="font-sansation min-h-24 rounded-3xl border border-neutral-800 p-4 text-lg text-white"
+                className="font-sansation min-h-24 rounded-3xl border border-line p-4 text-lg text-fg"
             />
 
             <Pressable
                 onPress={onDelete}
-                className="h-14 flex-row items-center justify-center gap-2 rounded-full border-2 border-red-900 active:bg-red-950"
+                className="h-14 flex-row items-center justify-center gap-2 rounded-full border-2 border-danger-border active:bg-danger-bg"
             >
-                <Icon name="trash" size={18} color="#f87171" />
-                <Text className="font-sansation text-lg leading-tight text-red-400 tracking-[1px]">
+                <Icon name="trash" size={18} color={Palette.destructive} />
+                <Text className="font-sansation text-lg leading-tight text-danger tracking-[1px]">
                     Delete capture
                 </Text>
             </Pressable>

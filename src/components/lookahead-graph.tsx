@@ -52,8 +52,8 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
         return (
             <View className="gap-3">
                 <SegmentedPill segments={RANGES} value={range} onChange={setRange} />
-                <View className="h-[160px] items-center justify-center rounded-2xl bg-neutral-900 px-4">
-                    <Text className="text-center font-sansation text-base text-neutral-400 tracking-[1px]">
+                <View className="h-[160px] items-center justify-center rounded-2xl bg-surface px-4">
+                    <Text className="text-center font-sansation text-base text-fg-muted tracking-[1px]">
                         {bars.length === 0
                             ? "The sky never gets dark enough here right now."
                             : `Never clears ${floor}° from here.`}
@@ -67,19 +67,19 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
         <View className="gap-3">
             <SegmentedPill segments={RANGES} value={range} onChange={setRange} />
 
-            <View className="rounded-2xl bg-neutral-900 p-3">
+            <View className="rounded-2xl bg-surface p-3">
                 <View className="flex-row justify-between pb-1">
-                    <Text className="font-sansation text-[11px] text-neutral-500 tracking-[1px]">
+                    <Text className="font-sansation text-[11px] text-fg-dim tracking-[1px]">
                         Altitude above horizon
                     </Text>
-                    <Text className="font-sansation text-[11px] text-neutral-500">90°</Text>
+                    <Text className="font-sansation text-[11px] text-fg-dim">90°</Text>
                 </View>
 
                 <View className="flex-row items-end gap-[2px]" style={{ height: GRAPH_HEIGHT }}>
                     {bars.map(({ key, altitude, good }) => (
                         <View
                             key={key} 
-                            className={`flex-1 rounded-t-sm ${good ? "bg-white" : "bg-neutral-700"}`}
+                            className={`flex-1 rounded-t-sm ${good ? "bg-fg" : "bg-line-2"}`}
                             style={{ height: Math.max(1, (Math.max(0, altitude) / 90) * GRAPH_HEIGHT) }}
                         />
                     ))}
@@ -89,7 +89,7 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
                         style={{ left: 0, right: 0, bottom: thresholdY, height: 1 }}
                     />
                     <Text
-                        className="absolute font-sansation text-[10px] text-black bg-white"
+                        className="absolute font-sansation text-[10px] text-black bg-fg"
                         style={{ right: 0, bottom: thresholdY + 2 }}
                     >
                         {floor}°
@@ -98,13 +98,13 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
 
                 <View className="flex-row justify-between pt-2">
                     {ticks.map(t => (
-                        <Text key={t.key} className="font-sansation text-[11px] text-neutral-500">
+                        <Text key={t.key} className="font-sansation text-[11px] text-fg-dim">
                             {format(t.date)}
                         </Text>
                     ))}
                 </View>
 
-                <Text className="pt-2 font-sansation text-sm text-neutral-500 tracking-[1px]">
+                <Text className="pt-2 font-sansation text-sm text-fg-dim tracking-[1px]">
                     {range === 0
                         ? `Peaks at ${peak.toFixed(0)}° tonight`
                         : `Best night reaches ${peak.toFixed(0)}°`}

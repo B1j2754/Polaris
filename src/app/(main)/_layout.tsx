@@ -4,7 +4,7 @@ import { SymbolView, type SFSymbol } from 'expo-symbols';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ScreenBackground, TabPillHeight } from '@/constants/theme';
+import { Palette, ScreenBackground, TabPillHeight } from '@/constants/theme';
 
 const glass = isLiquidGlassAvailable();
 
@@ -32,8 +32,8 @@ export default function MainLayout() {
         headerShown: false,
         freezeOnBlur: true,
         sceneStyle: { backgroundColor: ScreenBackground },
-        tabBarActiveTintColor: '#ffffff',
-        tabBarInactiveTintColor: '#7c8496',
+        tabBarActiveTintColor: Palette.white,
+        tabBarInactiveTintColor: Palette.tabInactive,
         tabBarLabelStyle: { fontSize: 11 },
         tabBarItemStyle: { paddingVertical: 8 },
         tabBarBackground: glass
@@ -56,9 +56,9 @@ export default function MainLayout() {
           ...(glass
             ? { backgroundColor: 'transparent' }
             : {
-                backgroundColor: '#0a0a0a',
+                backgroundColor: Palette.sheet,
                 elevation: 8,
-                shadowColor: '#000',
+                shadowColor: Palette.black,
                 shadowOpacity: 0.4,
                 shadowRadius: 12,
                 shadowOffset: { width: 0, height: 4 },

@@ -22,12 +22,12 @@ export default function Portfolio() {
         ]);
 
     return (
-        <SafeAreaView className="flex-1 bg-[#000000]" edges={["top"]}>
+        <SafeAreaView className="flex-1 bg-black" edges={["top"]}>
             <ScrollView
                 contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: BottomTabInset + 24, gap: 16 }}
             >
-                <Text className="font-sansation pt-2 text-4xl text-white tracking-[1px]">Portfolio</Text>
-                <Text className="font-sansation text-base text-neutral-400 tracking-[1px]">
+                <Text className="font-sansation pt-2 text-4xl text-fg tracking-[1px]">Portfolio</Text>
+                <Text className="font-sansation text-base text-fg-muted tracking-[1px]">
                     {captures.length === 0
                         ? "Nothing shot yet // whatever you add here stays pinned to the object and the site you shot it from."
                         : `${captures.length} captures · ${objects} objects`}
@@ -48,10 +48,10 @@ export default function Portfolio() {
 
                 <Pressable
                     onPress={onAdd}
-                    className="flex-row items-center justify-center gap-2 rounded-full border border-neutral-700 py-4 active:bg-neutral-900"
+                    className="flex-row items-center justify-center gap-2 rounded-full border border-line-2 py-4 active:bg-surface"
                 >
                     <Icon name="plus" size={18} />
-                    <Text className="font-sansation text-lg text-white tracking-[1px]">Add a capture</Text>
+                    <Text className="font-sansation text-lg text-fg tracking-[1px]">Add a capture</Text>
                 </Pressable>
             </ScrollView>
         </SafeAreaView>

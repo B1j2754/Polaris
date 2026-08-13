@@ -22,9 +22,45 @@ export const Colors = {
     backgroundSelected: '#2E3135',
     textSecondary: '#B0B4BA',
   },
+  red: {
+    text: '#ff3b3b',
+    background: '#000000',
+    backgroundElement: '#1a0000',
+    backgroundSelected: '#330a0a',
+    textSecondary: '#a33636',
+  },
 } as const;
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
+
+export const Palette = {
+  black: '#000000',
+  white: '#ffffff',
+  sheet: '#0a0a0a',
+  card: '#0f0f0f',
+  placeholder: '#666666',
+  iconMuted: '#9ca3af',
+  iconSubtle: '#6b7280',
+  iconTertiary: '#a3a3a3',
+  destructive: '#f87171',
+  link: '#3c87f7',
+  tabInactive: '#7c8496',
+} as const;
+
+/** Red-screen counterpart to Palette, same keys, shades of red and black only. */
+export const RedPalette = {
+  black: '#000000',
+  white: '#ff3b3b',
+  sheet: '#1a0000',
+  card: '#220505',
+  placeholder: '#7a2626',
+  iconMuted: '#b33a3a',
+  iconSubtle: '#8a2c2c',
+  iconTertiary: '#993333',
+  destructive: '#ff5555',
+  link: '#ff6b6b',
+  tabInactive: '#662020',
+} as const;
 
 export const Fonts = Platform.select({
   ios: {
@@ -61,7 +97,7 @@ export const Spacing = {
   six: 64,
 } as const;
 
-export const ScreenBackground = '#000000';
+export const ScreenBackground = Palette.black;
 
 export const DarkScreen = {
   contentStyle: { backgroundColor: ScreenBackground },
@@ -73,7 +109,7 @@ export const BackHeader = {
   headerShown: true,
   headerTransparent: true,
   headerTitle: '',
-  headerTintColor: '#ffffff',
+  headerTintColor: Palette.white,
   headerShadowVisible: false,
   headerBackButtonDisplayMode: 'minimal',
 } as const;

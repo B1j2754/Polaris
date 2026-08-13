@@ -1,6 +1,8 @@
 import { createElement } from 'react';
 import Svg, { Circle, Line, Path, Polygon, Polyline, Rect } from 'react-native-svg';
 
+import { Palette } from '@/constants/theme';
+
 /**
  * Icon artwork copied from lucide and @lucide/lab (both ISC).
  *
@@ -192,7 +194,7 @@ export type IconName = keyof typeof icons;
 export function Icon({
   name,
   size = 24,
-  color = '#ffffff',
+  color = Palette.white,
 }: {
   name: IconName;
   size?: number;

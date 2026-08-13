@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
+import { ScreenBackground } from "@/constants/theme";
 
 export default function SplashScreen() {
     return (
@@ -11,8 +12,8 @@ export default function SplashScreen() {
             <ConstellationSky />
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.content}>
-                    <Text className="font-sansation text-8xl text-white tracking-[4px]">POLARIS</Text>
-                    <Text className="font-sansation text-xl text-neutral-300 tracking-[4px]">
+                    <Text className="font-sansation text-8xl text-fg tracking-[4px]">POLARIS</Text>
+                    <Text className="font-sansation text-xl text-fg-subtle tracking-[4px]">
                         Find your next target
                     </Text>
                 </View>
@@ -30,7 +31,7 @@ export default function SplashScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000000",
+        backgroundColor: ScreenBackground,
     },
     safeArea: {
         flex: 1,

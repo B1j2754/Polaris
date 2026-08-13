@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect, useLocalSearchParams } from 'expo-router';
 
 import { LookaheadGraph } from "@/components/lookahead-graph";
-import { BottomTabInset } from "@/constants/theme";
+import { BottomTabInset, Palette } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
 import { TARGETS } from "@/targets"
 
@@ -39,8 +39,8 @@ export default function ObjectOverview() {
         <View style={styles.container}>
             <SafeAreaView style={styles.safeArea}>
                 <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-                    <Text className="font-sansation text-4xl text-white tracking-[1px] text-center">{objectData.name}</Text>
-                    <Text className="font-sansation text-xl text-neutral-400 tracking-[1px] text-center">{objectData.blurb}</Text>
+                    <Text className="font-sansation text-4xl text-fg tracking-[1px] text-center">{objectData.name}</Text>
+                    <Text className="font-sansation text-xl text-fg-muted tracking-[1px] text-center">{objectData.blurb}</Text>
                     <Image source={require('@/assets/images/starSplash.jpg')} style={styles.preview} />
                     <View style={styles.grid}>
                         {stats.map(({ label, value }, i) => (
@@ -48,8 +48,8 @@ export default function ObjectOverview() {
                                 key={label}
                                 style={[styles.cell, stats.length % 2 === 1 && i === stats.length - 1 && styles.cellWide]}
                             >
-                                <Text className="font-sansation text-sm text-neutral-500 tracking-[1px]">{label}</Text>
-                                <Text className="font-sansation text-2xl text-white tracking-[1px]">
+                                <Text className="font-sansation text-sm text-fg-dim tracking-[1px]">{label}</Text>
+                                <Text className="font-sansation text-2xl text-fg tracking-[1px]">
                                     {value}
                                 </Text>
                             </View>
@@ -65,7 +65,7 @@ export default function ObjectOverview() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#000000",
+        backgroundColor: Palette.black,
     },
     safeArea: {
         flex: 1,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     },
     cell: {
         width: '48%', // two columns; space-between puts the gap between them
-        backgroundColor: '#0f0f0f',
+        backgroundColor: Palette.card,
         borderRadius: 16,
         padding: 12,
         gap: 4,
