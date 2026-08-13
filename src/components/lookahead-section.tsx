@@ -3,10 +3,10 @@ import { useDeferredValue, useMemo, type ReactNode } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
 import { Icon } from "@/components/icon";
-import { Palette } from "@/constants/theme";
 import { upAhead, upTonight, type Upcoming } from "@/lookAhead";
 import type { Coords, Weather } from "@/sky";
 import { ICONS } from "@/targets";
+import { usePalette } from "@/theming";
 
 const NIGHTS_AHEAD = 14;
 const SLOT_MS = 15 * 60_000;
@@ -48,6 +48,7 @@ function Shell({ children }: { children: ReactNode }) {
 }
 
 function Loading() {
+    const Palette = usePalette();
     return (
         <Shell>
             <View className="flex-row items-center gap-3 py-2">
@@ -59,6 +60,7 @@ function Loading() {
 }
 
 function Panel({ rows, format, empty }: { rows: Upcoming[]; format: (d: Date) => string; empty: string }) {
+    const Palette = usePalette();
     if (rows.length === 0) {
         return (
             <Shell>

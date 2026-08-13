@@ -1,4 +1,4 @@
-import { Link, useFocusEffect } from "expo-router";
+﻿import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,12 +7,13 @@ import { Icon } from "@/components/icon";
 import { LookaheadSection } from "@/components/lookahead-section";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { WeatherOverviewBox } from "@/components/weather-overview-box";
-import { BottomTabInset, Palette } from "@/constants/theme";
+import { BottomTabInset} from "@/constants/theme";
 import { Greetings } from "@/greetings";
 import { useSite } from "@/hooks/use-site";
 import { useProfile } from "@/profile";
 import { compassPoint, evaluate, fetchWeather, type Verdict, type Weather } from "@/sky";
 import { ICONS, TARGETS, type Target } from "@/targets";
+import { usePalette } from "@/theming";
 
 const WEATHER_MAX_AGE_MS = 5 * 60 * 1000;
 const SEGMENTS = ["Now", "Tonight", "Weeks ahead"] as const;
@@ -123,6 +124,7 @@ const rank = ({ target, verdict }: { target: Target; verdict: Verdict }, interes
 function Card({ target, verdict }: { target: Target; verdict: Verdict }) {
     const { visible, altitude, azimuth, reasons } = verdict;
     const formatSign = (num: string): string => +num > 0 ? `+${num}` : `${num}`;
+    const Palette = usePalette();
     return (
         <View
             className={`flex-row items-center gap-4 rounded-2xl border bg-surface p-4 ${

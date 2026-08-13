@@ -3,9 +3,10 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Icon } from "@/components/icon";
-import { BottomTabInset, Palette } from "@/constants/theme";
+import { BottomTabInset } from "@/constants/theme";
 import { useProfile } from "@/profile";
 import { siteLine, type Site } from "@/sites";
+import { usePalette } from "@/theming";
 
 export default function Sites() {
     const { profile, save } = useProfile();
@@ -67,6 +68,7 @@ type RowProps = {
 };
 
 function Row({ name, detail, active, onPress, edit }: RowProps) {
+    const Palette = usePalette();
     return (
         <View className="flex-row items-center gap-3">
             <Pressable onPress={onPress} className="flex-1 flex-row items-center gap-3 py-1">

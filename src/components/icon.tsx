@@ -1,7 +1,7 @@
 import { createElement } from 'react';
 import Svg, { Circle, Line, Path, Polygon, Polyline, Rect } from 'react-native-svg';
 
-import { Palette } from '@/constants/theme';
+import { usePalette } from '@/theming';
 
 /**
  * Icon artwork copied from lucide and @lucide/lab (both ISC).
@@ -194,19 +194,20 @@ export type IconName = keyof typeof icons;
 export function Icon({
   name,
   size = 24,
-  color = Palette.white,
+  color,
 }: {
   name: IconName;
   size?: number;
   color?: string;
 }) {
+  const Palette = usePalette();
   return (
     <Svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke={color}
+      stroke={color ?? Palette.white}
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"

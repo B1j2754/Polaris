@@ -1,19 +1,22 @@
 import Constants from "expo-constants";
 import { Link } from "expo-router";
 import { useState } from "react";
-import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { EquipmentEditor } from "@/components/equipment-editor";
 import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
-import { BottomTabInset, Palette } from "@/constants/theme";
+import { BottomTabInset} from "@/constants/theme";
 import { INTERESTS, toggleInterest } from "@/interests";
 import { useProfile } from "@/profile";
+import { usePalette, useTheme } from "@/theming";
 
 export default function Settings() {
     const { profile, save, reset } = useProfile();
     const [name, setName] = useState(profile?.name ?? "");
+    const Palette = usePalette();
+    const { redTheme, toggle } = useTheme();
 
     const interests = profile?.interests ?? [];
     const activeSite = profile?.sites.find(s => s.id === profile.activeSite);
@@ -99,7 +102,16 @@ export default function Settings() {
                         </Pressable>
                     </Link>
                 </Section>
-                
+
+                <Section title="Red screen" hint="Preserves night vision outdoors.">
+                    <View className="h-14 flex-row items-center justify-between rounded-full border border-line px-5">
+                        <Text className="font-sansation text-lg text-fg">Red screen mode</Text>
+                        <View className="justify-center">
+                            <Switch value={redTheme} onValueChange={toggle} />
+                        </View>
+                    </View>
+                </Section>
+
                 <View className="items-center gap-3 pt-2">
                     <Pressable
                         onPress={confirmReset}

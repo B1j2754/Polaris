@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
 import { Icon, type IconName } from "@/components/icon";
-import { Palette } from "@/constants/theme";
 import type { Site } from "@/sites";
 import { sunAltitude, type Weather } from "@/sky";
+import { usePalette } from "@/theming";
 
 function sunPhase(altitude: number): { icon: IconName; label: string } {
     if (altitude > 0) return { icon: "sun", label: "Daytime" };
@@ -22,6 +22,7 @@ function seeingQuality(w: Weather): { icon: IconName; label: string } {
 }
 
 function Stat({ icon, label }: { icon: IconName; label: string }) {
+    const Palette = usePalette();
     return (
         <View className="flex-row items-center gap-1.5">
             <Icon name={icon} size={18} color={Palette.iconMuted} />

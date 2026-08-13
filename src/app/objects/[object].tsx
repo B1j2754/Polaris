@@ -3,11 +3,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect, useLocalSearchParams } from 'expo-router';
 
 import { LookaheadGraph } from "@/components/lookahead-graph";
-import { BottomTabInset, Palette } from "@/constants/theme";
+import { BottomTabInset } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
 import { TARGETS } from "@/targets"
+import { usePalette } from "@/theming";
 
 export default function ObjectOverview() {
+    const Palette = usePalette();
     const { object } = useLocalSearchParams<{ object: string }>();
     const { site } = useSite();
     const objectData = object ? TARGETS[object] : undefined;
@@ -36,7 +38,7 @@ export default function ObjectOverview() {
     ].filter(Boolean) as { label: string; value: string }[];
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: Palette.black }]}>
             <SafeAreaView style={styles.safeArea}>
                 <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
                     <Text className="font-sansation text-4xl text-fg tracking-[1px] text-center">{objectData.name}</Text>
@@ -46,7 +48,11 @@ export default function ObjectOverview() {
                         {stats.map(({ label, value }, i) => (
                             <View
                                 key={label}
-                                style={[styles.cell, stats.length % 2 === 1 && i === stats.length - 1 && styles.cellWide]}
+                                style={[
+                                    styles.cell,
+                                    { backgroundColor: Palette.card },
+                                    stats.length % 2 === 1 && i === stats.length - 1 && styles.cellWide,
+                                ]}
                             >
                                 <Text className="font-sansation text-sm text-fg-dim tracking-[1px]">{label}</Text>
                                 <Text className="font-sansation text-2xl text-fg tracking-[1px]">
@@ -65,7 +71,6 @@ export default function ObjectOverview() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Palette.black,
     },
     safeArea: {
         flex: 1,
@@ -85,7 +90,6 @@ const styles = StyleSheet.create({
     },
     cell: {
         width: '48%', // two columns; space-between puts the gap between them
-        backgroundColor: Palette.card,
         borderRadius: 16,
         padding: 12,
         gap: 4,

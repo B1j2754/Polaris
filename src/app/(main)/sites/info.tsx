@@ -7,10 +7,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "@/components/button";
 import { Icon } from "@/components/icon";
 import { SegmentedPill } from "@/components/segmented-pill";
-import { BottomTabInset, Palette } from "@/constants/theme";
+import { BottomTabInset } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/profile";
 import { HORIZON_PRESETS, searchPlaces, type Site } from "@/sites";
+import { usePalette } from "@/theming";
 
 const DEBOUNCE_MS = 400;
 
@@ -25,6 +26,7 @@ const GUIDE: { image: number; caption: string }[] = [
 ];
 
 export default function SiteInfo() {
+    const Palette = usePalette();
     const { id } = useLocalSearchParams<{ id?: string }>();
     const insets = useSafeAreaInsets();
     const entryFocus = useEntryFocus();

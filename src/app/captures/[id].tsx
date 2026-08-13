@@ -6,9 +6,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { captureUri, useCaptures } from "@/captures";
 import { Icon } from "@/components/icon";
-import { BottomTabInset, Palette } from "@/constants/theme";
+import { BottomTabInset } from "@/constants/theme";
 import { useProfile } from "@/profile";
 import { TARGETS } from "@/targets";
+import { usePalette } from "@/theming";
 
 const OPTIONS: { id: string | null; name: string }[] = [
     { id: null, name: "Unlinked" },
@@ -20,6 +21,7 @@ const matches = (query: string) =>
     OPTIONS.filter(o => o.name.toLowerCase().includes(query.trim().toLowerCase()));
 
 export default function CaptureDetail() {
+    const Palette = usePalette();
     const { id } = useLocalSearchParams<{ id: string }>();
     const insets = useSafeAreaInsets();
     const { captures, remove, update } = useCaptures();

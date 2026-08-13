@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { BackHeader, DarkScreen, ScreenBackground } from '@/constants/theme';
 import { DATABASE_NAME, migrate } from '@/db';
 import { ProfileProvider, useProfile } from '@/profile';
+import { ColorVarProvider, PaletteProvider, ThemeProvider } from '@/theming';
 
 // Expo go doesn't register a view controller
 const IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
@@ -26,11 +27,17 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrate}>
-      <ProfileProvider>
-        <RootNavigator />
-      </ProfileProvider>
-    </SQLiteProvider>
+    <ThemeProvider>
+      <PaletteProvider>
+        <ColorVarProvider>
+          <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrate}>
+            <ProfileProvider>
+              <RootNavigator />
+            </ProfileProvider>
+          </SQLiteProvider>
+        </ColorVarProvider>
+      </PaletteProvider>
+    </ThemeProvider>
   );
 }
 

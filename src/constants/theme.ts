@@ -33,7 +33,8 @@ export const Colors = {
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 
-export const Palette = {
+// --- Black Palette ---
+export const blackPalette = {
   black: '#000000',
   white: '#ffffff',
   sheet: '#0a0a0a',
@@ -47,20 +48,53 @@ export const Palette = {
   tabInactive: '#7c8496',
 } as const;
 
-/** Red-screen counterpart to Palette, same keys, shades of red and black only. */
-export const RedPalette = {
-  black: '#000000',
-  white: '#ff3b3b',
-  sheet: '#1a0000',
-  card: '#220505',
-  placeholder: '#7a2626',
-  iconMuted: '#b33a3a',
-  iconSubtle: '#8a2c2c',
-  iconTertiary: '#993333',
-  destructive: '#ff5555',
-  link: '#ff6b6b',
-  tabInactive: '#662020',
+export const blackVars = {
+  '--color-fg': '#ffffff',
+  '--color-fg-subtle': '#d4d4d4',
+  '--color-fg-muted': '#a3a3a3',
+  '--color-fg-dim': '#737373',
+  '--color-fg-faint': '#525252',
+  '--color-surface': '#171717',
+  '--color-sheet': '#0a0a0a',
+  '--color-line': '#262626',
+  '--color-line-2': '#404040',
+  '--color-danger': '#f87171',
+  '--color-danger-border': '#7f1d1d',
+  '--color-danger-bg': '#450a0a',
 } as const;
+
+// --- Red Palette (pure red channel only) ---
+export const redPalette = {
+  black: '#000000',
+  white: '#ff0000',
+  sheet: '#1a0000',
+  card: '#260000',
+  placeholder: '#8c0000',
+  iconMuted: '#cc0000',
+  iconSubtle: '#9e0000',
+  iconTertiary: '#ad0000',
+  destructive: '#ff0000',
+  link: '#ff0000',
+  tabInactive: '#730000',
+} as const;
+
+export const redVars = {
+  '--color-fg': '#ff0000',
+  '--color-fg-subtle': '#db0000',
+  '--color-fg-muted': '#bd0000',
+  '--color-fg-dim': '#960000',
+  '--color-fg-faint': '#6b0000',
+  '--color-surface': '#2e0000',
+  '--color-sheet': '#1a0000',
+  '--color-line': '#470000',
+  '--color-line-2': '#5c0000',
+  '--color-danger': '#ff0000',
+  '--color-danger-border': '#8f0000',
+  '--color-danger-bg': '#330000',
+} as const;
+
+export type PaletteType = typeof blackPalette | typeof redPalette;
+export type ColorVarType = typeof blackVars | typeof redVars;
 
 export const Fonts = Platform.select({
   ios: {
@@ -97,7 +131,7 @@ export const Spacing = {
   six: 64,
 } as const;
 
-export const ScreenBackground = Palette.black;
+export const ScreenBackground = blackPalette.black;
 
 export const DarkScreen = {
   contentStyle: { backgroundColor: ScreenBackground },
@@ -109,7 +143,7 @@ export const BackHeader = {
   headerShown: true,
   headerTransparent: true,
   headerTitle: '',
-  headerTintColor: Palette.white,
+  headerTintColor: blackPalette.white,
   headerShadowVisible: false,
   headerBackButtonDisplayMode: 'minimal',
 } as const;

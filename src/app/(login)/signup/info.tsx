@@ -5,15 +5,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
-import { Palette, ScreenBackground } from "@/constants/theme";
+import { ScreenBackground } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/profile";
+import { usePalette } from "@/theming";
 
 export default function SignUpInfo() {
     const { profile, save } = useProfile();
     const entryFocus = useEntryFocus();
     const [name, setName] = useState(profile?.name ?? "");
     const trimmed = name.trim();
+    const Palette = usePalette();
 
     const next = async () => {
         await save({ name: trimmed });

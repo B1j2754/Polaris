@@ -12,7 +12,6 @@ import {
 } from "react-native";
 
 import { Icon } from "@/components/icon";
-import { Palette } from "@/constants/theme";
 import {
     CAMERA_PRESETS,
     FIELDS,
@@ -26,6 +25,7 @@ import {
     type Kind,
     type Telescope,
 } from "@/equipment";
+import { usePalette } from "@/theming";
 
 type Props = {
     value: Equipment[];
@@ -40,6 +40,7 @@ type Props = {
 export function EquipmentEditor({ value, onChange, emptyText }: Props) {
     const [picking, setPicking] = useState<Kind | null>(null);
     const [form, setForm] = useState<Record<string, string>>({});
+    const Palette = usePalette();
 
     const close = () => {
         setPicking(null);

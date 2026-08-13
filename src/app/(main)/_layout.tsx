@@ -4,7 +4,8 @@ import { SymbolView, type SFSymbol } from 'expo-symbols';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Palette, ScreenBackground, TabPillHeight } from '@/constants/theme';
+import { ScreenBackground, TabPillHeight } from '@/constants/theme';
+import { usePalette } from '@/theming';
 
 const glass = isLiquidGlassAvailable();
 
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
 
 export default function MainLayout() {
   const insets = useSafeAreaInsets();
+  const Palette = usePalette();
 
   return (
     <Tabs
