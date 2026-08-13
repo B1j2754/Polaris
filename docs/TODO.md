@@ -3,8 +3,8 @@
 - [ ] Add app splash + icon (general app polish)
 - [ ] Create app info/overview for publishing
 - [ ] Better equipment section
-  - [ ] More equipment
-  - [ ] Change UI selection
+    - [ ] More equipment
+    - [ ] Change UI selection
 - [ ] Add more greetings
 - [ ] Use image API to show object preview
 - [ ] Add designer/programmer credits on settings page

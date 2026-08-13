@@ -7,8 +7,8 @@ export const DATABASE_NAME = "polaris.db";
  * TODO: Reimplement versioning when we have a more complex schema change that requires migrations.
  */
 export async function migrate(db: SQLiteDatabase) {
-  // interests/equipment/sites are JSON arrays.
-  await db.execAsync(`
+    // interests/equipment/sites are JSON arrays.
+    await db.execAsync(`
     PRAGMA journal_mode = 'wal';
 
     CREATE TABLE IF NOT EXISTS profile (

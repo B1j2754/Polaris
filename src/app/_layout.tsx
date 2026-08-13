@@ -20,47 +20,47 @@ if (!IN_EXPO_GO) SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync(ScreenBackground);
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    Sansation: require("../../assets/fonts/Sansation-Regular.ttf"),
-  });
+    const [loaded, error] = useFonts({
+        Sansation: require("../../assets/fonts/Sansation-Regular.ttf"),
+    });
 
-  if (!loaded && !error) return null;
+    if (!loaded && !error) return null;
 
-  return (
-    <ThemeProvider>
-      <PaletteProvider>
-        <ColorVarProvider>
-          <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrate}>
-            <ProfileProvider>
-              <RootNavigator />
-            </ProfileProvider>
-          </SQLiteProvider>
-        </ColorVarProvider>
-      </PaletteProvider>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider>
+            <PaletteProvider>
+                <ColorVarProvider>
+                    <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrate}>
+                        <ProfileProvider>
+                            <RootNavigator />
+                        </ProfileProvider>
+                    </SQLiteProvider>
+                </ColorVarProvider>
+            </PaletteProvider>
+        </ThemeProvider>
+    );
 }
 
 function RootNavigator() {
-  const { profile, isLoading } = useProfile();
+    const { profile, isLoading } = useProfile();
 
-  useEffect(() => {
-    if (!isLoading && !IN_EXPO_GO) SplashScreen.hideAsync().catch(() => {});
-  }, [isLoading]);
+    useEffect(() => {
+        if (!isLoading && !IN_EXPO_GO) SplashScreen.hideAsync().catch(() => {});
+    }, [isLoading]);
 
-  if (isLoading) return null;
+    if (isLoading) return null;
 
-  return (
-    <Stack screenOptions={{ headerShown: false, ...DarkScreen }}>
-      <Stack.Protected guard={!!profile?.onboarded}>
-        <Stack.Screen name="(main)" />
-        <Stack.Screen name="objects/[object]" options={BackHeader} />
-        <Stack.Screen name="captures/[id]" options={BackHeader} />
-      </Stack.Protected>
+    return (
+        <Stack screenOptions={{ headerShown: false, ...DarkScreen }}>
+            <Stack.Protected guard={!!profile?.onboarded}>
+                <Stack.Screen name="(main)" />
+                <Stack.Screen name="objects/[object]" options={BackHeader} />
+                <Stack.Screen name="captures/[id]" options={BackHeader} />
+            </Stack.Protected>
 
-      <Stack.Protected guard={!profile?.onboarded}>
-        <Stack.Screen name="(login)" />
-      </Stack.Protected>
-    </Stack>
-  );
+            <Stack.Protected guard={!profile?.onboarded}>
+                <Stack.Screen name="(login)" />
+            </Stack.Protected>
+        </Stack>
+    );
 }
