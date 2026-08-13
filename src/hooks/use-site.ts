@@ -50,7 +50,12 @@ async function locate(): Promise<{ site: Site; denied: boolean }> {
     };
 }
 
-/** Site calculation runs from current position. Denied => user denied to allow location permissions. */
+/**
+ * Resolves active observing site, from profile or from GPS (as backup)
+ * 
+ * @returns The resolved {@link Site} and whether permission was denied.
+ * When `denied` is `true`, `site` is `DEFAULT_SITE`
+ */
 export function useSite() {
     const { profile } = useProfile();
     const saved = profile?.sites.find((s) => s.id === profile.activeSite) ?? null;

@@ -75,8 +75,10 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        // must be definite: children size themselves with % widths, which resolve to 0 against a
-        // shrink-to-fit parent (SafeAreaView centres its children, so this View won't stretch on its own)
+        /** 
+         * Must be definite: children size themselves with % widths, which resolve to 0 against a shrink-to-fit parent.
+         * (SafeAreaView centres its children, so this View won't stretch on its own)
+         */ 
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
