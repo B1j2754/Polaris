@@ -74,6 +74,7 @@ export function ConstellationSky({ seed = 1337, count = 140 }: { seed?: number; 
         () => gravity.sensor.value,
         ({x, y}) => {
             if (baseX.value === null) {
+                if (x === 0 && y === 0) return;
                 baseX.value = x;
                 baseY.value = y;
             }
@@ -83,7 +84,7 @@ export function ConstellationSky({ seed = 1337, count = 140 }: { seed?: number; 
                 { damping: 20, stiffness: 45 }
             );
             offY.value = withSpring(
-                interpolate(y - baseY.value!, [-9, 0], [-PAN, PAN], Extrapolation.CLAMP),
+                interpolate(y - baseY.value!, [-4.5, 4.5], [-PAN, PAN], Extrapolation.CLAMP),
                 { damping: 20, stiffness: 45 }
             );
         }

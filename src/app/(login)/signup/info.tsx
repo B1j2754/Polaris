@@ -43,6 +43,7 @@ export default function SignUpInfo() {
                             returnKeyType="next"
                             onSubmitEditing={() => trimmed && next()}
                             textAlign="center"
+                            textAlignVertical="center"
                             className="font-sansation h-16 w-[90%] rounded-full border-2 border-line px-6 text-xl text-fg"
                         />
                     </View>
