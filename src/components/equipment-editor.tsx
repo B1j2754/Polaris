@@ -26,6 +26,7 @@ import {
     type Telescope,
 } from "@/lib/equipment";
 import { usePalette } from "@/lib/theming";
+import { useEntryFocus } from "@/hooks/use-entry-focus";
 
 type Props = {
     value: Equipment[];
@@ -41,6 +42,8 @@ export function EquipmentEditor({ value, onChange, emptyText }: Props) {
     const [picking, setPicking] = useState<Kind | null>(null);
     const [form, setForm] = useState<Record<string, string>>({});
     const Palette = usePalette();
+    const entryFocus = useEntryFocus();
+    const [query, setQuery] = useState("");
 
     const close = () => {
         setPicking(null);
@@ -110,17 +113,33 @@ export function EquipmentEditor({ value, onChange, emptyText }: Props) {
                         <Text className="font-sansation px-6 pb-3 text-2xl text-fg tracking-[1px]">
                             {picking === "camera" ? "Cameras" : "Telescopes"}
                         </Text>
+
+                        <TextInput
+                            value={query}
+                            onChangeText={setQuery}
+                            placeholder="Search for a name, brand, or model"
+                            placeholderTextColor={Palette.placeholder}
+                            {...entryFocus}
+                            autoCorrect={false}
+                            returnKeyType="search"
+                            textAlignVertical="center"
+                            className="font-sansation h-14 rounded-full border border-line px-5 text-lg leading-tight text-fg"
+                        />
+
                         <ScrollView style={styles.sheet} keyboardShouldPersistTaps="handled">
-                            {presets.map((preset) => (
-                                <Pressable
-                                    key={preset.id}
-                                    onPress={() => add(stripPreset(preset))}
-                                    className="px-6 py-4 active:bg-surface"
-                                >
-                                    <Text className="font-sansation text-lg text-fg">{preset.label}</Text>
-                                    <Text className="font-sansation text-sm text-fg-muted">{preset.blurb}</Text>
-                                </Pressable>
-                            ))}
+                            {presets
+                                .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
+                                .map((preset) => (
+                                    <Pressable
+                                        key={preset.id}
+                                        onPress={() => add(stripPreset(preset))}
+                                        className="px-6 py-4 active:bg-surface"
+                                    >
+                                        <Text className="font-sansation text-lg text-fg">{preset.label}</Text>
+                                        <Text className="font-sansation text-sm text-fg-muted">{preset.blurb}</Text>
+                                    </Pressable>
+                                ))
+                            }
 
                             {picking && (
                                 <View className="mt-2 gap-3 border-t border-line px-6 pt-5">
