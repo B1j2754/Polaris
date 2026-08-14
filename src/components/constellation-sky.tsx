@@ -4,9 +4,11 @@ import Animated, {
     Extrapolation,
     interpolate,
     SensorType,
+    useAnimatedReaction,
     useAnimatedSensor,
     useAnimatedStyle,
     useSharedValue,
+    withSpring,
 } from "react-native-reanimated";
 import Svg, { Circle, Line } from "react-native-svg";
 
@@ -16,6 +18,8 @@ const PAN = 40; // max px the sky drifts as you tilt phone
 const W = SCREEN_W + PAN * 2;
 const H = SCREEN_H + PAN * 2;
 
+// Credit: https://github.com/bryc/code/blob/master/jshash/PRNGs.md#mulberry32
+// Chosen for its speed + general quality
 function mulberry32(seed: number) {
     return () => {
         seed |= 0;
@@ -50,7 +54,8 @@ function generateSky(seed: number, count: number) {
                 best = j;
             }
         });
-        if (best > i) lines.push([a, anchors[best]]); // dedipes most pairs
+
+        if (best > i) lines.push([a, anchors[best]]); // dedupes most pairs
     });
 
     return { stars: [...stars.slice(14), ...anchors], lines };
@@ -65,22 +70,28 @@ export function ConstellationSky({ seed = 1337, count = 140 }: { seed?: number; 
     const offX = useSharedValue(0);
     const offY = useSharedValue(0);
 
-    const skyStyle = useAnimatedStyle(() => {
-        const { x, y } = gravity.sensor.value;
-        if (baseX.value === null) {
-            baseX.value = x;
-            baseY.value = y;
-        }
+    useAnimatedReaction(
+        () => gravity.sensor.value,
+        ({x, y}) => {
+            if (baseX.value === null) {
+                baseX.value = x;
+                baseY.value = y;
+            }
 
-        const targetX = interpolate(x - (baseX.value ?? x), [-5, 5], [PAN, -PAN], Extrapolation.CLAMP);
-        const targetY = interpolate(y - (baseY.value ?? y), [-9, 0], [-PAN, PAN], Extrapolation.CLAMP);
-        const EASE = 0.08;
-        offX.value += (targetX - offX.value) * EASE;
-        offY.value += (targetY - offY.value) * EASE;
-        return {
-            transform: [{ translateX: offX.value }, { translateY: offY.value }],
-        };
-    });
+            offX.value = withSpring(
+                interpolate(x - baseX.value!, [-5, 5], [PAN, -PAN], Extrapolation.CLAMP),
+                { damping: 20, stiffness: 45 }
+            );
+            offY.value = withSpring(
+                interpolate(y - baseY.value!, [-9, 0], [-PAN, PAN], Extrapolation.CLAMP),
+                { damping: 20, stiffness: 45 }
+            );
+        }
+    );
+
+    const skyStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: offX.value }, { translateY: offY.value }],
+    }));
 
     return (
         <Animated.View style={[styles.sky, skyStyle]} pointerEvents="none">
