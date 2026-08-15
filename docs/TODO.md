@@ -10,6 +10,7 @@
 - [ ] Add designer/programmer credits on settings page
 - [ ] Switch hand images to proper png transparent ones
 - [ ] Sort suggestions by apparent magnitude / important stars
+- [ ] Extract weather caching into its own hook / useContext
 - [ ] Code review: unspaghetify code, and align naming schemes
 - [x] Reorganize
 - [x] Add red filter toggle

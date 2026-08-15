@@ -9,25 +9,33 @@ export const DATABASE_NAME = "polaris.db";
 export async function migrate(db: SQLiteDatabase) {
     // interests/equipment/sites are JSON arrays.
     await db.execAsync(`
-    PRAGMA journal_mode = 'wal';
+        PRAGMA journal_mode = 'wal';
 
-    CREATE TABLE IF NOT EXISTS profile (
-      id INTEGER PRIMARY KEY CHECK (id = 1),
-      name TEXT,
-      interests TEXT NOT NULL DEFAULT '[]',
-      equipment TEXT NOT NULL DEFAULT '[]',
-      onboarded INTEGER NOT NULL DEFAULT 0,
-      sites TEXT NOT NULL DEFAULT '[]',
-      active_site TEXT
-    );
+        CREATE TABLE IF NOT EXISTS profile (
+          id INTEGER PRIMARY KEY CHECK (id = 1),
+          name TEXT,
+          interests TEXT NOT NULL DEFAULT '[]',
+          equipment TEXT NOT NULL DEFAULT '[]',
+          onboarded INTEGER NOT NULL DEFAULT 0,
+          sites TEXT NOT NULL DEFAULT '[]',
+          active_site TEXT
+        );
 
-    CREATE TABLE IF NOT EXISTS captures (
-      id TEXT PRIMARY KEY,
-      file TEXT NOT NULL,
-      target_id TEXT,
-      site_id TEXT,
-      taken_at INTEGER NOT NULL,
-      note TEXT
-    );
-  `);
+        CREATE TABLE IF NOT EXISTS captures (
+          id TEXT PRIMARY KEY,
+          file TEXT NOT NULL,
+          target_id TEXT,
+          site_id TEXT,
+          taken_at INTEGER NOT NULL,
+          note TEXT
+        );
+
+        CREATE TABLE IF NOT EXISTS weather_cache (
+          site_id TEXT PRIMARY KEY,
+          cloud_cover REAL NOT NULL,
+          humidity REAL NOT NULL,
+          temperature_c REAL NOT NULL,
+          last_fetched_at INTEGER NOT NULL
+        );
+    `);
 }

@@ -105,7 +105,7 @@ export function ConstellationSky({ seed = 1337, count = 140 }: { seed?: number; 
                         x2={b.x}
                         y2={b.y}
                         stroke="#a1a1aa"
-                        strokeWidth={0.5}
+                        strokeWidth={0.75}
                         strokeOpacity={0.25}
                     />
                 ))}

@@ -9,11 +9,19 @@ import { usePalette } from "@/lib/theming";
 
 const glass = isLiquidGlassAvailable();
 
-const icon =
-    (outline: SFSymbol, filled = `${outline}.fill` as SFSymbol) =>
-    ({ color, size, focused }: { color: string; size: number; focused: boolean }) => (
-        <SymbolView name={focused ? filled : outline} size={size} tintColor={color} resizeMode="scaleAspectFit" />
+const icon = function (
+    outline: SFSymbol, 
+    filled = `${outline}.fill` as SFSymbol
+) {
+    return ({ color, size, focused }: { color: string; size: number; focused: boolean }) => (
+        <SymbolView 
+            name={focused ? filled : outline} 
+            size={size} 
+            tintColor={color} 
+            resizeMode="scaleAspectFit" 
+        />
     );
+}
 
 const styles = StyleSheet.create({
     pillClip: { borderRadius: TabPillHeight / 2, overflow: "hidden" },

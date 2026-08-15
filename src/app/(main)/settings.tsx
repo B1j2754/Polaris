@@ -123,9 +123,11 @@ export default function Settings() {
                         </Text>
                     </Pressable>
                     <Text className="font-sansation text-sm text-fg-faint tracking-[1px]">
-                        Polaris {Constants.expoConfig?.version ?? "-.-.-"}
+                        Polaris {Constants.expoConfig?.version ?? "x.x.x"}
                     </Text>
                 </View>
+
+                
             </ScrollView>
         </SafeAreaView>
     );

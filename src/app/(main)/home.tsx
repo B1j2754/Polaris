@@ -1,4 +1,5 @@
 ﻿import { Link, useFocusEffect } from "expo-router";
+import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,33 +12,67 @@ import { BottomTabInset } from "@/constants/theme";
 import { Greetings } from "@/lib/greetings";
 import { useSite } from "@/hooks/use-site";
 import { useProfile } from "@/lib/profile";
-import { compassPoint, evaluate, fetchWeather, type Verdict, type Weather } from "@/lib/sky";
-import { ICONS, TARGETS, type Target } from "@/lib/targets";
-import { usePalette } from "@/lib/theming";
+import { evaluate, fetchWeather, type Verdict, type Weather } from "@/lib/sky";
+import { TARGETS, type Target } from "@/lib/targets";
+import { ObjectCard } from "@/components/object-card";
 
-const WEATHER_MAX_AGE_MS = 5 * 60 * 1000;
+// 24h / this = max weather API calls per site per day. Cached in sqlite, one row per site.
+const WEATHER_MAX_AGE_MS = 12 * 60 * 60 * 1000;
+
+type WeatherRow = { cloud_cover: number; humidity: number; temperature_c: number; last_fetched_at: number };
+
+async function loadCachedWeather(db: ReturnType<typeof useSQLiteContext>, siteId: string): Promise<Weather | null> {
+    const row = await db.getFirstAsync<WeatherRow>("SELECT * FROM weather_cache WHERE site_id = ?", siteId);
+    if (!row || Date.now() - row.last_fetched_at >= WEATHER_MAX_AGE_MS) return null;
+
+    return { cloudCover: row.cloud_cover, humidity: row.humidity, temperatureC: row.temperature_c };
+}
+
+async function cacheWeather(db: ReturnType<typeof useSQLiteContext>, siteId: string, weather: Weather) {
+    await db.runAsync(
+        `INSERT INTO weather_cache (site_id, cloud_cover, humidity, temperature_c, last_fetched_at) VALUES (?, ?, ?, ?, ?)
+         ON CONFLICT(site_id) DO UPDATE SET cloud_cover = excluded.cloud_cover, humidity = excluded.humidity,
+                                            temperature_c = excluded.temperature_c, last_fetched_at = excluded.last_fetched_at`,
+        siteId, weather.cloudCover, weather.humidity, weather.temperatureC, Date.now(),
+    );
+}
+
 const SEGMENTS = ["Now", "Tonight", "Weeks ahead"] as const;
+
+const rank = ({ target, verdict }: { target: Target; verdict: Verdict }, interests: string[]) =>
+    verdict.score + (interests.includes(target.interest) ? 0.05 : 0);
 
 export default function Home() {
     const { profile } = useProfile();
     const { site, denied } = useSite();
+    const db = useSQLiteContext();
     const [weather, setWeather] = useState<Weather | null>(null);
     const [now, setNow] = useState(() => new Date());
     const [tab, setTab] = useState(0);
     const [byName, setByName] = useState(false);
 
-    // lazy load weather
+    // lazy load weather, capped to 2 calls per 24h by the sqlite cache above
     useEffect(() => {
         if (!site) return;
         let cancelled = false;
-        const load = () => fetchWeather(site).then((w) => !cancelled && setWeather(w));
+        const load = async () => {
+            const cached = await loadCachedWeather(db, site.id);
+            if (cached) return !cancelled && setWeather(cached);
+
+            const fresh = await fetchWeather(site);
+            if (cancelled) return;
+
+            setWeather(fresh);
+            if (fresh) await cacheWeather(db, site.id, fresh);
+        };
+        
         load();
         const timer = setInterval(load, WEATHER_MAX_AGE_MS);
         return () => {
             cancelled = true;
             clearInterval(timer);
         };
-    }, [site]);
+    }, [site, db]);
 
     // lazy load sky, at minute intervals to keep it seamless
     useFocusEffect(
@@ -119,40 +154,11 @@ export default function Home() {
                 renderItem={({ item }) => (
                     <Link href={`/objects/${item.target.id}`} asChild>
                         <Pressable>
-                            <Card target={item.target} verdict={item.verdict} />
+                            <ObjectCard target={item.target} verdict={item.verdict} />
                         </Pressable>
                     </Link>
                 )}
             />
         </SafeAreaView>
-    );
-}
-
-const rank = ({ target, verdict }: { target: Target; verdict: Verdict }, interests: string[]) =>
-    verdict.score + (interests.includes(target.interest) ? 0.05 : 0);
-
-function Card({ target, verdict }: { target: Target; verdict: Verdict }) {
-    const { visible, altitude, azimuth, reasons } = verdict;
-    const formatSign = (num: string): string => (+num > 0 ? `+${num}` : `${num}`);
-    const Palette = usePalette();
-    return (
-        <View
-            className={`flex-row items-center gap-4 rounded-2xl border bg-surface p-4 ${
-                visible ? "border-fg/20" : "border-transparent opacity-50"
-            }`}
-        >
-            <Icon name={ICONS[target.kind]} size={32} color={visible ? Palette.white : Palette.iconSubtle} />
-            <View className="flex-1 gap-1">
-                <Text className="font-sansation text-xl text-fg tracking-[1px]">{target.name}</Text>
-                <Text numberOfLines={2} className="font-sansation text-base text-fg-muted tracking-[1px]">
-                    {target.blurb}
-                </Text>
-                <Text className="font-sansation text-base text-fg-subtle tracking-[1px]">
-                    {visible
-                        ? `Az/Alt ${azimuth.toFixed(0)}° (facing) ${compassPoint(azimuth)}, ${formatSign(altitude.toFixed(0))}° (above horizon)`
-                        : reasons.join(" · ")}
-                </Text>
-            </View>
-        </View>
     );
 }
