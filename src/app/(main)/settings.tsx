@@ -125,9 +125,10 @@ export default function Settings() {
                     <Text className="font-sansation text-sm text-fg-faint tracking-[1px]">
                         Polaris {Constants.expoConfig?.version ?? "x.x.x"}
                     </Text>
+                    <Text className="font-sansation text-sm text-fg-faint tracking-[1px]">
+                        Apache-2.0 © 2026 Benjamin Clark, Jacob Schneider
+                    </Text>
                 </View>
-
-                
             </ScrollView>
         </SafeAreaView>
     );
