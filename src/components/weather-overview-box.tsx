@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { openBrowserAsync } from "expo-web-browser";
 
 import { Icon, type IconName } from "@/components/icon";
 import type { Site } from "@/lib/sites";
@@ -73,6 +74,12 @@ export function WeatherOverviewBox({ site, now, weather }: { site: Site; now: Da
                     <Stat icon={seeing.icon} label={seeing.label} />
                 </View>
             )}
+
+            <Pressable onPress={() => openBrowserAsync("https://open-meteo.com/")}>
+                <Text className="text-center font-sansation text-xs text-fg-faint tracking-[1px] underline">
+                    Weather data by Open-Meteo.com
+                </Text>
+            </Pressable>
         </View>
     );
 }

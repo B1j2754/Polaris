@@ -1,5 +1,8 @@
 {
     "printWidth": 120,
     "tabWidth": 4,
-    "useTabs": false
+    "useTabs": false,
+    "importOrder": ["^react", "^react-native", "^[a-zA-Z]", "^@?\\w", "^[./]"],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
 }

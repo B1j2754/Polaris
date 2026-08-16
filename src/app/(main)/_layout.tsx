@@ -1,5 +1,5 @@
 import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
-import { Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 import { SymbolView, type SFSymbol } from "expo-symbols";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

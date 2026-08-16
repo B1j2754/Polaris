@@ -112,6 +112,18 @@ export default function Settings() {
                     </View>
                 </Section>
 
+                <Section title="About" hint="Version, credits and the licences Polaris runs on.">
+                    <Link href="/about" asChild>
+                        <Pressable className="h-14 flex-row items-center gap-3 rounded-full border border-line px-5 active:bg-surface">
+                            <Icon name="info" size={20} color={Palette.iconMuted} />
+                            <Text numberOfLines={1} className="font-sansation flex-1 text-lg text-fg">
+                                Polaris {Constants.expoConfig?.version ?? "x.x.x"}
+                            </Text>
+                            <Icon name="chevronRight" size={20} color={Palette.iconSubtle} />
+                        </Pressable>
+                    </Link>
+                </Section>
+
                 <View className="items-center gap-3 pt-2">
                     <Pressable
                         onPress={confirmReset}
@@ -122,12 +134,6 @@ export default function Settings() {
                             Reset profile
                         </Text>
                     </Pressable>
-                    <Text className="font-sansation text-sm text-fg-faint tracking-[1px]">
-                        Polaris {Constants.expoConfig?.version ?? "x.x.x"}
-                    </Text>
-                    <Text className="font-sansation text-sm text-fg-faint tracking-[1px]">
-                        Apache-2.0 © 2026 Benjamin Clark, Jacob Schneider
-                    </Text>
                 </View>
             </ScrollView>
         </SafeAreaView>

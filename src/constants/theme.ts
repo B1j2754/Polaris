@@ -61,6 +61,7 @@ export const blackVars = {
     "--color-danger": "#f87171",
     "--color-danger-border": "#7f1d1d",
     "--color-danger-bg": "#450a0a",
+    "--color-bg": "#000000",
 } as const;
 
 // --- Red Palette (pure red channel only) ---
@@ -91,6 +92,7 @@ export const redVars = {
     "--color-danger": "#ff0000",
     "--color-danger-border": "#8f0000",
     "--color-danger-bg": "#330000",
+    "--color-bg": "#000000",
 } as const;
 
 export type PaletteType = typeof blackPalette | typeof redPalette;

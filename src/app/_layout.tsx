@@ -61,6 +61,8 @@ function RootNavigator() {
             <Stack.Protected guard={!profile?.onboarded}>
                 <Stack.Screen name="(login)" />
             </Stack.Protected>
+            
+            <Stack.Screen name="about" options={BackHeader} />
         </Stack>
     );
 }

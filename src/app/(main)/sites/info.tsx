@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
+import { openBrowserAsync } from "expo-web-browser";
 import { Modal, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -118,6 +119,11 @@ export default function SiteInfo() {
                                   ? "Nothing found // try a nearby town."
                                   : "We'll get the coordinates and elavation for you."}
                         </Text>
+                        <Pressable onPress={() => openBrowserAsync("https://open-meteo.com/")}>
+                            <Text className="text-center font-sansation text-xs text-fg-faint tracking-[1px] underline">
+                                Weather data by Open-Meteo.com
+                            </Text>
+                        </Pressable>
                         {results.map((place) => (
                             <Pressable
                                 key={place.id}
