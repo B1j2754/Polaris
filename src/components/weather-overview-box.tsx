@@ -1,10 +1,11 @@
-import { Pressable, Text, View } from "react-native";
-import { openBrowserAsync } from "expo-web-browser";
-
 import { Icon, type IconName } from "@/components/icon";
 import type { Site } from "@/lib/sites";
-import { sunAltitude, type Weather } from "@/lib/sky";
+import { type Weather, sunAltitude } from "@/lib/sky";
 import { usePalette } from "@/lib/theming";
+
+import { Pressable, Text, View } from "react-native";
+
+import { openBrowserAsync } from "expo-web-browser";
 
 function sunPhase(altitude: number): { icon: IconName; label: string } {
     if (altitude > 0) return { icon: "sun", label: "Daytime" };

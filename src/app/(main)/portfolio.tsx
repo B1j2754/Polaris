@@ -1,12 +1,13 @@
-import { Image } from "expo-image";
-import { Link } from "expo-router";
+import { Icon } from "@/components/icon";
+import { BottomTabInset } from "@/constants/theme";
+import { captureUri, useCaptures } from "@/lib/captures";
+import { useProfile } from "@/lib/profile";
+
 import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { captureUri, useCaptures } from "@/lib/captures";
-import { Icon } from "@/components/icon";
-import { BottomTabInset } from "@/constants/theme";
-import { useProfile } from "@/lib/profile";
+import { Image } from "expo-image";
+import { Link } from "expo-router";
 
 export default function Portfolio() {
     const { captures, add } = useCaptures();

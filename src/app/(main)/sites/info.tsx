@@ -1,18 +1,19 @@
-import { Image } from "expo-image";
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import { openBrowserAsync } from "expo-web-browser";
-import { Modal, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 import { Button } from "@/components/button";
 import { Icon } from "@/components/icon";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { BottomTabInset } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/lib/profile";
-import { HORIZON_PRESETS, searchPlaces, type Site } from "@/lib/sites";
+import { HORIZON_PRESETS, type Site, searchPlaces } from "@/lib/sites";
 import { usePalette } from "@/lib/theming";
+
+import { useEffect, useState } from "react";
+import { Modal, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import { Image } from "expo-image";
+import { router, useLocalSearchParams } from "expo-router";
+import { openBrowserAsync } from "expo-web-browser";
 
 const DEBOUNCE_MS = 400;
 

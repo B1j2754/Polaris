@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import Animated, {
     Extrapolation,
-    interpolate,
     SensorType,
+    interpolate,
     useAnimatedReaction,
     useAnimatedSensor,
     useAnimatedStyle,
@@ -72,22 +72,22 @@ export function ConstellationSky({ seed = 1337, count = 140 }: { seed?: number; 
 
     useAnimatedReaction(
         () => gravity.sensor.value,
-        ({x, y}) => {
+        ({ x, y }) => {
             if (baseX.value === null) {
                 if (x === 0 && y === 0) return;
                 baseX.value = x;
                 baseY.value = y;
             }
 
-            offX.value = withSpring(
-                interpolate(x - baseX.value!, [-5, 5], [PAN, -PAN], Extrapolation.CLAMP),
-                { damping: 20, stiffness: 45 }
-            );
-            offY.value = withSpring(
-                interpolate(y - baseY.value!, [-4.5, 4.5], [-PAN, PAN], Extrapolation.CLAMP),
-                { damping: 20, stiffness: 45 }
-            );
-        }
+            offX.value = withSpring(interpolate(x - baseX.value!, [-5, 5], [PAN, -PAN], Extrapolation.CLAMP), {
+                damping: 20,
+                stiffness: 45,
+            });
+            offY.value = withSpring(interpolate(y - baseY.value!, [-4.5, 4.5], [-PAN, PAN], Extrapolation.CLAMP), {
+                damping: 20,
+                stiffness: 45,
+            });
+        },
     );
 
     const skyStyle = useAnimatedStyle(() => ({

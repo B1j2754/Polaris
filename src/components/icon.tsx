@@ -1,7 +1,7 @@
+import { usePalette } from "@/lib/theming";
+
 import { createElement } from "react";
 import Svg, { Circle, Line, Path, Polygon, Polyline, Rect } from "react-native-svg";
-
-import { usePalette } from "@/lib/theming";
 
 /**
  * Icon artwork copied from lucide and @lucide/lab (both ISC).

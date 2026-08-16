@@ -1,0 +1,11 @@
+# Dependencies and builds
+node_modules/
+dist/
+build/
+coverage/
+
+# Lock files and system assets
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.DS_Store

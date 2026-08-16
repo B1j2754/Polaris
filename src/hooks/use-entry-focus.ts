@@ -1,6 +1,7 @@
-import { useNavigation } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import type { TextInput } from "react-native";
+
+import { useNavigation } from "expo-router";
 
 type TransitionEnd = { data?: { closing?: boolean } };
 

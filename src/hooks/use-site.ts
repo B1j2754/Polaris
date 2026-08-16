@@ -1,8 +1,9 @@
-import * as Location from "expo-location";
-import { useEffect, useState } from "react";
-
 import { useProfile } from "@/lib/profile";
 import type { Site } from "@/lib/sites";
+
+import { useEffect, useState } from "react";
+
+import * as Location from "expo-location";
 
 /** Roughly New York. */
 const DEFAULT_SITE: Site = {
@@ -52,7 +53,7 @@ async function locate(): Promise<{ site: Site; denied: boolean }> {
 
 /**
  * Resolves active observing site, from profile or from GPS (as backup)
- * 
+ *
  * @returns The resolved {@link Site} and whether permission was denied.
  * When `denied` is `true`, `site` is `DEFAULT_SITE`
  */

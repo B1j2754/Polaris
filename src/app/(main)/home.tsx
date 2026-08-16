@@ -1,20 +1,21 @@
-﻿import { Link, useFocusEffect } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
+﻿import { Icon } from "@/components/icon";
+import { LookaheadSection } from "@/components/lookahead-section";
+import { ObjectCard } from "@/components/object-card";
+import { SegmentedPill } from "@/components/segmented-pill";
+import { WeatherOverviewBox } from "@/components/weather-overview-box";
+import { BottomTabInset } from "@/constants/theme";
+import { useSite } from "@/hooks/use-site";
+import { Greetings } from "@/lib/greetings";
+import { useProfile } from "@/lib/profile";
+import { type Verdict, type Weather, evaluate, fetchWeather } from "@/lib/sky";
+import { TARGETS, type Target } from "@/lib/targets";
+
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Icon } from "@/components/icon";
-import { LookaheadSection } from "@/components/lookahead-section";
-import { SegmentedPill } from "@/components/segmented-pill";
-import { WeatherOverviewBox } from "@/components/weather-overview-box";
-import { BottomTabInset } from "@/constants/theme";
-import { Greetings } from "@/lib/greetings";
-import { useSite } from "@/hooks/use-site";
-import { useProfile } from "@/lib/profile";
-import { evaluate, fetchWeather, type Verdict, type Weather } from "@/lib/sky";
-import { TARGETS, type Target } from "@/lib/targets";
-import { ObjectCard } from "@/components/object-card";
+import { Link, useFocusEffect } from "expo-router";
+import { useSQLiteContext } from "expo-sqlite";
 
 // 24h / this = max weather API calls per site per day. Cached in sqlite, one row per site.
 const WEATHER_MAX_AGE_MS = 12 * 60 * 60 * 1000;
@@ -33,7 +34,11 @@ async function cacheWeather(db: ReturnType<typeof useSQLiteContext>, siteId: str
         `INSERT INTO weather_cache (site_id, cloud_cover, humidity, temperature_c, last_fetched_at) VALUES (?, ?, ?, ?, ?)
          ON CONFLICT(site_id) DO UPDATE SET cloud_cover = excluded.cloud_cover, humidity = excluded.humidity,
                                             temperature_c = excluded.temperature_c, last_fetched_at = excluded.last_fetched_at`,
-        siteId, weather.cloudCover, weather.humidity, weather.temperatureC, Date.now(),
+        siteId,
+        weather.cloudCover,
+        weather.humidity,
+        weather.temperatureC,
+        Date.now(),
     );
 }
 
@@ -65,7 +70,7 @@ export default function Home() {
             setWeather(fresh);
             if (fresh) await cacheWeather(db, site.id, fresh);
         };
-        
+
         load();
         const timer = setInterval(load, WEATHER_MAX_AGE_MS);
         return () => {

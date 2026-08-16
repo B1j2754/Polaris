@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
-import { Text, View } from "react-native";
-
 import { SegmentedPill } from "@/components/segmented-pill";
 import { nightlyPeaks, tonightCurve } from "@/lib/lookAhead";
-import { altitudeFloor, type Coords } from "@/lib/sky";
+import { type Coords, altitudeFloor } from "@/lib/sky";
 import type { Target } from "@/lib/targets";
+
+import { useMemo, useState } from "react";
+import { Text, View } from "react-native";
 
 const RANGES = ["Tonight", "Week", "3 Weeks"] as const;
 const GRAPH_HEIGHT = 160;

@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { EquipmentEditor } from "@/components/equipment-editor";
 import { ScreenBackground } from "@/constants/theme";
 import type { Equipment } from "@/lib/equipment";
 import { useProfile } from "@/lib/profile";
+
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignUpEquipment() {
     const { profile, save } = useProfile();

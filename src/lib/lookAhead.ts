@@ -1,4 +1,4 @@
-import { evaluate, moonIllumination, type Coords, type Weather } from "./sky.ts";
+import { type Coords, type Weather, evaluate, moonIllumination } from "./sky.ts";
 import { TARGETS, type Target } from "./targets.ts";
 
 export type Sample = {

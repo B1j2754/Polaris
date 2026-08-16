@@ -1,6 +1,6 @@
-import * as Astronomy from "astronomy-engine";
-
 import type { Target } from "@/lib/targets";
+
+import * as Astronomy from "astronomy-engine";
 
 /**
  * All positional astronomy (planet/Moon ephemerides, precession, the horizontal transform, phase) comes from

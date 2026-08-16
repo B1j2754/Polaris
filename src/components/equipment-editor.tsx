@@ -1,3 +1,20 @@
+import { Icon } from "@/components/icon";
+import { useEntryFocus } from "@/hooks/use-entry-focus";
+import {
+    CAMERA_PRESETS,
+    type Camera,
+    type Equipment,
+    FIELDS,
+    type Kind,
+    TELESCOPE_PRESETS,
+    type Telescope,
+    customEquipment,
+    fieldOfView,
+    specLine,
+    stripPreset,
+} from "@/lib/equipment";
+import { usePalette } from "@/lib/theming";
+
 import { useState } from "react";
 import {
     KeyboardAvoidingView,
@@ -10,23 +27,6 @@ import {
     TextInput,
     View,
 } from "react-native";
-
-import { Icon } from "@/components/icon";
-import {
-    CAMERA_PRESETS,
-    FIELDS,
-    TELESCOPE_PRESETS,
-    customEquipment,
-    fieldOfView,
-    specLine,
-    stripPreset,
-    type Camera,
-    type Equipment,
-    type Kind,
-    type Telescope,
-} from "@/lib/equipment";
-import { usePalette } from "@/lib/theming";
-import { useEntryFocus } from "@/hooks/use-entry-focus";
 
 type Props = {
     value: Equipment[];
@@ -138,8 +138,7 @@ export function EquipmentEditor({ value, onChange, emptyText }: Props) {
                                         <Text className="font-sansation text-lg text-fg">{preset.label}</Text>
                                         <Text className="font-sansation text-sm text-fg-muted">{preset.blurb}</Text>
                                     </Pressable>
-                                ))
-                            }
+                                ))}
 
                             {picking && (
                                 <View className="mt-2 gap-3 border-t border-line px-6 pt-5">

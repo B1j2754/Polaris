@@ -1,15 +1,16 @@
-import { Image } from "expo-image";
-import { router, useLocalSearchParams } from "expo-router";
+import { Icon } from "@/components/icon";
+import { BottomTabInset } from "@/constants/theme";
+import { captureUri, useCaptures } from "@/lib/captures";
+import { useProfile } from "@/lib/profile";
+import { TARGETS } from "@/lib/targets";
+import { usePalette } from "@/lib/theming";
+
 import { useState } from "react";
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { captureUri, useCaptures } from "@/lib/captures";
-import { Icon } from "@/components/icon";
-import { BottomTabInset } from "@/constants/theme";
-import { useProfile } from "@/lib/profile";
-import { TARGETS } from "@/lib/targets";
-import { usePalette } from "@/lib/theming";
+import { Image } from "expo-image";
+import { router, useLocalSearchParams } from "expo-router";
 
 const OPTIONS: { id: string | null; name: string }[] = [
     { id: null, name: "Unlinked" },

@@ -1,14 +1,15 @@
-import { router } from "expo-router";
-import { useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { ScreenBackground } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/lib/profile";
 import { usePalette } from "@/lib/theming";
+
+import { useState } from "react";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { router } from "expo-router";
 
 export default function SignUpInfo() {
     const { profile, save } = useProfile();
@@ -76,10 +77,10 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        /** 
+        /**
          * Must be definite: children size themselves with % widths, which resolve to 0 against a shrink-to-fit parent.
          * (SafeAreaView centres its children, so this View won't stretch on its own)
-         */ 
+         */
         width: "100%",
         alignItems: "center",
         justifyContent: "center",

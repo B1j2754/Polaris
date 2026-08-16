@@ -1,27 +1,20 @@
-import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
-import { Stack, Tabs } from "expo-router";
-import { SymbolView, type SFSymbol } from "expo-symbols";
-import { StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 import { ScreenBackground, TabPillHeight } from "@/constants/theme";
 import { usePalette } from "@/lib/theming";
 
+import { StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
+import { Stack, Tabs } from "expo-router";
+import { type SFSymbol, SymbolView } from "expo-symbols";
+
 const glass = isLiquidGlassAvailable();
 
-const icon = function (
-    outline: SFSymbol, 
-    filled = `${outline}.fill` as SFSymbol
-) {
+const icon = function (outline: SFSymbol, filled = `${outline}.fill` as SFSymbol) {
     return ({ color, size, focused }: { color: string; size: number; focused: boolean }) => (
-        <SymbolView 
-            name={focused ? filled : outline} 
-            size={size} 
-            tintColor={color} 
-            resizeMode="scaleAspectFit" 
-        />
+        <SymbolView name={focused ? filled : outline} size={size} tintColor={color} resizeMode="scaleAspectFit" />
     );
-}
+};
 
 const styles = StyleSheet.create({
     pillClip: { borderRadius: TabPillHeight / 2, overflow: "hidden" },

@@ -1,7 +1,9 @@
-import { compassPoint, Verdict } from "@/lib/sky";
+import { Verdict, compassPoint } from "@/lib/sky";
 import { ICONS, Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
+
 import { Text, View } from "react-native";
+
 import { Icon } from "./icon";
 
 export function ObjectCard({ target, verdict }: { target: Target; verdict: Verdict }) {

@@ -1,7 +1,8 @@
-import Constants from "expo-constants";
-import { openBrowserAsync } from "expo-web-browser";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import Constants from "expo-constants";
+import { openBrowserAsync } from "expo-web-browser";
 
 function Credit({
     name,
@@ -51,9 +52,7 @@ export default function About() {
                     Scores tonight against your kit and your horizon // free, no ads, open source.
                 </Text>
                 <Pressable onPress={() => openBrowserAsync("https://github.com/B1j2754/Polaris")} className="pt-2">
-                    <Text className="font-sansation text-base text-fg underline tracking-[1px]">
-                        Source on GitHub
-                    </Text>
+                    <Text className="font-sansation text-base text-fg underline tracking-[1px]">Source on GitHub</Text>
                 </Pressable>
             </View>
 

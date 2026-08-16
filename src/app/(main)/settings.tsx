@@ -1,9 +1,3 @@
-import Constants from "expo-constants";
-import { Link } from "expo-router";
-import { useState } from "react";
-import { Alert, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
 import { EquipmentEditor } from "@/components/equipment-editor";
 import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
@@ -11,6 +5,13 @@ import { BottomTabInset } from "@/constants/theme";
 import { INTERESTS, toggleInterest } from "@/lib/interests";
 import { useProfile } from "@/lib/profile";
 import { usePalette, useTheme } from "@/lib/theming";
+
+import { useState } from "react";
+import { Alert, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import Constants from "expo-constants";
+import { Link } from "expo-router";
 
 export default function Settings() {
     const { profile, save, reset } = useProfile();

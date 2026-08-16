@@ -1,10 +1,11 @@
-import { router } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { ScreenBackground } from "@/constants/theme";
+
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { router } from "expo-router";
 
 export default function SplashScreen() {
     return (
