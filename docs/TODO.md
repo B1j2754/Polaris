@@ -5,8 +5,6 @@
     - [ ] Splash 1024x1024
     - [ ] Replace expo blue in app.json
     - [ ] Delete expo icon, replace with ios icon
-- [ ] Ios bundler identifier
-- [ ] Android package (lowercase-ify)
 - [ ] Create app info/overview for publishing
 - [ ] PostHog Analytics
 - [ ] Expo notifications?
@@ -59,3 +57,5 @@
 - [x] Weather caching
 - [x] Reorganize
 - [x] Add red filter toggle
+- [x] Ios bundler identifier
+- [x] Android package (lowercase-ify)
