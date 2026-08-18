@@ -25,3 +25,7 @@ Decided to devote a dev-talk section to this, since this seems much more importa
   It appears as if it is a reusable page. Dynamic gen. So like a function that takes a parameter.
 
 ---
+
+> Note: I kept the beginning of this around as it was still relevant to my coding process. However, the remainder of my dev logs have moved into 2 other places:
+> * Portion 1: [Stardance](https://stardance.hackclub.com/projects/38862)
+> * Portion 2: [Macondo](https://macondo.hackclub.com/projects/16810)

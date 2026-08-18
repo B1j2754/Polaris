@@ -12,7 +12,7 @@
 ## Store config
 
 - [ ] App store privacy manifest
-- [ ] Fill eas.json + submit.production
+- [ ] Fill ~~eas.json +~~ submit.production
 - [ ] Host privacy policy on github pages
 
 ## Listing config
@@ -40,7 +40,7 @@
 - [ ] Code review: unspaghetify code, and align naming schemes
     - [x] Config prettier better
     - [x] Scan repo for typos
-    - [ ] Check dependencies / dev dependencies
+    - [x] Check dependencies / dev dependencies
     - [ ] Delete default assets
 - [ ] Write AI disclosure
 - [ ] Greetings => useMemo

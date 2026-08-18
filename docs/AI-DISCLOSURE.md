@@ -1,0 +1,40 @@
+# AI Disclosure / Use in Polaris [8/18/2026]
+
+This document aims to outline how I use generative AI—specifically LLMs—in the development of Polaris.
+I believe in transparency, especially submitted to competitions where where the code itself is scored.
+
+All code that was generated with LLMs was reviewed, and was not accepted without looking and approving logic and structure.
+
+## Background logic // Core logic regarding sky calculations and os-level interactions
+
+This is the portion that I enjoy most about programming, and for this reason I do not use AI here.
+I enjoy the process of working through libraries and writing the logic. This is also the portion that requires the most brainpower and makes up the core portion of the app.
+
+## Front-facing design // What the user sees in-app
+
+This area I am still working at—as in, I am personally developing react front end skills—and therefore use more LLMs.
+My use ranges from asking how to construct pieces, but moreso language-or-logic-specific questions. Examples include learning `useContext` or arbitrary [tailwind]css ideas.
+Despite my use, I don't commit anything I couldn't explain or rewrite myself, and I integrate it as my own, instead of leaving it as its direct output. It is a tool to speed up development.
+
+## Data // Data used by the app for calculations
+
+This app requires precision by default—it is just something that comes along with astronomy. For this reason, only temporary data is made by AI, and clearly kept track of below as un-verified. My aim is to move all of this to real data by launch:
+
+- Target.blurb
+- Target.maxMoonIllum
+- Target.maxCloudPct
+- Target.maxSunAltitudeDeg
+
+## Docs // Any sort of documentation or .md file
+
+As of current, all docs are written by hand. The docs are mainly about contributing and developer things, specific to me. If docs are ever required for functions or use, I will update this section regarding their creation.
+
+## Tests // Logic tests for portions of the logical code
+
+I, personally, believe that LLMs are great at interpreting human goals, and what code is meant to achieve.
+So I will often point it at my work, and ask it to create a test to ensure that my code achieves what I think it should.
+
+---
+
+> Disclosure document structure is loosely based off Jared Cunha's version:
+  https://jaredcunha.com/ai-usage
