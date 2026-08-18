@@ -118,7 +118,7 @@ export default function SiteInfo() {
                                 ? "Looking..."
                                 : results.length === 0 && query.trim().length >= 2
                                   ? "Nothing found // try a nearby town."
-                                  : "We'll get the coordinates and elavation for you."}
+                                  : "We'll get the coordinates and elevation for you."}
                         </Text>
                         <Pressable onPress={() => openBrowserAsync("https://open-meteo.com/")}>
                             <Text className="text-center font-sansation text-xs text-fg-faint tracking-[1px] underline">

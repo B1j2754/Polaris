@@ -15,7 +15,7 @@ const DEFAULT_SITE: Site = {
     horizonDeg: 0,
 };
 
-// Fire once per app-launch as a module. No need to constantly evaluate, movements while app is open are next to negligeable.
+// Fire once per app-launch as a module. No need to constantly evaluate, movements while app is open are next to negligible.
 // TODO: Re-evaluate this later.
 let gpsOnce: Promise<{ site: Site; denied: boolean }> | null = null;
 

@@ -1,4 +1,4 @@
-# Contributer / Developer's Guide
+# Contributor / Developer's Guide
 
 ## Expo
 
@@ -11,8 +11,8 @@ Build dev client -> `eas build --profile development`
 Test release -> `eas build --profile preview`
 Prod release -> `eas build --profile production` + `eas submit --profile production`
 
-OTA update prod -> `eas update --enviroment produciton`
-OTA update development -> `eas update --enviroment development`
+OTA update prod -> `eas update --environment production`
+OTA update development -> `eas update --environment development`
 
 # Code base structure
 
@@ -34,7 +34,7 @@ We follow the [Convention Commits](https://www.conventionalcommits.org/en/v1.0.0
 ```
 <type>(subject): <short description>
 
-[optional body, bulletted]
+[optional body, bulleted]
 ```
 
 Feel free to use the [Conventional Commits VSCode Extension](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits) to help enforce this formatting.

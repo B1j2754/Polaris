@@ -110,7 +110,7 @@ export default function Home() {
     const upNow = ranked.filter((r) => r.verdict.visible).length;
 
     // Generate greeting
-    const greetingGen = new Greetings(profile?.name ?? "Unkown");
+    const greetingGen = new Greetings(profile?.name ?? "Unknown");
     const greeting = greetingGen.getGreeting();
 
     return (

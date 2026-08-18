@@ -23,7 +23,7 @@
 - [ ] Ss 1320x2868, 5-6x
 - [ ] Play store graphic 1024x500
 - [ ] Apple privacy questionnaire + Play Data Safety form
-    - Location collected + shared (with open mateo)
+    - Location collected + shared (with Open-Meteo)
 
 ## Feature todo
 
@@ -39,10 +39,10 @@
 - [ ] Extract weather caching into its own hook / useContext
 - [ ] Code review: unspaghetify code, and align naming schemes
     - [x] Config prettier better
-    - [ ] Scan repo for typos
+    - [x] Scan repo for typos
     - [ ] Check dependencies / dev dependencies
     - [ ] Delete default assets
-- [ ] Write AI disclossure
+- [ ] Write AI disclosure
 - [ ] Greetings => useMemo
 
 ## Feature wishlist (lower probability)

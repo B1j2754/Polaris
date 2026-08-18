@@ -80,7 +80,7 @@ export type Weather = {
     temperatureC: number;
 };
 
-/** Free Open-Mateo query for weather rating. */
+/** Free Open-Meteo query for weather rating. */
 export async function fetchWeather({ lat, lon }: Coords): Promise<Weather | null> {
     try {
         const response = await fetch(

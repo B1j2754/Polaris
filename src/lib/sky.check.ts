@@ -1,5 +1,5 @@
 /**
- * Authored by Cluade
+ * Authored by Claude
  *
  * Self-check for the sky wiring. No test framework on purpose — Node strips the types itself:
  *
