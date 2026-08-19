@@ -21,19 +21,19 @@ const PILL_INPUT = "font-sansation h-14 rounded-full border border-line px-5 tex
 
 const GUIDE: { image: number; caption: string }[] = [
     {
-        image: require("@/assets/images/hand-demo-spread.jpg"),
+        image: require("@/assets/images/hand-demo-spread.png"),
         caption: "A hand, spread out at arm's length ≈ 25°.",
     },
     {
-        image: require("@/assets/images/hand-demo-fist.jpg"),
+        image: require("@/assets/images/hand-demo-fist.png"),
         caption: "A fist at arm's length ≈ 10°.",
     },
     {
-        image: require("@/assets/images/hand-demo-three.jpg"),
+        image: require("@/assets/images/hand-demo-three.png"),
         caption: "Three fingers, spread out at arm's length ≈ 5°.",
     },
     {
-        image: require("@/assets/images/hand-demo-finger.jpg"),
+        image: require("@/assets/images/hand-demo-finger.png"),
         caption: "A finger at arm's length ≈ 1°.",
     },
 ];

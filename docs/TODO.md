@@ -1,14 +1,3 @@
-## Publishing todo
-
-- [ ] Add app splash + icon (general app polish)
-    - [ ] Icon 1024x1024
-    - [ ] Splash 1024x1024
-    - [ ] Replace expo blue in app.json
-    - [ ] Delete expo icon, replace with ios icon
-- [ ] Create app info/overview for publishing
-- [ ] PostHog Analytics
-- [ ] Expo notifications?
-
 ## Store config
 
 - [ ] App store privacy manifest
@@ -34,20 +23,16 @@
     - [ ] Add "reasons" section as to why it was chosen (weighted ring?)
 - [ ] Add more greetings
 - [ ] Use image API to show object preview
-- [ ] Switch hand images to proper png transparent ones
 - [ ] Sort suggestions by apparent magnitude / important stars
 - [ ] Extract weather caching into its own hook / useContext
-- [ ] Code review: unspaghetify code, and align naming schemes
-    - [x] Config prettier better
-    - [x] Scan repo for typos
-    - [x] Check dependencies / dev dependencies
-    - [ ] Delete default assets
-- [ ] Write AI disclosure
 - [ ] Greetings => useMemo
+- [ ] Update README to be more complete
 
 ## Feature wishlist (lower probability)
 
 - [ ] Export "tonight" card
+- [ ] Expo notifications?
+- [ ] PostHog Analytics
 
 ## Done
 
@@ -59,3 +44,15 @@
 - [x] Add red filter toggle
 - [x] Ios bundler identifier
 - [x] Android package (lowercase-ify)
+- [x] Write AI disclosure
+- [x] Switch hand images to proper png transparent ones
+- [x] Code review: unspaghetify code, and align naming schemes
+    - [x] Config prettier better
+    - [x] Scan repo for typos
+    - [x] Check dependencies / dev dependencies
+    - [x] Delete default 
+- [x] Add app splash + icon (general app polish)
+    - [x] Icon 1024x1024
+    - [x] Splash 1024x1024
+    - [x] Replace expo blue (#208AEF) in app.config.ts splash config
+    - [x] Delete expo icon, replace with ios icon (dropped the layered Icon Composer icon, iOS now uses the flat icon.png like Android/web)

@@ -14,15 +14,12 @@ export default (): ExpoConfig => ({
     platforms: ["ios", "android"],
     ios: {
         supportsTablet: false,
-        icon: "./assets/expo.icon",
         bundleIdentifier: isDev ? "com.b1j.polaris.dev" : "com.b1j.polaris",
     },
     android: {
         adaptiveIcon: {
-            backgroundColor: "#E6F4FE",
+            backgroundColor: "#000000",
             foregroundImage: "./assets/images/android-icon-foreground.png",
-            backgroundImage: "./assets/images/android-icon-background.png",
-            monochromeImage: "./assets/images/android-icon-monochrome.png",
         },
         predictiveBackGestureEnabled: false,
         permissions: [
@@ -38,7 +35,7 @@ export default (): ExpoConfig => ({
         [
             "expo-splash-screen",
             {
-                backgroundColor: "#208AEF",
+                backgroundColor: "#000000",
                 image: "./assets/images/splash-icon.png",
                 imageWidth: 76,
             },

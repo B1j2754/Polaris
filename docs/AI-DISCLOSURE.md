@@ -1,7 +1,7 @@
 # AI Disclosure / Use in Polaris [8/18/2026]
 
 This document aims to outline how I use generative AI—specifically LLMs—in the development of Polaris.
-I believe in transparency, especially submitted to competitions where where the code itself is scored.
+I believe in transparency, especially submitted to competitions where the code itself is scored.
 
 All code that was generated with LLMs was reviewed, and was not accepted without looking and approving logic and structure.
 
@@ -12,7 +12,7 @@ I enjoy the process of working through libraries and writing the logic. This is 
 
 ## Front-facing design // What the user sees in-app
 
-This area I am still working at—as in, I am personally developing react front end skills—and therefore use more LLMs.
+This area I am still working at; as in, I am personally developing react front end skills—and therefore use more LLMs.
 My use ranges from asking how to construct pieces, but moreso language-or-logic-specific questions. Examples include learning `useContext` or arbitrary [tailwind]css ideas.
 Despite my use, I don't commit anything I couldn't explain or rewrite myself, and I integrate it as my own, instead of leaving it as its direct output. It is a tool to speed up development.
 
