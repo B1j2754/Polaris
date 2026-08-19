@@ -30,6 +30,7 @@
 
 ## Feature wishlist (lower probability)
 
+- [ ] Automatic red at sundown
 - [ ] Export "tonight" card
 - [ ] Expo notifications?
 - [ ] PostHog Analytics
