@@ -2,7 +2,6 @@
 
 - [ ] App store privacy manifest
 - [ ] Fill ~~eas.json +~~ submit.production
-- [x] Host privacy policy on github pages
 
 ## Listing config
 
@@ -57,3 +56,4 @@
 - [x] App overview for publishing
     - [x] Apple: name 30 / subtitle 30 / keyword 100 / description 4k
     - [x] Play Store: title 30 / short 80 / full 4k
+- [x] Host privacy policy on github pages

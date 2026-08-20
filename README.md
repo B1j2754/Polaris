@@ -1,3 +1,7 @@
+## Privacy Policy
+
+https://b1j2754.github.io/Polaris/privacy.html
+
 ## AI-Disclosure
 
 See the [Disclosure Document](/docs/AI-Disclosure.md)
