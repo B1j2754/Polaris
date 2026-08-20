@@ -74,7 +74,10 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
 
     const daylight = evaluate(target("m31"), where, noon);
     assert.equal(daylight.visible, false, "M31 must not be visible at noon");
-    assert.ok(daylight.visibilityIssues.includes("Daylight"), `expected a daylight reason, got ${daylight.visibilityIssues}`);
+    assert.ok(
+        daylight.visibilityIssues.includes("Daylight"),
+        `expected a daylight reason, got ${daylight.visibilityIssues}`,
+    );
 
     const night = evaluate(target("m31"), where, utc("2026-11-16T02:00:00Z"), {
         cloudCover: 5,
@@ -133,6 +136,28 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
         temperatureC: 8,
     });
     assert.equal(trivial.score, clear.score, "a horizon under the target minimum must not move the score");
+}
+
+// --- equipment gates faint targets, and never lets a score climb above its gearless value ---
+{
+    const when = utc("2026-11-16T05:00:00Z"); // m81 well up over New York
+    const where = { lat: 40.7, lon: -74 };
+    const dob = [{ kind: "telescope" as const, label: '8" Dob', apertureMm: 203, focalLengthMm: 1200 }];
+
+    // m81 (mag 6.9) is past the naked eye but easy in an 8"
+    const eye = evaluate(target("m81"), where, when, null);
+    const scoped = evaluate(target("m81"), where, when, null, dob);
+    assert.ok(eye.reasons.equipmentScore < 0.1, "mag 6.9 must be all but out of reach with no telescope");
+    // a zero factor would tie every sample of a night and break nightlyPeaks' pick
+    assert.ok(eye.reasons.equipmentScore > 0, "out of reach must still be a positive factor");
+    assert.equal(scoped.reasons.equipmentScore, 1, "mag 6.9 must be comfortable in a 203mm");
+    assert.ok(scoped.score > eye.score, "aperture must raise the score of a faint target");
+
+    // the Moon needs nothing, and a camera is not an aperture
+    const moon = evaluate(target("moon"), where, when, null, [
+        { kind: "camera", label: "cam", pixelUm: 3.76, pxX: 3008, pxY: 3008 },
+    ]);
+    assert.equal(moon.reasons.equipmentScore, 1, "the Moon is naked-eye whatever is in the bag");
 }
 
 // --- every catalog entry is well formed ---

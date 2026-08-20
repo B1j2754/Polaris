@@ -1,6 +1,9 @@
+import type { Equipment } from "@/lib/equipment";
 import type { Target } from "@/lib/targets";
 
 import * as Astronomy from "astronomy-engine";
+
+import { equipmentValue } from "./equipment.ts";
 
 /**
  * All positional astronomy (planet/Moon ephemerides, precession, the horizontal transform, phase) comes from
@@ -122,7 +125,7 @@ export type QualityBreakdown = {
     sunlightScore: number;
     cloudScore: number;
     equipmentScore: number;
-}
+};
 
 /** How high a target has to get before it counts as up: its own minimum, or whatever the site's horizon is blocked to, whichever is higher. */
 export const altitudeFloor = (target: Target, where: Coords) => Math.max(target.minAltitudeDeg, where.horizonDeg ?? 0);
@@ -133,7 +136,13 @@ export const altitudeFloor = (target: Target, where: Coords) => Math.max(target.
  * TODO: no light pollution, seeing, or transparency term, because nothing in the app records a site's Bortle class yet.
  * Add a `bortle` factor here once the Sites tab stores one; the shape of the function does not need to change.
  */
-export function evaluate(target: Target, where: Coords, date: Date, weather?: Weather | null): Verdict {
+export function evaluate(
+    target: Target,
+    where: Coords,
+    date: Date,
+    weather?: Weather | null,
+    equipment: Equipment[] = [],
+): Verdict {
     const { altitude, azimuth } = equatorialToHorizontal(targetPosition(target, date), where, date);
     const sun = sunAltitude(where, date);
     const moon = moonIllumination(date);
@@ -147,7 +156,7 @@ export function evaluate(target: Target, where: Coords, date: Date, weather?: We
      * Cloud covering
      * Moonlight polution
      * # Equipment visibility
-     * 
+     *
      * Altitude score
      * Moonlight polution score
      * Sunlight polution score
@@ -171,7 +180,7 @@ export function evaluate(target: Target, where: Coords, date: Date, weather?: We
         visibilityIssues.push(`Moon is ${(moon * 100).toFixed(0)}% lit // washes it out`);
     }
 
-    const SUN_FALLOFF = 3 // TODO: Tune this
+    const SUN_FALLOFF = 3; // TODO: Tune this
 
     const headroom = Math.min(1, (altitude - floor) / (90 - floor));
     const moonRoom = target.maxMoonIllum >= 1 ? 1 : 1 - moon * (1 - target.maxMoonIllum);
@@ -181,14 +190,16 @@ export function evaluate(target: Target, where: Coords, date: Date, weather?: We
     const skyBrightness = Math.max(0, Math.min(1, ((sun + 18) / 18) ** SUN_FALLOFF));
     const sunRoom = 1 - skyBrightness * (1 - sunTolerance);
 
-    const quality = Math.max(0, headroom) * moonRoom * Math.max(0, air) * sunRoom;
+    const gear = equipmentValue(target.magnitude, equipment);
+
+    const quality = Math.max(0, headroom) * moonRoom * Math.max(0, air) * sunRoom * gear;
 
     reasons = {
         altitudeScore: Math.max(0, headroom),
         moonlightScore: moonRoom,
         sunlightScore: sunRoom,
         cloudScore: Math.max(0, air),
-        equipmentScore: 0,
+        equipmentScore: gear,
     };
 
     return {

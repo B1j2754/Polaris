@@ -36,7 +36,7 @@ function* scanNight(
 }
 
 /**
- * A fixed target peaks at `90 - |lat - dec|`, so one subtraction rules out everything this site can never see. 
+ * A fixed target peaks at `90 - |lat - dec|`, so one subtraction rules out everything this site can never see.
  * Moving bodies change declination, so they always get scanned.
  */
 const canEverClear = (target: Target, site: Coords) =>
@@ -63,7 +63,13 @@ export type NightPeak = {
     visible: boolean;
 };
 
+const peakCache = new Map<string, NightPeak[]>();
+
 export function nightlyPeaks(target: Target, site: Coords, from: Date, nights: number): NightPeak[] {
+    const key = `${target.id},${site.lat},${site.lon},${site.elevation},${site.horizonDeg},${from.toDateString()},${nights}`;
+    const hit = peakCache.get(key);
+    if (hit) return hit;
+
     const peaks: NightPeak[] = [];
 
     for (let i = 0; i < nights; i++) {
@@ -94,6 +100,7 @@ export function nightlyPeaks(target: Target, site: Coords, from: Date, nights: n
         });
     }
 
+    peakCache.set(key, peaks);
     return peaks;
 }
 

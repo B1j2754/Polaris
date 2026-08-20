@@ -156,3 +156,26 @@ export function fieldOfView(t: Telescope, c: Camera): string {
     const tall = degrees(sensorHeightMm(c)) * 60;
     return `${arcsecPerPx.toFixed(2)}"/px · ${wide.toFixed(0)}' × ${tall.toFixed(0)}' field`;
 }
+
+/** A dark-adapted pupil: the aperture the average human has. */
+const EYE_PUPIL_MM = 7;
+
+/** Naked eye reaches ~6.5 mag; every step up in aperture buys 5*log10 of the gain in collecting area. */
+export const limitingMagnitude = (apertureMm: number) => 6.5 + 5 * Math.log10(apertureMm / EYE_PUPIL_MM);
+
+/** Magnitudes of headroom under the limit that earn full marks. TODO: tune this. */
+const COMFORT_SPAN = 5;
+
+/**
+ * 0..1 // how comfortably the user's best aperture reaches a target of this magnitude.
+ * No telescope owned means the naked eye, which still shows the Moon and the bright planets.
+ * Every magnitude short of comfortable halves it, and it never reaches a hard 0:
+ *  quality is a product, and a zero factor would flatten a target's whole night into a tie for `nightlyPeaks`.
+ */
+export function equipmentValue(magnitude: number, equipment: Equipment[]): number {
+    const aperture = equipment.reduce(
+        (best, e) => (e.kind === "telescope" ? Math.max(best, e.apertureMm) : best),
+        EYE_PUPIL_MM,
+    );
+    return Math.min(1, 2 ** (limitingMagnitude(aperture) - magnitude - COMFORT_SPAN));
+}

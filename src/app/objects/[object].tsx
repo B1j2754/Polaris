@@ -1,15 +1,15 @@
+import { Justification } from "@/components/justification";
 import { LookaheadGraph } from "@/components/lookahead-graph";
 import { BottomTabInset } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
 import { type Coords, evaluate } from "@/lib/sky";
-import { type Target, TARGETS } from "@/lib/targets";
+import { TARGETS, type Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
 
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Redirect, useLocalSearchParams } from "expo-router";
-import { Justification } from "@/components/justification";
 
 export default function ObjectOverview() {
     const Palette = usePalette();
@@ -120,4 +120,3 @@ const styles = StyleSheet.create({
         paddingBottom: BottomTabInset,
     },
 });
-

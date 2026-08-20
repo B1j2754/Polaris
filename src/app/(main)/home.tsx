@@ -100,7 +100,7 @@ export default function Home() {
     const ranked = Object.values(TARGETS)
         .map((target) => ({
             target,
-            verdict: evaluate(target, site, now, weather),
+            verdict: evaluate(target, site, now, weather, profile?.equipment),
         }))
         // a matched interest breaks ties; it doesn't outrank something that is actually up
         .sort(

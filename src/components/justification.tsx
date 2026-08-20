@@ -1,3 +1,4 @@
+import { useProfile } from "@/lib/profile";
 import { Coords, evaluate } from "@/lib/sky";
 import { Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
@@ -60,10 +61,23 @@ function DoughnutWithIcon({ iconName, label, percent }: { iconName: IconName; la
 
 export function Justification({ objectData, site }: { objectData: Target; site: Coords }) {
     const Palette = usePalette();
-    const verdict = evaluate(objectData, site, new Date(), null);
+    const { profile } = useProfile();
+    const verdict = evaluate(objectData, site, new Date(), null, profile?.equipment);
     const reasons = verdict.reasons;
     return (
         <View style={[styles.cell, { backgroundColor: Palette.card, width: "100%" }]}>
+            <View className="flex-row items-center gap-2 pb-3">
+                <View
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: verdict.visible ? Palette.white : Palette.iconSubtle }}
+                />
+                <Text
+                    className={`font-sansation text-xs tracking-[2px] uppercase ${verdict.visible ? "text-fg" : "text-fg-dim"}`}
+                >
+                    {verdict.visible ? "Visible" : "Hidden"}
+                </Text>
+            </View>
+
             <View style={styles.row}>
                 {Object.entries(reasons).map(([sectionName, score]) => (
                     <DoughnutWithIcon
@@ -75,7 +89,7 @@ export function Justification({ objectData, site }: { objectData: Target; site: 
                 ))}
             </View>
             {verdict.visibilityIssues.length > 0 && (
-                <Text className="font-sansation text-sm text-fg-muted text-center tracking-[1px] pt-2">
+                <Text className="font-sansation text-sm text-fg-muted tracking-[1px] pt-3">
                     issues: {verdict.visibilityIssues.join(" · ")}
                 </Text>
             )}
