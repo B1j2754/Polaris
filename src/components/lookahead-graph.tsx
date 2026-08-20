@@ -88,7 +88,7 @@ export function LookaheadGraph({ target, site }: { target: Target; site: Coords 
 
                     <View className="absolute bg-black" style={{ left: 0, right: 0, bottom: thresholdY, height: 1 }} />
                     <Text
-                        className="absolute font-sansation text-[10px] text-black bg-fg"
+                        className="absolute font-sansation text-[10px] text-fg-dim"
                         style={{ right: 0, bottom: thresholdY + 2 }}
                     >
                         {floor}°

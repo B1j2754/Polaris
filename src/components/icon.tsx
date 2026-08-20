@@ -49,6 +49,25 @@ export const icons = {
         ["circle", { cx: "19", cy: "5", r: "2" }],
         ["circle", { cx: "5", cy: "19", r: "2" }],
     ],
+    telescope: [
+        [
+            "path",
+            {
+                d: "m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44",
+            },
+        ],
+        ["path", { d: "m13.56 11.747 4.332-.924" }],
+        ["path", { d: "m16 21-3.105-6.21" }],
+        [
+            "path",
+            {
+                d: "M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z",
+            },
+        ],
+        ["path", { d: "m6.158 8.633 1.114 4.456" }],
+        ["path", { d: "m8 21 3.105-6.21" }],
+        ["circle", { cx: "12", cy: "13", r: "2" }],
+    ],
     moon: [
         [
             "path",
@@ -127,7 +146,7 @@ export const icons = {
             },
         ],
     ],
-    // lucide smile / meh / frown — the seeing-quality face
+    // lucide smile / meh / frown [the seeing-quality face]
     smile: [
         ["circle", { cx: "12", cy: "12", r: "10" }],
         ["path", { d: "M8 14s1.5 2 4 2 4-2 4-2" }],
@@ -186,6 +205,10 @@ export const icons = {
         ["path", { d: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" }],
         ["path", { d: "M20 3v3" }],
         ["path", { d: "M21.5 4.5h-3" }],
+    ],
+    altitude: [
+        ["path", { d: "M3 11a10 10 0 0 1 10 10" }],
+        ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16" }],
     ],
 } satisfies Record<string, IconNode>;
 

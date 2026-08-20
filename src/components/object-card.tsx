@@ -7,7 +7,7 @@ import { Text, View } from "react-native";
 import { Icon } from "./icon";
 
 export function ObjectCard({ target, verdict }: { target: Target; verdict: Verdict }) {
-    const { visible, altitude, azimuth, reasons } = verdict;
+    const { visible, altitude, azimuth, visibilityIssues } = verdict;
     const formatSign = (num: string): string => (+num > 0 ? `+${num}` : `${num}`);
     const Palette = usePalette();
     return (
@@ -25,7 +25,7 @@ export function ObjectCard({ target, verdict }: { target: Target; verdict: Verdi
                 <Text className="font-sansation text-base text-fg-subtle tracking-[1px]">
                     {visible
                         ? `Az/Alt ${azimuth.toFixed(0)}° (facing) ${compassPoint(azimuth)}, ${formatSign(altitude.toFixed(0))}° (above horizon)`
-                        : reasons.join(" · ")}
+                        : visibilityIssues.join(" · ")}
                 </Text>
             </View>
         </View>

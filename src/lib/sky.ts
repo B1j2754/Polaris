@@ -112,10 +112,17 @@ export type Verdict = Horizontal & {
     score: number;
     visible: boolean;
     sun: number;
-    reasons: string[];
-    /** Raw score inputs, unweighted. Debug only — not shown in normal UI. */
-    components: { headroom: number; moonRoom: number; air: number; quality: number };
+    visibilityIssues: string[];
+    reasons: QualityBreakdown;
 };
+
+export type QualityBreakdown = {
+    altitudeScore: number;
+    moonlightScore: number;
+    sunlightScore: number;
+    cloudScore: number;
+    equipmentScore: number;
+}
 
 /** How high a target has to get before it counts as up: its own minimum, or whatever the site's horizon is blocked to, whichever is higher. */
 export const altitudeFloor = (target: Target, where: Coords) => Math.max(target.minAltitudeDeg, where.horizonDeg ?? 0);
@@ -130,37 +137,68 @@ export function evaluate(target: Target, where: Coords, date: Date, weather?: We
     const { altitude, azimuth } = equatorialToHorizontal(targetPosition(target, date), where, date);
     const sun = sunAltitude(where, date);
     const moon = moonIllumination(date);
-    const reasons: string[] = [];
+    const visibilityIssues: string[] = [];
     const floor = altitudeFloor(target, where);
+    let reasons: QualityBreakdown;
 
+    /**
+     * Altitude
+     * Sunlight polution
+     * Cloud covering
+     * Moonlight polution
+     * # Equipment visibility
+     * 
+     * Altitude score
+     * Moonlight polution score
+     * Sunlight polution score
+     * Cloud cover score
+     * # Equipment visibility score
+     */
+
+    // Calculate visibility issues
     if (altitude < floor) {
-        reasons.push(
+        visibilityIssues.push(
             altitude < 0 ? "Below the horizon" : `Only ${altitude.toFixed(0)}° up // too low, needs ${floor}°`,
         );
     }
     if (sun > target.maxSunAltitudeDeg) {
-        reasons.push(sun > 0 ? "Daylight" : "Sky is still too bright");
+        visibilityIssues.push(sun > 0 ? "Daylight" : "Sky is still too bright");
     }
     if (weather && weather.cloudCover > target.maxCloudPct) {
-        reasons.push(`${weather.cloudCover.toFixed(0)}% cloud cover`);
+        visibilityIssues.push(`${weather.cloudCover.toFixed(0)}% cloud cover`);
     }
     if (moon > target.maxMoonIllum) {
-        reasons.push(`Moon is ${(moon * 100).toFixed(0)}% lit // washes it out`);
+        visibilityIssues.push(`Moon is ${(moon * 100).toFixed(0)}% lit // washes it out`);
     }
+
+    const SUN_FALLOFF = 3 // TODO: Tune this
 
     const headroom = Math.min(1, (altitude - floor) / (90 - floor));
     const moonRoom = target.maxMoonIllum >= 1 ? 1 : 1 - moon * (1 - target.maxMoonIllum);
     const air = weather ? 1 - (weather.cloudCover / 100) * 0.8 - (weather.humidity / 100) * 0.2 : 0.8;
-    const quality = Math.max(0, Math.min(1, headroom)) * moonRoom * Math.max(0, air);
+
+    const sunTolerance = Math.max(0, Math.min(1, (target.maxSunAltitudeDeg + 18) / 18));
+    const skyBrightness = Math.max(0, Math.min(1, ((sun + 18) / 18) ** SUN_FALLOFF));
+    const sunRoom = 1 - skyBrightness * (1 - sunTolerance);
+
+    const quality = Math.max(0, headroom) * moonRoom * Math.max(0, air) * sunRoom;
+
+    reasons = {
+        altitudeScore: Math.max(0, headroom),
+        moonlightScore: moonRoom,
+        sunlightScore: sunRoom,
+        cloudScore: Math.max(0, air),
+        equipmentScore: 0,
+    };
 
     return {
         altitude,
         azimuth,
-        visible: reasons.length === 0,
+        visible: visibilityIssues.length === 0,
         sun,
         // failing targets keep their relative order but never outrank a visible one
-        score: reasons.length === 0 ? 0.5 + quality / 2 : (quality / 2) * 0.5,
+        score: visibilityIssues.length === 0 ? 0.5 + quality / 2 : (quality / 2) * 0.5,
+        visibilityIssues,
         reasons,
-        components: { headroom, moonRoom, air, quality },
     };
 }

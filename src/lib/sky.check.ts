@@ -74,14 +74,14 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
 
     const daylight = evaluate(target("m31"), where, noon);
     assert.equal(daylight.visible, false, "M31 must not be visible at noon");
-    assert.ok(daylight.reasons.includes("Daylight"), `expected a daylight reason, got ${daylight.reasons}`);
+    assert.ok(daylight.visibilityIssues.includes("Daylight"), `expected a daylight reason, got ${daylight.visibilityIssues}`);
 
     const night = evaluate(target("m31"), where, utc("2026-11-16T02:00:00Z"), {
         cloudCover: 5,
         humidity: 40,
         temperatureC: 8,
     });
-    assert.equal(night.visible, true, `M31 should be up on a clear November night: ${night.reasons}`);
+    assert.equal(night.visible, true, `M31 should be up on a clear November night: ${night.visibilityIssues}`);
     assert.ok(night.score > daylight.score, "a visible target must outrank a blocked one");
 
     const clouded = evaluate(target("m31"), where, utc("2026-11-16T02:00:00Z"), {
@@ -91,7 +91,7 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
     });
     assert.equal(clouded.visible, false, "M31 must fail under 90% cloud");
     assert.ok(
-        clouded.reasons.some((r) => r.includes("cloud")),
+        clouded.visibilityIssues.some((r) => r.includes("cloud")),
         "cloud should be the stated reason",
     );
 
@@ -110,7 +110,7 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
         humidity: 40,
         temperatureC: 8,
     });
-    assert.equal(clear.visible, true, `M31 should clear an open horizon: ${clear.reasons}`);
+    assert.equal(clear.visible, true, `M31 should clear an open horizon: ${clear.visibilityIssues}`);
 
     // same spot, same moment, but trees up to just above where it sits
     const blocked = { ...open, horizonDeg: Math.ceil(clear.altitude) + 5 };
@@ -121,8 +121,8 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
     });
     assert.equal(hemmed.visible, false, "trees taller than the target must block it");
     assert.ok(
-        hemmed.reasons.some((r) => r.includes(`${blocked.horizonDeg}°`)),
-        `the reason should quote the site's horizon, got ${hemmed.reasons}`,
+        hemmed.visibilityIssues.some((r) => r.includes(`${blocked.horizonDeg}°`)),
+        `the reason should quote the site's horizon, got ${hemmed.visibilityIssues}`,
     );
     assert.ok(hemmed.score < clear.score, "a blocked view must score below an open one");
 
