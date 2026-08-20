@@ -15,13 +15,9 @@
 - [ ] Better equipment section
     - [ ] More equipment
     - [ ] Change UI selection
-- [ ] Implement equipment clause to algorithm
-    - [ ] Add "reasons" section as to why it was chosen (weighted ring?)
-- [ ] Add more greetings
 - [ ] Use image API to show object preview
 - [ ] Sort suggestions by apparent magnitude / important stars
 - [ ] Extract weather caching into its own hook / useContext
-- [ ] Greetings => useMemo
 - [ ] Update README to be more complete
 
 ## Feature wishlist (lower probability)
@@ -57,3 +53,7 @@
     - [x] Apple: name 30 / subtitle 30 / keyword 100 / description 4k
     - [x] Play Store: title 30 / short 80 / full 4k
 - [x] Host privacy policy on github pages
+- [x] Implement equipment clause to algorithm
+    - [x] Add "reasons" section as to why it was chosen (weighted ring?)
+- [x] Add more greetings
+- [x] Greetings => useMemo

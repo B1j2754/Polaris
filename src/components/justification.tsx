@@ -3,7 +3,8 @@ import { Coords, evaluate } from "@/lib/sky";
 import { Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
 
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
 import { Icon, IconName } from "./icon";
@@ -62,6 +63,7 @@ function DoughnutWithIcon({ iconName, label, percent }: { iconName: IconName; la
 export function Justification({ objectData, site }: { objectData: Target; site: Coords }) {
     const Palette = usePalette();
     const { profile } = useProfile();
+    const [showInfo, setShowInfo] = useState(false);
     const verdict = evaluate(objectData, site, new Date(), null, profile?.equipment);
     const reasons = verdict.reasons;
     return (
@@ -76,6 +78,9 @@ export function Justification({ objectData, site }: { objectData: Target; site: 
                 >
                     {verdict.visible ? "Visible" : "Hidden"}
                 </Text>
+                <Pressable className="ml-auto" onPress={() => setShowInfo(true)} hitSlop={12}>
+                    <Icon name="info" size={18} color={Palette.iconMuted} />
+                </Pressable>
             </View>
 
             <View style={styles.row}>
@@ -88,6 +93,20 @@ export function Justification({ objectData, site }: { objectData: Target; site: 
                     />
                 ))}
             </View>
+            <Modal visible={showInfo} transparent animationType="slide" onRequestClose={() => setShowInfo(false)}>
+                <Pressable style={styles.backdrop} onPress={() => setShowInfo(false)} />
+                <View className="rounded-t-3xl border-t border-line bg-sheet px-6 pb-12 pt-5">
+                    <Text className="font-sansation text-2xl text-fg tracking-[1px]">Why these rings?</Text>
+                    <Text className="font-sansation pt-3 text-sm text-fg-muted tracking-[1px]">
+                        Each ring scores one condition affecting this target tonight, from empty (poor) to full (ideal).
+                        Each ring's value (or percentage filled) represents an arbitrary score (0 to 1) which is
+                        weighted and part of the scoring algorithm for ranking objects. Altitude is how high it climbs,
+                        moon is glare from moonlight, sun is twilight, cloud is forecast cover, and telescope is how
+                        well your gear suits it.
+                    </Text>
+                </View>
+            </Modal>
+
             {verdict.visibilityIssues.length > 0 && (
                 <Text className="font-sansation text-sm text-fg-muted tracking-[1px] pt-3">
                     issues: {verdict.visibilityIssues.join(" · ")}
@@ -102,6 +121,10 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 12,
         gap: 4,
+    },
+    backdrop: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.7)",
     },
     row: {
         flexDirection: "row",

@@ -10,7 +10,7 @@ import { useProfile } from "@/lib/profile";
 import { type Verdict, type Weather, evaluate, fetchWeather } from "@/lib/sky";
 import { TARGETS, type Target } from "@/lib/targets";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -111,7 +111,7 @@ export default function Home() {
 
     // Generate greeting
     const greetingGen = new Greetings(profile?.name ?? "Unknown");
-    const greeting = greetingGen.getGreeting();
+    const greeting = useMemo(() => greetingGen.getGreeting(), [profile?.name])
 
     return (
         <SafeAreaView className="flex-1 bg-black" edges={["top"]}>
