@@ -1,7 +1,8 @@
 import { LookaheadGraph } from "@/components/lookahead-graph";
 import { BottomTabInset } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
-import { TARGETS } from "@/lib/targets";
+import { type Coords, evaluate } from "@/lib/sky";
+import { type Target, TARGETS } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
 
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -71,8 +72,31 @@ export default function ObjectOverview() {
                         ))}
                     </View>
                     {site && <LookaheadGraph target={objectData} site={site} />}
+                    {__DEV__ && site && <DebugScoring objectData={objectData} site={site} />}
                 </ScrollView>
             </SafeAreaView>
+        </View>
+    );
+}
+
+/** __DEV__-only readout of score's raw inputs. */
+function DebugScoring({ objectData, site }: { objectData: Target; site: Coords }) {
+    const Palette = usePalette();
+    const verdict = evaluate(objectData, site, new Date(), null);
+    const rows = [...Object.entries(verdict.components), ["score", verdict.score] as const ];
+    return (
+        <View style={[styles.cell, { backgroundColor: Palette.card, width: "100%" }]}>
+            <Text className="font-sansation text-sm text-fg-dim tracking-[1px]">DEBUG: score components</Text>
+            {rows.map(([k, v]) => (
+                <Text key={k} className="font-sansation text-sm text-fg tracking-[1px]">
+                    {k}: {v}
+                </Text>
+            ))}
+            {verdict.reasons.length > 0 && (
+                <Text className="font-sansation text-sm text-fg-muted tracking-[1px]">
+                    reasons: {verdict.reasons.join(" · ")}
+                </Text>
+            )}
         </View>
     );
 }
@@ -117,3 +141,4 @@ const styles = StyleSheet.create({
         paddingBottom: BottomTabInset,
     },
 });
+

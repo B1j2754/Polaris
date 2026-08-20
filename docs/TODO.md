@@ -6,9 +6,6 @@
 
 ## Listing config
 
-- [ ] App overview for publishing
-    - [ ] Apple: name 30 / subtitle 30 / keyword 100 / description 4k
-    - [ ] Play Store: title 30 / short 80 / full 4k
 - [ ] Ss 1320x2868, 5-6x
 - [ ] Play store graphic 1024x500
 - [ ] Apple privacy questionnaire + Play Data Safety form
@@ -57,3 +54,6 @@
     - [x] Splash 1024x1024
     - [x] Replace expo blue (#208AEF) in app.config.ts splash config
     - [x] Delete expo icon, replace with ios icon (dropped the layered Icon Composer icon, iOS now uses the flat icon.png like Android/web)
+- [x] App overview for publishing
+    - [x] Apple: name 30 / subtitle 30 / keyword 100 / description 4k
+    - [x] Play Store: title 30 / short 80 / full 4k

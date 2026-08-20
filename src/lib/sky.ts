@@ -113,6 +113,8 @@ export type Verdict = Horizontal & {
     visible: boolean;
     sun: number;
     reasons: string[];
+    /** Raw score inputs, unweighted. Debug only — not shown in normal UI. */
+    components: { headroom: number; moonRoom: number; air: number; quality: number };
 };
 
 /** How high a target has to get before it counts as up: its own minimum, or whatever the site's horizon is blocked to, whichever is higher. */
@@ -159,5 +161,6 @@ export function evaluate(target: Target, where: Coords, date: Date, weather?: We
         // failing targets keep their relative order but never outrank a visible one
         score: reasons.length === 0 ? 0.5 + quality / 2 : (quality / 2) * 0.5,
         reasons,
+        components: { headroom, moonRoom, air, quality },
     };
 }
