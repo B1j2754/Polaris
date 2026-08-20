@@ -2,7 +2,7 @@
 
 - [ ] App store privacy manifest
 - [ ] Fill ~~eas.json +~~ submit.production
-- [ ] Host privacy policy on github pages
+- [x] Host privacy policy on github pages
 
 ## Listing config
 
