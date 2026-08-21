@@ -1,19 +1,23 @@
+import { Icon, type IconName } from "@/components/icon";
 import { ScreenBackground, TabPillHeight } from "@/constants/theme";
 import { usePalette } from "@/lib/theming";
 
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
-import { Stack, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { type SFSymbol, SymbolView } from "expo-symbols";
 
 const glass = isLiquidGlassAvailable();
 
-const icon = function (outline: SFSymbol, filled = `${outline}.fill` as SFSymbol) {
-    return ({ color, size, focused }: { color: string; size: number; focused: boolean }) => (
-        <SymbolView name={focused ? filled : outline} size={size} tintColor={color} resizeMode="scaleAspectFit" />
-    );
+const icon = function (outline: SFSymbol, fallback: IconName, filled = `${outline}.fill` as SFSymbol) {
+    return ({ color, size, focused }: { color: string; size: number; focused: boolean }) =>
+        Platform.OS === "ios" ? (
+            <SymbolView name={focused ? filled : outline} size={size} tintColor={color} resizeMode="scaleAspectFit" />
+        ) : (
+            <Icon name={fallback} size={size} color={color} />
+        );
 };
 
 const styles = StyleSheet.create({
@@ -64,16 +68,16 @@ export default function MainLayout() {
                 },
             }}
         >
-            <Tabs.Screen name="home" options={{ title: "Home", tabBarIcon: icon("house") }} />
-            <Tabs.Screen name="portfolio" options={{ title: "Portfolio", tabBarIcon: icon("photo.stack") }} />
+            <Tabs.Screen name="home" options={{ title: "Home", tabBarIcon: icon("house", "house") }} />
+            <Tabs.Screen name="portfolio" options={{ title: "Portfolio", tabBarIcon: icon("photo.stack", "images") }} />
             <Tabs.Screen
                 name="sites"
                 options={{
                     title: "Sites",
-                    tabBarIcon: icon("mappin.and.ellipse", "mappin.circle.fill"),
+                    tabBarIcon: icon("mappin.and.ellipse", "mapPin", "mappin.circle.fill"),
                 }}
             />
-            <Tabs.Screen name="settings" options={{ title: "Settings", tabBarIcon: icon("gearshape") }} />
+            <Tabs.Screen name="settings" options={{ title: "Settings", tabBarIcon: icon("gearshape", "settings") }} />
         </Tabs>
     );
 }
