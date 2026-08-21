@@ -88,6 +88,8 @@ export default function Home() {
         }, []),
     );
 
+    const greeting = useMemo(() => new Greetings(profile?.name ?? "Unknown").getGreeting(), [profile?.name]);
+
     if (!site) {
         return (
             <View className="flex-1 items-center justify-center bg-black">
@@ -108,10 +110,6 @@ export default function Home() {
         );
 
     const upNow = ranked.filter((r) => r.verdict.visible).length;
-
-    // Generate greeting
-    const greetingGen = new Greetings(profile?.name ?? "Unknown");
-    const greeting = useMemo(() => greetingGen.getGreeting(), [profile?.name])
 
     return (
         <SafeAreaView className="flex-1 bg-black" edges={["top"]}>

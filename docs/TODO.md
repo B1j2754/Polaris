@@ -18,7 +18,6 @@
 - [ ] Use image API to show object preview
 - [ ] Sort suggestions by apparent magnitude / important stars
 - [ ] Update README to be more complete
-- [ ] Make descriptions for each object
 
 ## Feature wishlist (lower probability)
 
@@ -59,3 +58,4 @@
 - [x] Add more greetings
 - [x] Greetings => useMemo
 - [x] Extract weather caching into its own hook / useContext
+- [x] Make descriptions for each object
