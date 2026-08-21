@@ -17,8 +17,8 @@
     - [ ] Change UI selection
 - [ ] Use image API to show object preview
 - [ ] Sort suggestions by apparent magnitude / important stars
-- [ ] Extract weather caching into its own hook / useContext
 - [ ] Update README to be more complete
+- [ ] Make descriptions for each object
 
 ## Feature wishlist (lower probability)
 
@@ -26,6 +26,7 @@
 - [ ] Export "tonight" card
 - [ ] Expo notifications?
 - [ ] PostHog Analytics
+- [ ] Change greetings to revolve around astronomy a bit more
 
 ## Done
 
@@ -57,3 +58,4 @@
     - [x] Add "reasons" section as to why it was chosen (weighted ring?)
 - [x] Add more greetings
 - [x] Greetings => useMemo
+- [x] Extract weather caching into its own hook / useContext
