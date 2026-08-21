@@ -1,12 +1,13 @@
 import { Justification } from "@/components/justification";
 import { LookaheadGraph } from "@/components/lookahead-graph";
+import { ObjectPreview } from "@/components/object-preview";
 import { BottomTabInset } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
 import { type Coords, evaluate } from "@/lib/sky";
 import { TARGETS, type Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
 
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Redirect, useLocalSearchParams } from "expo-router";
@@ -56,7 +57,7 @@ export default function ObjectOverview() {
                     <Text className="font-sansation text-xl text-fg-muted tracking-[1px] text-center">
                         {objectData.blurb}
                     </Text>
-                    <Image source={require("@/assets/images/starSplash.jpg")} style={styles.preview} />
+                    <ObjectPreview target={objectData} style={styles.preview} />
                     <View style={styles.grid}>
                         {stats.map(({ label, value }, i) => (
                             <View
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     },
     preview: {
         width: "100%",
-        resizeMode: "contain",
+        aspectRatio: 1,
     },
     grid: {
         flexDirection: "row",

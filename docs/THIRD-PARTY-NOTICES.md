@@ -5,7 +5,7 @@ Each item is reproduced with the notice its licence requires. Polaris itself is 
 
 This file covers the source distribution and the compiled application. A user-facing summary of the same list appears in the app under **Settings → About → Built on**.
 
-Last reviewed: 2026-08-18 // Polaris 1.0.0
+Last reviewed: 2026-08-20 // Polaris 1.0.0
 
 ---
 
@@ -48,7 +48,7 @@ with others.
 
 The OFL allows the licensed fonts to be used, studied, modified and
 redistributed freely as long as they are not sold by themselves. The
-fonts, including any derivative works, can be bundled, embedded, 
+fonts, including any derivative works, can be bundled, embedded,
 redistributed and/or sold with any software provided that any reserved
 names are not used by derivative works. The fonts and derivatives,
 however, cannot be released under any other type of license. The
@@ -219,11 +219,50 @@ Open-Meteo data is provided under the **Creative Commons Attribution 4.0
 International licence (CC BY 4.0)**:
 <https://creativecommons.org/licenses/by/4.0/>
 
-Attribution: *Weather data by [Open-Meteo.com](https://open-meteo.com/)*.
+Attribution: _Weather data by [Open-Meteo.com](https://open-meteo.com/)_.
 
 Polaris uses the free API tier, which Open-Meteo makes available for non-commercial use. Polaris is distributed free of charge with no advertising, no in-app purchases and no paid tier. Open-Meteo data is transformed by Polaris into its own observing-condition scores; those scores are derived work, not redistributed Open-Meteo data.
 
 However, all places where Open-Meteo data is used are specifically marked as such.
+
+### CDS hips2fits (Digitized Sky Survey)
+
+Preview images of fixed deep-sky targets are retrieved at runtime from
+`alasky.cds.unistra.fr/hips-image-services/hips2fits`, operated by the
+**Centre de Donnees astronomiques de Strasbourg (CDS)**, Universite de
+Strasbourg / CNRS: <https://alasky.cds.unistra.fr/hips-image-services/hips2fits>
+
+The service renders cutouts from HiPS sky surveys. Polaris requests the
+`CDS/P/DSS2/color` survey, a HiPS rendering of the **Digitized Sky Survey**.
+
+Acknowledgement requested by CDS, per Fernique et al. 2015 (A&A 578, A114) and
+Boch et al.:
+
+```
+This research has made use of the hips2fits service and the Aladin sky atlas,
+operated at CDS, Strasbourg, France.
+```
+
+Credit required by STScI for Digitized Sky Survey imagery:
+
+```
+The Digitized Sky Surveys were produced at the Space Telescope Science Institute
+under U.S. Government grant NAG W-2166. The images of these surveys are based on
+photographic data obtained using the Oschin Schmidt Telescope on Palomar Mountain
+and the UK Schmidt Telescope. The plates were processed into the present
+compressed digital form with the permission of these institutions.
+```
+
+The DSS plate material is copyright the California Institute of Technology, the
+Anglo-Australian Observatory and the Royal Observatory Edinburgh, and is made
+available for **non-commercial use**. Polaris is distributed free of charge with
+no advertising, no in-app purchases and no paid tier.
+
+Polaris does not redistribute survey imagery: each cutout is fetched by the
+user's device from CDS on demand and cached only on that device.
+
+Solar-system bodies are not covered by a fixed-sky survey and are not requested
+from this service.
 
 ---
 
@@ -236,10 +275,10 @@ The following npm packages are distributed with the compiled application. All ar
 > Copyright (c) 2019-2025 Don Cross <cosinekitty@gmail.com>
 
 **expo, expo-constants, expo-device, expo-file-system, expo-font,
-  expo-glass-effect, expo-image, expo-image-picker, expo-linking,
-  expo-location, expo-router, expo-splash-screen, expo-sqlite,
-  expo-status-bar, expo-symbols, expo-system-ui, expo-updates,
-  expo-web-browser**
+expo-glass-effect, expo-image, expo-image-picker, expo-linking,
+expo-location, expo-router, expo-splash-screen, expo-sqlite,
+expo-status-bar, expo-symbols, expo-system-ui, expo-updates,
+expo-web-browser**
 
 > Copyright (c) 2015-present 650 Industries, Inc. (aka Expo)
 

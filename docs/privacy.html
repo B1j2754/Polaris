@@ -47,6 +47,12 @@ applies to that copy.</p>
       <a href="https://open-meteo.com/en/terms">Open-Meteo</a>. When you search for a place by
       name, that search text is sent to Open-Meteo's geocoding service. No identifier, account,
       or device ID is attached to these requests.</li>
+  <li><strong>CDS (Strasbourg).</strong> To show a preview image of a deep-sky object, Polaris
+      requests a sky-survey cutout from
+      <a href="https://alasky.cds.unistra.fr/hips-image-services/hips2fits">CDS hips2fits</a>.
+      That request carries the celestial coordinates of the object you are looking at, a
+      fixed property of the object itself, not your location, and nothing else. No
+      identifier, account, or device ID is attached.</li>
   <li><strong>Expo updates.</strong> Polaris is built with Expo and checks
       <a href="https://expo.dev/privacy">Expo's update service</a> for app updates. That request
       includes basic technical details such as platform, app version, and update channel.</li>

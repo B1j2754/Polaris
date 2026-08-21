@@ -74,6 +74,16 @@ export default function About() {
                     license="View the CC BY 4.0 licence"
                     licenseHref="https://creativecommons.org/licenses/by/4.0/"
                 />
+                <Credit
+                    name="CDS hips2fits"
+                    detail="Deep-sky preview images // Operated at CDS, Strasbourg. Rendered from the Digitized Sky Survey."
+                    href="https://alasky.cds.unistra.fr/hips-image-services/hips2fits"
+                />
+                <Credit
+                    name="Digitized Sky Survey"
+                    detail="Survey plates // Produced at STScI under U.S. Government grant NAG W-2166, from the Oschin Schmidt and UK Schmidt telescopes. Non-commercial use."
+                    href="https://archive.stsci.edu/dss/acknowledging.html"
+                />
                 <Credit name="Lucide" detail="Icon artwork // ISC." href="https://lucide.dev" />
                 <Credit
                     name="Sansation"

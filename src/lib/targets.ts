@@ -2655,3 +2655,32 @@ export const ICONS: Record<Target["kind"], IconName> = {
     nebula: "nebula",
     cluster: "astroid",
 };
+
+/**
+ * Sky-survey cutout for a fixed target, from the CDS hips2fits service (DSS2 colour, no key).
+ *
+ * hips2fits is operated at CDS, Strasbourg, France:
+ * https://alasky.cds.unistra.fr/hips-image-services/hips2fits
+ * The imagery is the Digitized Sky Survey, produced at STScI under U.S. Government grant
+ * NAG W-2166 from Oschin Schmidt and UK Schmidt plates, and is non-commercial use only.
+ * Full notices in docs/THIRD-PARTY-NOTICES.md.
+ *
+ * ponytail: solar-system bodies move, so a static survey has nothing for them - those return
+ * undefined and fall back to a bundled portrait in object-preview.tsx.
+ */
+export function previewUrl(t: Target, px = 600): string | undefined {
+    if (t.ra == null || t.dec == null) return undefined;
+    // frame at 2x the object, floored so point sources still get a starfield
+    const fov = Math.max(((t.sizeArcmin ?? 0) * 2) / 60, 0.5);
+    const q = new URLSearchParams({
+        hips: "CDS/P/DSS2/color",
+        ra: String(t.ra),
+        dec: String(t.dec),
+        fov: String(fov),
+        width: String(px),
+        height: String(px),
+        projection: "TAN",
+        format: "jpg",
+    });
+    return `https://alasky.cds.unistra.fr/hips-image-services/hips2fits?${q}`;
+}
