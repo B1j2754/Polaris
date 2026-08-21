@@ -4,7 +4,7 @@ const isDev = process.env.APP_VARIANT === "development";
 
 export default (): ExpoConfig => ({
     name: isDev ? "DEV-Polaris" : "Polaris",
-    slug: "polaris",
+    slug: "Polaris",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
