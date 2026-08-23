@@ -32,9 +32,9 @@ export function LookaheadSection({ site, weather, now, tab, query }: Props) {
 
     if (tab !== shown) return <Loading />;
     return shown === 1 ? (
-        <TonightPanel site={site} weather={weather} slot={slot} query={query}/>
+        <TonightPanel site={site} weather={weather} slot={slot} query={query} />
     ) : (
-        <AheadPanel site={site} day={new Date(slot).toDateString()} slot={slot} query={query}/>
+        <AheadPanel site={site} day={new Date(slot).toDateString()} slot={slot} query={query} />
     );
 }
 
@@ -59,7 +59,7 @@ function TonightPanel({
     );
 }
 
-function AheadPanel({ site, day, slot, query }: { site: Coords; day: string; slot: number, query: string }) {
+function AheadPanel({ site, day, slot, query }: { site: Coords; day: string; slot: number; query: string }) {
     const rows = useMemo(() => {
         const from = new Date(slot);
         from.setDate(from.getDate() + 1);

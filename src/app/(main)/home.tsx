@@ -1,16 +1,13 @@
 ﻿import { useCallback, useMemo, useState } from "react";
-import { FlatList, Pressable, Text, TextInput, View } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-
 import { Link, useFocusEffect } from "expo-router";
-
-
 
 import { Icon } from "@/components/icon";
 import { LookaheadSection } from "@/components/lookahead-section";
 import { ObjectCard } from "@/components/object-card";
+import { PillInput } from "@/components/pill-input";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { WeatherOverviewBox } from "@/components/weather-overview-box";
 import { BottomTabInset } from "@/constants/theme";
@@ -21,7 +18,6 @@ import { Greetings } from "@/lib/greetings";
 import { useProfile } from "@/lib/profile";
 import { evaluate, type Verdict } from "@/lib/sky";
 import { TARGETS, type Target } from "@/lib/targets";
-import { usePalette } from "@/lib/theming";
 
 const SEGMENTS = ["Now", "Tonight", "Weeks ahead"] as const;
 
@@ -35,7 +31,6 @@ export default function Home() {
     const [now, setNow] = useState(() => new Date());
     const [tab, setTab] = useState(0);
     const [byName, setByName] = useState(false);
-    const Palette = usePalette();
     const entryFocus = useEntryFocus();
     const [query, setQuery] = useState("");
 
@@ -65,8 +60,8 @@ export default function Home() {
             verdict: evaluate(target, site, now, weather, profile?.equipment),
         }))
         // a matched interest breaks ties; it doesn't outrank something that is actually up
-        .sort(
-            (a, b) => (byName ? a.target.name.localeCompare(b.target.name) : rank(b, interests) - rank(a, interests)),
+        .sort((a, b) =>
+            byName ? a.target.name.localeCompare(b.target.name) : rank(b, interests) - rank(a, interests),
         );
 
     const upNow = ranked.filter((r) => r.verdict.visible).length;
@@ -91,16 +86,14 @@ export default function Home() {
                         <WeatherOverviewBox site={site} now={now} weather={weather} />
                         <SegmentedPill segments={SEGMENTS} value={tab} onChange={setTab} />
 
-                        <TextInput
+                        <PillInput
                             value={query}
                             onChangeText={setQuery}
                             placeholder="Search for a target by name..."
-                            placeholderTextColor={Palette.placeholder}
                             {...entryFocus}
                             autoCorrect={false}
                             returnKeyType="search"
-                            textAlignVertical="center"
-                            className="font-sansation h-13 rounded-full border border-line bg-surface px-5 text-lg leading-tight text-fg"
+                            className="h-13 bg-surface"
                         />
 
                         {tab === 0 ? (
@@ -120,7 +113,13 @@ export default function Home() {
                                 </Pressable>
                             </View>
                         ) : (
-                            <LookaheadSection site={site} weather={weather} now={now} tab={tab as 1 | 2} query={query}/>
+                            <LookaheadSection
+                                site={site}
+                                weather={weather}
+                                now={now}
+                                tab={tab as 1 | 2}
+                                query={query}
+                            />
                         )}
                         {denied && (
                             <Text className="font-sansation text-base text-fg-dim tracking-[1px]">

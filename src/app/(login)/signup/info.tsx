@@ -1,22 +1,21 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { router } from "expo-router";
 
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
+import { PillInput } from "@/components/pill-input";
 import { ScreenBackground } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
 import { useProfile } from "@/lib/profile";
-import { usePalette } from "@/lib/theming";
 
 export default function SignUpInfo() {
     const { profile, save } = useProfile();
     const entryFocus = useEntryFocus();
     const [name, setName] = useState(profile?.name ?? "");
     const trimmed = name.trim();
-    const Palette = usePalette();
 
     const next = async () => {
         await save({ name: trimmed });
@@ -33,19 +32,17 @@ export default function SignUpInfo() {
                         <Text className="font-sansation text-center text-xl text-fg-muted tracking-[1px]">
                             What should we call you?
                         </Text>
-                        <TextInput
+                        <PillInput
                             value={name}
                             onChangeText={setName}
                             placeholder="Your name"
-                            placeholderTextColor={Palette.placeholder}
                             {...entryFocus}
                             autoCapitalize="words"
                             autoCorrect={false}
                             returnKeyType="next"
                             onSubmitEditing={() => trimmed && next()}
                             textAlign="center"
-                            textAlignVertical="center"
-                            className="font-sansation h-16 w-[90%] rounded-full border-2 border-line px-6 text-xl text-fg"
+                            className="h-16 w-[90%] border-2 px-6 text-xl"
                         />
                     </View>
                     <Button

@@ -1,17 +1,8 @@
 import { useState } from "react";
-import {
-    KeyboardAvoidingView,
-    Modal,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-} from "react-native";
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { Icon } from "@/components/icon";
+import { PillInput } from "@/components/pill-input";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
 import {
     CAMERA_PRESETS,
@@ -114,16 +105,13 @@ export function EquipmentEditor({ value, onChange, emptyText }: Props) {
                             {picking === "camera" ? "Cameras" : "Telescopes"}
                         </Text>
 
-                        <TextInput
+                        <PillInput
                             value={query}
                             onChangeText={setQuery}
                             placeholder="Search for a name, brand, or model"
-                            placeholderTextColor={Palette.placeholder}
                             {...entryFocus}
                             autoCorrect={false}
                             returnKeyType="search"
-                            textAlignVertical="center"
-                            className="font-sansation h-14 rounded-full border border-line px-5 text-lg leading-tight text-fg"
                         />
 
                         <ScrollView style={styles.sheet} keyboardShouldPersistTaps="handled">
@@ -144,24 +132,21 @@ export function EquipmentEditor({ value, onChange, emptyText }: Props) {
                                 <View className="mt-2 gap-3 border-t border-line px-6 pt-5">
                                     <Text className="font-sansation text-base text-fg-muted">Or enter your own</Text>
 
-                                    <TextInput
+                                    <PillInput
                                         value={form.label ?? ""}
                                         onChangeText={(label) => setForm((f) => ({ ...f, label }))}
                                         placeholder="Name (optional)"
-                                        placeholderTextColor={Palette.placeholder}
-                                        className="font-sansation h-14 rounded-full border border-line px-5 text-lg text-fg"
                                     />
 
                                     <View className="flex-row gap-3">
                                         {FIELDS[picking].map((field) => (
-                                            <TextInput
+                                            <PillInput
                                                 key={field.key}
                                                 value={form[field.key] ?? ""}
                                                 onChangeText={(v) => setForm((f) => ({ ...f, [field.key]: v }))}
                                                 placeholder={`${field.label} (${field.unit})`}
-                                                placeholderTextColor={Palette.placeholder}
                                                 keyboardType="decimal-pad"
-                                                className="font-sansation h-14 flex-1 rounded-full border border-line px-4 text-base text-fg"
+                                                className="flex-1 px-4 text-base"
                                             />
                                         ))}
                                     </View>

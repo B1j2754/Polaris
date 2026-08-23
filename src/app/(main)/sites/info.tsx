@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { Modal, Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Image } from "expo-image";
@@ -8,6 +8,7 @@ import { openBrowserAsync } from "expo-web-browser";
 
 import { Button } from "@/components/button";
 import { Icon } from "@/components/icon";
+import { PillInput } from "@/components/pill-input";
 import { SegmentedPill } from "@/components/segmented-pill";
 import { BottomTabInset } from "@/constants/theme";
 import { useEntryFocus } from "@/hooks/use-entry-focus";
@@ -16,8 +17,6 @@ import { HORIZON_PRESETS, searchPlaces, type Site } from "@/lib/sites";
 import { usePalette } from "@/lib/theming";
 
 const DEBOUNCE_MS = 400;
-
-const PILL_INPUT = "font-sansation h-14 rounded-full border border-line px-5 text-lg leading-tight text-fg";
 
 const GUIDE: { image: number; caption: string }[] = [
     {
@@ -102,16 +101,13 @@ export default function SiteInfo() {
 
                 {!draft ? (
                     <>
-                        <TextInput
+                        <PillInput
                             value={query}
                             onChangeText={setQuery}
                             placeholder="Search a town, park or landmark"
-                            placeholderTextColor={Palette.placeholder}
                             {...entryFocus}
                             autoCorrect={false}
                             returnKeyType="search"
-                            textAlignVertical="center"
-                            className={PILL_INPUT}
                         />
                         <Text className="font-sansation text-base text-fg-dim tracking-[1px]">
                             {searching
@@ -146,13 +142,10 @@ export default function SiteInfo() {
                 ) : (
                     <>
                         <Field label="Name">
-                            <TextInput
+                            <PillInput
                                 value={draft.name}
                                 onChangeText={(name) => patch({ name })}
                                 placeholder="Name this place"
-                                placeholderTextColor={Palette.placeholder}
-                                textAlignVertical="center"
-                                className={PILL_INPUT}
                             />
                         </Field>
 
@@ -171,14 +164,11 @@ export default function SiteInfo() {
                         </Field>
 
                         <Field label="Elevation (meters)">
-                            <TextInput
+                            <PillInput
                                 value={String(draft.elevation)}
                                 onChangeText={(text) => patch({ elevation: Number(text) || 0 })}
                                 keyboardType="numeric"
                                 placeholder="0"
-                                placeholderTextColor={Palette.placeholder}
-                                textAlignVertical="center"
-                                className={PILL_INPUT}
                             />
                         </Field>
 

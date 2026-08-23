@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Pressable, ScrollView, Switch, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Constants from "expo-constants";
@@ -8,6 +8,7 @@ import { Link } from "expo-router";
 import { EquipmentEditor } from "@/components/equipment-editor";
 import { Icon } from "@/components/icon";
 import { Box } from "@/components/interestBox";
+import { PillInput } from "@/components/pill-input";
 import { BottomTabInset } from "@/constants/theme";
 import { INTERESTS, toggleInterest } from "@/lib/interests";
 import { useProfile } from "@/lib/profile";
@@ -54,18 +55,15 @@ export default function Settings() {
                 <Text className="font-sansation pt-2 text-4xl text-fg tracking-[1px]">Settings</Text>
 
                 <Section title="Name" hint="What the app calls you.">
-                    <TextInput
+                    <PillInput
                         value={name}
                         onChangeText={setName}
                         onBlur={commitName}
                         onSubmitEditing={commitName}
                         placeholder="Your name"
-                        placeholderTextColor={Palette.placeholder}
                         autoCapitalize="words"
                         autoCorrect={false}
                         returnKeyType="done"
-                        textAlignVertical="center"
-                        className="font-sansation h-14 rounded-full border border-line px-5 text-lg leading-tight text-fg"
                     />
                 </Section>
 
