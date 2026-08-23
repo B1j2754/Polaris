@@ -1,6 +1,6 @@
-import { BackHeader } from "@/constants/theme";
-
 import { Stack } from "expo-router";
+
+import { BackHeader } from "@/constants/theme";
 
 export default function LoginLayout() {
     return (

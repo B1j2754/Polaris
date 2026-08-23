@@ -1,6 +1,6 @@
-import { BackHeader } from "@/constants/theme";
-
 import { Stack } from "expo-router";
+
+import { BackHeader } from "@/constants/theme";
 
 // keeps sites/info (add + edit) inside the Sites tab instead of becoming its own tab
 export default function SitesLayout() {

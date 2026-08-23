@@ -1,20 +1,3 @@
-import { Icon } from "@/components/icon";
-import { useEntryFocus } from "@/hooks/use-entry-focus";
-import {
-    CAMERA_PRESETS,
-    type Camera,
-    type Equipment,
-    FIELDS,
-    type Kind,
-    TELESCOPE_PRESETS,
-    type Telescope,
-    customEquipment,
-    fieldOfView,
-    specLine,
-    stripPreset,
-} from "@/lib/equipment";
-import { usePalette } from "@/lib/theming";
-
 import { useState } from "react";
 import {
     KeyboardAvoidingView,
@@ -27,6 +10,23 @@ import {
     TextInput,
     View,
 } from "react-native";
+
+import { Icon } from "@/components/icon";
+import { useEntryFocus } from "@/hooks/use-entry-focus";
+import {
+    CAMERA_PRESETS,
+    customEquipment,
+    fieldOfView,
+    FIELDS,
+    specLine,
+    stripPreset,
+    TELESCOPE_PRESETS,
+    type Camera,
+    type Equipment,
+    type Kind,
+    type Telescope,
+} from "@/lib/equipment";
+import { usePalette } from "@/lib/theming";
 
 type Props = {
     value: Equipment[];

@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import Animated, {
     Extrapolation,
-    SensorType,
     interpolate,
+    SensorType,
     useAnimatedReaction,
     useAnimatedSensor,
     useAnimatedStyle,

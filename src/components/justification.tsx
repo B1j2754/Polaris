@@ -1,11 +1,11 @@
+import { useState } from "react";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import Svg, { Circle } from "react-native-svg";
+
 import { useProfile } from "@/lib/profile";
 import { Coords, evaluate } from "@/lib/sky";
 import { Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
-
-import { useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import Svg, { Circle } from "react-native-svg";
 
 import { Icon, IconName } from "./icon";
 

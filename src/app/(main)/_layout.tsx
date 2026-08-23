@@ -1,13 +1,13 @@
-import { Icon, type IconName } from "@/components/icon";
-import { ScreenBackground, TabPillHeight } from "@/constants/theme";
-import { usePalette } from "@/lib/theming";
-
 import { Platform, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
 import { Tabs } from "expo-router";
-import { type SFSymbol, SymbolView } from "expo-symbols";
+import { SymbolView, type SFSymbol } from "expo-symbols";
+
+import { Icon, type IconName } from "@/components/icon";
+import { ScreenBackground, TabPillHeight } from "@/constants/theme";
+import { usePalette } from "@/lib/theming";
 
 const glass = isLiquidGlassAvailable();
 

@@ -1,17 +1,17 @@
-import type { Body } from "@/lib/sky";
-import { type Target, previewUrl } from "@/lib/targets";
-import { usePalette } from "@/lib/theming";
-
 import { useState } from "react";
-import { type StyleProp, StyleSheet, Text, View, type ViewStyle } from "react-native";
+import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
 
 import { Image, type ImageStyle } from "expo-image";
 
+import type { Body } from "@/lib/sky";
+import { previewUrl, type Target } from "@/lib/targets";
+import { usePalette } from "@/lib/theming";
+
 /**
  * Fixed targets get a live DSS2 cutout from CDS, framed on their own coordinates (see previewUrl).
- * Solar-system bodies cannot, so the field where Jupiter sits tonight holds nothing but background stars. 
+ * Solar-system bodies cannot, so the field where Jupiter sits tonight holds nothing but background stars.
  * TODO: Those need a portrait of their own.
- * 
+ *
  * NASA/JPL imagery is public domain: https://science.nasa.gov/solar-system/.
  * Bodies with no entry fall through to the splash, so a half-filled map still renders.
  */

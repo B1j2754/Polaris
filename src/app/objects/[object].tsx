@@ -1,16 +1,16 @@
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { Redirect, useLocalSearchParams } from "expo-router";
+
 import { Justification } from "@/components/justification";
 import { LookaheadGraph } from "@/components/lookahead-graph";
 import { ObjectPreview } from "@/components/object-preview";
 import { BottomTabInset } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
-import { type Coords, evaluate } from "@/lib/sky";
+import { evaluate, type Coords } from "@/lib/sky";
 import { TARGETS, type Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
-
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import { Redirect, useLocalSearchParams } from "expo-router";
 
 export default function ObjectOverview() {
     const Palette = usePalette();

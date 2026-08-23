@@ -1,13 +1,13 @@
-import { Icon } from "@/components/icon";
-import { BottomTabInset } from "@/constants/theme";
-import { useProfile } from "@/lib/profile";
-import { type Site, siteLine } from "@/lib/sites";
-import { usePalette } from "@/lib/theming";
-
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Link } from "expo-router";
+
+import { Icon } from "@/components/icon";
+import { BottomTabInset } from "@/constants/theme";
+import { useProfile } from "@/lib/profile";
+import { siteLine, type Site } from "@/lib/sites";
+import { usePalette } from "@/lib/theming";
 
 export default function Sites() {
     const { profile, save } = useProfile();

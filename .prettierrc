@@ -1,9 +1,8 @@
 {
-    "plugins": ["@trivago/prettier-plugin-sort-imports"],
+    "plugins": ["@ianvs/prettier-plugin-sort-imports"],
     "printWidth": 120,
     "tabWidth": 4,
     "useTabs": false,
-    "importOrder": ["^react", "^react-native", "^[a-zA-Z]", "^@?\\w", "^[./]"],
-    "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "importOrder": ["^react$", "^react-native", "", "<THIRD_PARTY_MODULES>", "", "^@/", "", "^[./]"],
+    "importOrderTypeScriptVersion": "5.9.3"
 }

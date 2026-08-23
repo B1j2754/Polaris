@@ -1,8 +1,8 @@
-import { PaletteType, blackPalette, blackVars, redPalette, redVars } from "@/constants/theme";
-
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 import { VariableContextProvider } from "nativewind";
+
+import { blackPalette, blackVars, PaletteType, redPalette, redVars } from "@/constants/theme";
 
 // --- Theme Context ---
 const ThemeContext = createContext<{

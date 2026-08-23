@@ -1,13 +1,13 @@
-import { Icon } from "@/components/icon";
-import { type Upcoming, upAhead, upTonight } from "@/lib/lookAhead";
-import type { Coords, Weather } from "@/lib/sky";
-import { ICONS } from "@/lib/targets";
-import { usePalette } from "@/lib/theming";
-
-import { type ReactNode, useDeferredValue, useMemo } from "react";
+import { useDeferredValue, useMemo, type ReactNode } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
 import { Link } from "expo-router";
+
+import { Icon } from "@/components/icon";
+import { upAhead, upTonight, type Upcoming } from "@/lib/lookAhead";
+import type { Coords, Weather } from "@/lib/sky";
+import { ICONS } from "@/lib/targets";
+import { usePalette } from "@/lib/theming";
 
 const NIGHTS_AHEAD = 14;
 const SLOT_MS = 15 * 60_000;

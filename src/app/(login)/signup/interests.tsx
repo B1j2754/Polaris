@@ -1,3 +1,9 @@
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { router } from "expo-router";
+
 import { Button } from "@/components/button";
 import { ConstellationSky } from "@/components/constellation-sky";
 import { Icon } from "@/components/icon";
@@ -5,12 +11,6 @@ import { Box } from "@/components/interestBox";
 import { ScreenBackground } from "@/constants/theme";
 import { INTERESTS, toggleInterest } from "@/lib/interests";
 import { useProfile } from "@/lib/profile";
-
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import { router } from "expo-router";
 
 export default function SignUpInterests() {
     const { profile, save } = useProfile();

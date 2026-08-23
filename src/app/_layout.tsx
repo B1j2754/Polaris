@@ -1,8 +1,6 @@
 import { BackHeader, DarkScreen, ScreenBackground } from "@/constants/theme";
+
 import "@/global.css";
-import { DATABASE_NAME, migrate } from "@/lib/db";
-import { ProfileProvider, useProfile } from "@/lib/profile";
-import { ColorVarProvider, PaletteProvider, ThemeProvider } from "@/lib/theming";
 
 import { useEffect } from "react";
 
@@ -11,6 +9,10 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { SQLiteProvider } from "expo-sqlite";
 import * as SystemUI from "expo-system-ui";
+
+import { DATABASE_NAME, migrate } from "@/lib/db";
+import { ProfileProvider, useProfile } from "@/lib/profile";
+import { ColorVarProvider, PaletteProvider, ThemeProvider } from "@/lib/theming";
 
 // Expo go doesn't register a view controller
 const IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;

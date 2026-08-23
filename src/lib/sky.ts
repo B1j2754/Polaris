@@ -1,7 +1,7 @@
+import * as Astronomy from "astronomy-engine";
+
 import type { Equipment } from "@/lib/equipment";
 import type { Target } from "@/lib/targets";
-
-import * as Astronomy from "astronomy-engine";
 
 import { equipmentValue } from "./equipment.ts";
 

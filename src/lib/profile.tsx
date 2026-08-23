@@ -1,9 +1,9 @@
-import type { Equipment } from "@/lib/equipment";
-import type { Site } from "@/lib/sites";
-
-import { type PropsWithChildren, createContext, use, useEffect, useState } from "react";
+import { createContext, use, useEffect, useState, type PropsWithChildren } from "react";
 
 import { useSQLiteContext } from "expo-sqlite";
+
+import type { Equipment } from "@/lib/equipment";
+import type { Site } from "@/lib/sites";
 
 export type Profile = {
     name?: string;

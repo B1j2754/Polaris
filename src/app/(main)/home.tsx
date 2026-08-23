@@ -1,4 +1,11 @@
-﻿import { Icon } from "@/components/icon";
+﻿import { useCallback, useEffect, useMemo, useState } from "react";
+import { FlatList, Pressable, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { Link, useFocusEffect } from "expo-router";
+import { useSQLiteContext } from "expo-sqlite";
+
+import { Icon } from "@/components/icon";
 import { LookaheadSection } from "@/components/lookahead-section";
 import { ObjectCard } from "@/components/object-card";
 import { SegmentedPill } from "@/components/segmented-pill";
@@ -7,15 +14,8 @@ import { BottomTabInset } from "@/constants/theme";
 import { useSite } from "@/hooks/use-site";
 import { Greetings } from "@/lib/greetings";
 import { useProfile } from "@/lib/profile";
-import { type Verdict, type Weather, evaluate, fetchWeather } from "@/lib/sky";
+import { evaluate, fetchWeather, type Verdict, type Weather } from "@/lib/sky";
 import { TARGETS, type Target } from "@/lib/targets";
-
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import { Link, useFocusEffect } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
 
 // 24h / this = max weather API calls per site per day. Cached in sqlite, one row per site.
 const WEATHER_MAX_AGE_MS = 12 * 60 * 60 * 1000;
@@ -55,6 +55,8 @@ export default function Home() {
     const [now, setNow] = useState(() => new Date());
     const [tab, setTab] = useState(0);
     const [byName, setByName] = useState(false);
+    
+    const [query, setQuery] = useState("");
 
     // lazy load weather, capped to 2 calls per 24h by the sqlite cache above
     useEffect(() => {
@@ -99,7 +101,7 @@ export default function Home() {
     }
 
     const interests = profile?.interests ?? [];
-    const ranked = Object.values(TARGETS)
+    let ranked = Object.values(TARGETS)
         .map((target) => ({
             target,
             verdict: evaluate(target, site, now, weather, profile?.equipment),

@@ -1,9 +1,9 @@
-import { useProfile } from "@/lib/profile";
-import type { Site } from "@/lib/sites";
-
 import { useEffect, useState } from "react";
 
 import * as Location from "expo-location";
+
+import { useProfile } from "@/lib/profile";
+import type { Site } from "@/lib/sites";
 
 /** Roughly New York. */
 const DEFAULT_SITE: Site = {
