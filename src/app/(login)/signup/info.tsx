@@ -36,6 +36,7 @@ export default function SignUpInfo() {
                             value={name}
                             onChangeText={setName}
                             placeholder="Your name"
+                            maxLength={10}
                             {...entryFocus}
                             autoCapitalize="words"
                             autoCorrect={false}

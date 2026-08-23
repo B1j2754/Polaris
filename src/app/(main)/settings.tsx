@@ -2,8 +2,12 @@ import { useState } from "react";
 import { Alert, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
+
 import Constants from "expo-constants";
 import { Link } from "expo-router";
+
+
 
 import { EquipmentEditor } from "@/components/equipment-editor";
 import { Icon } from "@/components/icon";
@@ -13,6 +17,10 @@ import { BottomTabInset } from "@/constants/theme";
 import { INTERESTS, toggleInterest } from "@/lib/interests";
 import { useProfile } from "@/lib/profile";
 import { usePalette, useTheme } from "@/lib/theming";
+
+
+
+
 
 export default function Settings() {
     const { profile, save, reset } = useProfile();
@@ -64,6 +72,7 @@ export default function Settings() {
                         autoCapitalize="words"
                         autoCorrect={false}
                         returnKeyType="done"
+                        maxLength={10}
                     />
                 </Section>
 

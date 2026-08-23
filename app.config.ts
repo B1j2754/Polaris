@@ -15,6 +15,9 @@ export default (): ExpoConfig => ({
     ios: {
         supportsTablet: false,
         bundleIdentifier: isDev ? "com.b1j.polaris.dev" : "com.b1j.polaris",
+        infoPlist: {
+            ITSAppUsesNonExemptEncryption: false,
+        },
     },
     android: {
         adaptiveIcon: {
@@ -60,8 +63,7 @@ export default (): ExpoConfig => ({
             {
                 photosPermission:
                     "Polaris adds photos you pick to your portfolio, pinned to the object and site you shot them from.",
-                cameraPermission:
-                    "Polaris uses the camera so you can shoot straight into your portfolio.",
+                cameraPermission: "Polaris uses the camera so you can shoot straight into your portfolio.",
             },
         ],
     ],
