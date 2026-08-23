@@ -160,6 +160,45 @@ for (const t of Object.values(TARGETS).filter((t) => t.body)) {
     assert.equal(moon.reasons.equipmentScore, 1, "the Moon is naked-eye whatever is in the bag");
 }
 
+// --- the rings must agree with the issue text: a factor is empty exactly when its issue fires ---
+{
+    const where = { lat: 40.7, lon: -74 };
+    const issueFor = new Map([
+        ["moonlightScore", "washes it out"],
+        ["sunlightScore", "bright"],
+        ["cloudScore", "cloud"],
+        ["altitudeScore", "up"],
+    ]);
+
+    for (const iso of ["2026-07-22T04:00:00Z", "2026-08-05T03:00:00Z", "2026-11-16T02:00:00Z", "2026-11-15T17:00:00Z"]) {
+        for (const cloudCover of [0, 30, 95]) {
+            for (const t of Object.values(TARGETS)) {
+                const v = evaluate(t, where, utc(iso), { cloudCover, humidity: 50, temperatureC: 8 });
+                const blocked = v.visibilityIssues.join(" ");
+                for (const [key, phrase] of issueFor) {
+                    const score = v.reasons[key as keyof typeof v.reasons];
+                    assert.ok(score >= 0 && score <= 1, `${t.id} ${key} out of range: ${score}`);
+                    // only this direction is asserted: an empty ring with no issue is legal at exactly the
+                    // limit (zero allowance left, issues fire strictly past it), which is a single point
+                    if (blocked.includes(phrase) && key !== "altitudeScore") {
+                        assert.equal(score, 0, `${t.id} at ${iso}/${cloudCover}% reports "${blocked}" but ${key} is ${score}`);
+                    }
+                }
+            }
+        }
+    }
+
+    // the reported case: M27 under a 78%-lit moon, over its own 0.7 ceiling
+    const m27 = evaluate(target("m27"), where, utc("2026-08-05T03:00:00Z"), null);
+    if (m27.visibilityIssues.some((r) => r.includes("washes it out"))) {
+        assert.equal(m27.reasons.moonlightScore, 0, "a moon over the target's ceiling must empty the ring");
+    }
+
+    // a target that does not care about moonlight keeps a full ring under a full moon
+    const fullMoon = evaluate(target("moon"), where, utc("2026-01-03T06:00:00Z"), null);
+    assert.equal(fullMoon.reasons.moonlightScore, 1, "maxMoonIllum of 1 means moonlight never counts against it");
+}
+
 // --- every catalog entry is well formed ---
 for (const [key, t] of Object.entries(TARGETS)) {
     assert.equal(t.id, key, `${key} keyed under a mismatched id (${t.id})`);

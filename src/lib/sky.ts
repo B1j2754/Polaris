@@ -28,6 +28,8 @@ export type Body = "Sun" | "Moon" | "Mercury" | "Venus" | "Mars" | "Jupiter" | "
 
 const observer = ({ lat, lon, elevation }: Coords) => new Astronomy.Observer(lat, lon, elevation ?? 0);
 
+const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
+
 const HOURS_PER_DEGREE = 1 / 15; // astronomy-engine -> sidereal hours; catalog -> deg
 
 export function equatorialToHorizontal({ ra, dec }: Equatorial, where: Coords, date: Date): Horizontal {
@@ -182,23 +184,34 @@ export function evaluate(
 
     const SUN_FALLOFF = 3; // TODO: Tune this
 
-    const headroom = Math.min(1, (altitude - floor) / (90 - floor));
-    const moonRoom = target.maxMoonIllum >= 1 ? 1 : 1 - moon * (1 - target.maxMoonIllum);
-    const air = weather ? 1 - (weather.cloudCover / 100) * 0.8 - (weather.humidity / 100) * 0.2 : 0.8;
-
-    const sunTolerance = Math.max(0, Math.min(1, (target.maxSunAltitudeDeg + 18) / 18));
-    const skyBrightness = Math.max(0, Math.min(1, ((sun + 18) / 18) ** SUN_FALLOFF));
-    const sunRoom = 1 - skyBrightness * (1 - sunTolerance);
+    /**
+     * Every factor reads the same way: how much of this target's own allowance is left, 1 = ideal,
+     * 0 = at the limit the visibility issues above quote. A factor must reach 0 exactly where its
+     * issue fires, or the rings contradict the issue text.
+     */
+    const headroom = clamp01((altitude - floor) / (90 - floor));
+    // maxMoonIllum of 1 means moonlight is not a constraint at all (the Moon itself, planets), not "dies at full moon"
+    const moonRoom = target.maxMoonIllum >= 1 ? 1 : clamp01(1 - moon / target.maxMoonIllum);
+    // how far into the target's twilight allowance the Sun has climbed, from astronomical dark to its own ceiling
+    const darkSpan = target.maxSunAltitudeDeg + 18;
+    const twilight = darkSpan > 0 ? clamp01((sun + 18) / darkSpan) : sun > -18 ? 1 : 0;
+    const sunRoom = 1 - twilight ** SUN_FALLOFF;
+    // humidity never blocks on its own, so it only shades the cloud factor
+    const air = weather
+        ? clamp01(1 - weather.cloudCover / Math.max(target.maxCloudPct, 1)) * (1 - (weather.humidity / 100) * 0.2)
+        : 0.8;
 
     const gear = equipmentValue(target.magnitude, equipment);
 
-    const quality = Math.max(0, headroom) * moonRoom * Math.max(0, air) * sunRoom * gear;
+    // ponytail: a blocked factor is floored inside the product only, so failing targets still order
+    // by their other factors instead of all tying at 0 (nightlyPeaks picks by score)
+    const quality = [headroom, moonRoom, sunRoom, air, gear].reduce((a, b) => a * Math.max(b, 0.001), 1);
 
     reasons = {
-        altitudeScore: Math.max(0, headroom),
+        altitudeScore: headroom,
         moonlightScore: moonRoom,
         sunlightScore: sunRoom,
-        cloudScore: Math.max(0, air),
+        cloudScore: air,
         equipmentScore: gear,
     };
 

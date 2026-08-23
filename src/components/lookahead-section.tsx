@@ -13,7 +13,10 @@ const NIGHTS_AHEAD = 14;
 const SLOT_MS = 15 * 60_000;
 
 /** 1 = tonight until sunrise, 2 = the next couple of weeks. 0 (now) is the card list on Home. */
-type Props = { site: Coords; weather: Weather | null; now: Date; tab: 1 | 2 };
+type Props = { site: Coords; weather: Weather | null; now: Date; tab: 1 | 2; query: string };
+
+const match = (rows: Upcoming[], query: string) =>
+    rows.filter((item) => item.target.name.toLowerCase().includes(query.toLowerCase()));
 
 const timeLabel = (d: Date) => d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
 const dateLabel = (d: Date) =>
@@ -23,36 +26,50 @@ const dateLabel = (d: Date) =>
         day: "numeric",
     });
 
-export function LookaheadSection({ site, weather, now, tab }: Props) {
+export function LookaheadSection({ site, weather, now, tab, query }: Props) {
     const shown = useDeferredValue(tab);
     const slot = Math.floor(now.getTime() / SLOT_MS) * SLOT_MS;
 
     if (tab !== shown) return <Loading />;
     return shown === 1 ? (
-        <TonightPanel site={site} weather={weather} slot={slot} />
+        <TonightPanel site={site} weather={weather} slot={slot} query={query}/>
     ) : (
-        <AheadPanel site={site} day={new Date(slot).toDateString()} slot={slot} />
+        <AheadPanel site={site} day={new Date(slot).toDateString()} slot={slot} query={query}/>
     );
 }
 
-function TonightPanel({ site, weather, slot }: { site: Coords; weather: Weather | null; slot: number }) {
+function TonightPanel({
+    site,
+    weather,
+    slot,
+    query,
+}: {
+    site: Coords;
+    weather: Weather | null;
+    slot: number;
+    query: string;
+}) {
     const rows = useMemo(() => upTonight(site, weather, new Date(slot)), [site, weather, slot]);
     return (
         <Panel
-            rows={rows}
+            rows={match(rows, query)}
             format={timeLabel}
             empty="Nothing clears the horizon or is visible (due to weather or other conditions) before sunrise."
         />
     );
 }
 
-function AheadPanel({ site, day, slot }: { site: Coords; day: string; slot: number }) {
+function AheadPanel({ site, day, slot, query }: { site: Coords; day: string; slot: number, query: string }) {
     const rows = useMemo(() => {
         const from = new Date(slot);
         from.setDate(from.getDate() + 1);
         return upAhead(site, from, NIGHTS_AHEAD);
+        // ponytail: keyed on `day`, not `slot` -- the 15-min slot only matters for tonight
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [site, day]);
-    return <Panel rows={rows} format={dateLabel} empty={`Nothing new in the next ${NIGHTS_AHEAD} nights.`} />;
+    return (
+        <Panel rows={match(rows, query)} format={dateLabel} empty={`Nothing new in the next ${NIGHTS_AHEAD} nights.`} />
+    );
 }
 
 function Shell({ children }: { children: ReactNode }) {

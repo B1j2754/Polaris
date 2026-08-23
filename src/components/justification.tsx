@@ -2,20 +2,46 @@ import { useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
+import { useWeather } from "@/hooks/use-weather";
 import { useProfile } from "@/lib/profile";
-import { Coords, evaluate } from "@/lib/sky";
+import { Coords, evaluate, QualityBreakdown } from "@/lib/sky";
 import { Target } from "@/lib/targets";
 import { usePalette } from "@/lib/theming";
 
 import { Icon, IconName } from "./icon";
 
-const sectionIcons = new Map<string, IconName>([
-    ["altitudeScore", "altitude"],
-    ["moonlightScore", "moon"],
-    ["sunlightScore", "sun"],
-    ["cloudScore", "cloud"],
-    ["equipmentScore", "telescope"],
-]);
+
+const sections: { key: keyof QualityBreakdown; icon: IconName; label: string; full: string; empty: string }[] = [
+    {
+        key: "altitudeScore",
+        icon: "altitude",
+        label: "altitude",
+        full: "high overhead",
+        empty: "scraping your horizon",
+    },
+    {
+        key: "moonlightScore",
+        icon: "moon",
+        label: "dark moon",
+        full: "moon isn't washing it out",
+        empty: "bright moon drowning it",
+    },
+    {
+        key: "sunlightScore",
+        icon: "sun",
+        label: "dark sky",
+        full: "properly dark",
+        empty: "daylight or bright twilight",
+    },
+    { key: "cloudScore", icon: "cloud", label: "clear sky", full: "clear and dry", empty: "clouded or humid" },
+    {
+        key: "equipmentScore",
+        icon: "telescope",
+        label: "gear",
+        full: "your gear handles it easily",
+        empty: "too faint for your gear",
+    },
+];
 
 const SIZE = 56;
 const STROKE = 5;
@@ -63,8 +89,9 @@ function DoughnutWithIcon({ iconName, label, percent }: { iconName: IconName; la
 export function Justification({ objectData, site }: { objectData: Target; site: Coords }) {
     const Palette = usePalette();
     const { profile } = useProfile();
+    const weather = useWeather();
     const [showInfo, setShowInfo] = useState(false);
-    const verdict = evaluate(objectData, site, new Date(), null, profile?.equipment);
+    const verdict = evaluate(objectData, site, new Date(), weather, profile?.equipment);
     const reasons = verdict.reasons;
     return (
         <View style={[styles.cell, { backgroundColor: Palette.card, width: "100%" }]}>
@@ -84,13 +111,8 @@ export function Justification({ objectData, site }: { objectData: Target; site: 
             </View>
 
             <View style={styles.row}>
-                {Object.entries(reasons).map(([sectionName, score]) => (
-                    <DoughnutWithIcon
-                        key={sectionName}
-                        iconName={sectionIcons.get(sectionName)!}
-                        label={sectionName.replace("Score", "")}
-                        percent={score}
-                    />
+                {sections.map((s) => (
+                    <DoughnutWithIcon key={s.key} iconName={s.icon} label={s.label} percent={reasons[s.key]} />
                 ))}
             </View>
             <Modal visible={showInfo} transparent animationType="slide" onRequestClose={() => setShowInfo(false)}>
@@ -98,12 +120,18 @@ export function Justification({ objectData, site }: { objectData: Target; site: 
                 <View className="rounded-t-3xl border-t border-line bg-sheet px-6 pb-12 pt-5">
                     <Text className="font-sansation text-2xl text-fg tracking-[1px]">Why these rings?</Text>
                     <Text className="font-sansation pt-3 text-sm text-fg-muted tracking-[1px]">
-                        Each ring scores one condition affecting this target tonight, from empty (poor) to full (ideal).
-                        Each ring's value (or percentage filled) represents an arbitrary score (0 to 1) which is
-                        weighted and part of the scoring algorithm for ranking objects. Altitude is how high it climbs,
-                        moon is glare from moonlight, sun is twilight, cloud is forecast cover, and telescope is how
-                        well your gear suits it.
+                        Each ring scores one condition affecting this target tonight, from 0 (empty) to 1 (full). Full
+                        is always the good end. The five multiply together to rank targets, so one empty ring drags the
+                        whole night down.
                     </Text>
+                    {sections.map((s) => (
+                        <View key={s.key} className="flex-row items-start gap-3 pt-3">
+                            <Icon name={s.icon} size={18} color={Palette.iconMuted} />
+                            <Text className="font-sansation flex-1 text-sm text-fg-muted tracking-[1px]">
+                                <Text className="text-fg">{s.label}</Text> — full: {s.full}. empty: {s.empty}.
+                            </Text>
+                        </View>
+                    ))}
                 </View>
             </Modal>
 
