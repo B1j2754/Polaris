@@ -146,7 +146,8 @@ export function EquipmentEditor({ value, onChange, emptyText }: Props) {
                                                 onChangeText={(v) => setForm((f) => ({ ...f, [field.key]: v }))}
                                                 placeholder={`${field.label} (${field.unit})`}
                                                 keyboardType="decimal-pad"
-                                                className="flex-1 px-4 text-base"
+                                                size="base"
+                                                className="flex-1 px-4"
                                             />
                                         ))}
                                     </View>

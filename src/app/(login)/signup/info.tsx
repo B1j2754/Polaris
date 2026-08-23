@@ -42,7 +42,8 @@ export default function SignUpInfo() {
                             returnKeyType="next"
                             onSubmitEditing={() => trimmed && next()}
                             textAlign="center"
-                            className="h-16 w-[90%] border-2 px-6 text-xl"
+                            size="xl"
+                            className="h-16 w-[90%] border-2 px-6"
                         />
                     </View>
                     <Button
