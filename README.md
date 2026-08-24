@@ -24,6 +24,10 @@ apart from a weather lookup for your site.
 
 Android only for now. ~96.66 MB.
 
+## Developers / Building from Source
+
+Please refer to [/docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md) for a whole guide on running expo services, building the app source, and our toolchain.
+
 ## Privacy Policy
 
 https://b1j2754.github.io/Polaris/privacy.html
