@@ -1,7 +1,7 @@
 ## Polaris v1.0.0 // Beta
 
-First Android build. A stargazing planner: pick your site, see what's actually
-worth looking at tonight, and whether the sky will cooperate.
+Android: https://github.com/B1j2754/Polaris/releases/tag/v1.0.0-beta
+Apple: https://testflight.apple.com/join/MsFPsrQm
 
 ### What's in it
 
