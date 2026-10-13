@@ -1,6 +1,5 @@
 ## Store config
 
-- [ ] App store privacy manifest
 - [ ] Fill ~~eas.json +~~ submit.production
 
 ## Listing config
@@ -17,6 +16,7 @@
     - [ ] Change UI selection
 - [ ] Sort suggestions by apparent magnitude / important stars
 - [ ] Update README to be more complete
+- [ ] Arrow indicator for star location
 
 ## Feature wishlist (lower probability)
 
@@ -60,3 +60,4 @@
 - [x] Extract weather caching into its own hook / useContext
 - [x] Make descriptions for each object
 - [x] Use image API to show object preview
+- [x] App store privacy manifest
