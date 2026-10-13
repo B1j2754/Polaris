@@ -15,7 +15,6 @@
 - [ ] Better equipment section
     - [ ] More equipment
     - [ ] Change UI selection
-- [ ] Use image API to show object preview
 - [ ] Sort suggestions by apparent magnitude / important stars
 - [ ] Update README to be more complete
 
@@ -29,6 +28,7 @@
 
 ## Done
 
+- [x] Add photos for less-stationary objects
 - [x] Open-Meteo CC-BY attribution (settings)
 - [x] Add designer/programmer credits on settings page
 - [x] Add license + notice (Apache 2)
@@ -43,7 +43,7 @@
     - [x] Config prettier better
     - [x] Scan repo for typos
     - [x] Check dependencies / dev dependencies
-    - [x] Delete default 
+    - [x] Delete default
 - [x] Add app splash + icon (general app polish)
     - [x] Icon 1024x1024
     - [x] Splash 1024x1024
@@ -59,3 +59,4 @@
 - [x] Greetings => useMemo
 - [x] Extract weather caching into its own hook / useContext
 - [x] Make descriptions for each object
+- [x] Use image API to show object preview

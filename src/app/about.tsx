@@ -84,6 +84,13 @@ export default function About() {
                     detail="Survey plates // Produced at STScI under U.S. Government grant NAG W-2166, from the Oschin Schmidt and UK Schmidt telescopes. Non-commercial use."
                     href="https://archive.stsci.edu/dss/acknowledging.html"
                 />
+                <Credit
+                    name="NASA imagery"
+                    detail="Solar-system portraits // Public domain. Sun by SDO, Moon by LRO (GSFC/Arizona State), Mercury by MESSENGER (JHU APL/Carnegie), Venus, Mars, Uranus and Neptune by JPL-Caltech, Jupiter and Saturn by Hubble (STScI/ESA)."
+                    href="https://science.nasa.gov/solar-system/"
+                    license="View NASA's media usage guidelines"
+                    licenseHref="https://www.nasa.gov/nasa-brand-center/images-and-media/"
+                />
                 <Credit name="Lucide" detail="Icon artwork // ISC." href="https://lucide.dev" />
                 <Credit
                     name="Sansation"

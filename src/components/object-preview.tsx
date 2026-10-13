@@ -10,12 +10,22 @@ import { usePalette } from "@/lib/theming";
 /**
  * Fixed targets get a live DSS2 cutout from CDS, framed on their own coordinates (see previewUrl).
  * Solar-system bodies cannot, so the field where Jupiter sits tonight holds nothing but background stars.
- * TODO: Those need a portrait of their own.
+ * They get a bundled portrait instead, letterboxed to the same 600px square the survey cutouts come in at.
  *
- * NASA/JPL imagery is public domain: https://science.nasa.gov/solar-system/.
+ * NASA/JPL/ESA imagery is public domain: https://science.nasa.gov/solar-system/.
  * Bodies with no entry fall through to the splash, so a half-filled map still renders.
  */
-const BODY_IMAGES: Partial<Record<Body, number>> = {};
+const BODY_IMAGES: Partial<Record<Body, number>> = {
+    Sun: require("@/assets/images/bodies/sun.jpg"),
+    Moon: require("@/assets/images/bodies/moon.jpg"),
+    Mercury: require("@/assets/images/bodies/mercury.jpg"),
+    Venus: require("@/assets/images/bodies/venus.jpg"),
+    Mars: require("@/assets/images/bodies/mars.jpg"),
+    Jupiter: require("@/assets/images/bodies/jupiter.jpg"),
+    Saturn: require("@/assets/images/bodies/saturn.jpg"),
+    Uranus: require("@/assets/images/bodies/uranus.jpg"),
+    Neptune: require("@/assets/images/bodies/neptune.jpg"),
+};
 
 const SPLASH = require("@/assets/images/star-splash.png");
 
